@@ -21,7 +21,7 @@ const author: TypeAuthor = reactive({
 const BooksMessage = computed(() => {
   return `Book : ${author.books} Create By : ${author.name} `
 })
-const count = ref(0)
+
 
 const firstname = ref('')
 const lastname = ref('')
@@ -34,7 +34,7 @@ const fullname = computed(()=>{
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
+   
     <div>
       {{ BooksMessage }}
     </div>

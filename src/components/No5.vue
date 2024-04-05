@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
+    import { ref ,watch} from 'vue'
     import Card from './Card.vue';
 
     const count = ref("No5")
@@ -253,63 +253,98 @@ const teamList: Type<number>[]= [
         const position = positionList.find(p => p.id === positionId)
         return position ? position.name : 'Not found'
     }
- 
+    
   
-    const selectedTeam = ref(teamList[0].id)
-    const selectedPosition = ref(positionList[0].id)
+    const selectedTeam = ref<number|null>(null)
+    const selectedPosition = ref<number|null>(null)
+    const searchText = ref("")
+    const employeefilter = ref<EmployeeType[]>([]);
 
+    const selectAllOption = { id: null, name: 'ทั้งหมด' };
+    const teamListWithAll = ref([ selectAllOption,...teamList]);
+    const positionListWithAll = ref([selectAllOption,...positionList]);
+
+    const filteredEmployees = () =>{
+        employeefilter.value = employeeList.filter((em)=>{
+            const teamMatch = selectedTeam.value === null || selectedTeam.value == em.team_id   ;
+            const positionMatch = selectedPosition.value === null || selectedPosition.value == em.position_id;
+            const searchMatch  = em.first_name.toLowerCase().includes(searchText.value.toLowerCase()) || 
+                                em.last_name.toLowerCase().includes(searchText.value.toLowerCase()) ||  
+                                em.email.toLowerCase().includes(searchText.value.toLowerCase());  
+            return teamMatch && positionMatch && searchMatch
+        })
+    }
+
+    watch([selectedTeam, selectedPosition, searchText], () => {
+        filteredEmployees();
+    });
+
+
+
+    const resetValue = () =>{
+        selectedTeam;
+        selectedPosition;
+        searchText;
+        
+        
+    }
     
 </script>
 <template>
-    <Card :employee="employeeSelect"
+    <Card 
+    :employee="employeeSelect"
     :getTeam="getTeam"
     :getPosition="getPosition"    
     ></Card>
 
     <p> {{ count }} </p>
-    <h1>Employee ({{ count }})</h1> 
-    <div class="formsearch">
+    <h1>Employee ({{ employeefilter.length }})</h1> 
+    <form class="formsearch">
         <div class="team">
             <p>Team</p>
             <select v-model="selectedTeam" >
-                <option v-for="team in teamList" :key="team.id" :value="team.id">
+                
+                <option  v-for="team in teamListWithAll" :key="team.id" :value="team.id">
                     {{ team.name }}
                 </option>
             </select> 
         </div>
         <div class="position">
             <p>Position</p>
-            <select v-model="selectedPosition" >
-                <option  v-for="position in positionList" :key="position.id" :value="position.id"> 
+            <select v-model="selectedPosition"  >
+                <option  v-for="position in positionListWithAll" :key="position.id" :value="position.id"> 
                     {{ position.name }}
                 </option>
             </select> 
         </div>
         <div class="search">
             <p>Search</p>
-            <input>
-            <button>Reset</button>
+            <input v-model="searchText" @input="filteredEmployees">
+            <button @click="resetValue">Reset</button>
         </div>
         
-    </div>
+    </form>
     <hr>
-    <div class="display"> 
-        <div>
-           <h3>Name</h3> 
-        </div>
-        <div>
-           <h3>Email</h3> 
-        </div>
-        <div>
-           <h3>Gender</h3> 
-        </div>
-        <div>
-           <h3>Team</h3> 
-        </div>
-        <div>
-           <h3>Position</h3> 
-        </div>
-    </div>
+    <table class="display">
+        <thead >
+            <tr >
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Team</th>
+            <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="employee in employeefilter" :key="employee.id">
+                <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.gender }}</td>
+                <td>{{ getTeam(employee.team_id) }}</td>
+                <td>{{ getPosition(employee.position_id) }}</td>
+            </tr>
+        </tbody>   
+    </table>
     
 </template>
 <style scoped>
@@ -327,10 +362,5 @@ const teamList: Type<number>[]= [
     margin-left: 6px;
 }
 
-.display{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 8px;
-}
+
 </style>

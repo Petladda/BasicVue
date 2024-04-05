@@ -1,28 +1,21 @@
 <script setup lang="ts">
-    import { ref, computed } from 'vue'
+    import { ref,  } from 'vue'
 
     const firstname = ref('')
     const lastname = ref('')
-   
+    const displayValue = ref('');
 
-    const fullname = computed(() => {
-        return `${firstname.value} ${lastname.value}`
-    })
-
-    const handleClick = () => {
-        console.log('handle');
-        
-    }
-    console.log(handleClick);
-    
+    const showInputValue = () => {
+        displayValue.value = `${firstname.value} ${lastname.value}`;
+    };
 </script>
 
 <template>  
-    <form >
+    <form @click="showInputValue">
         <p>Firstname</p>
         <input type="text" v-model="firstname">
         <p>Lastname</p>
         <input type="text" v-model="lastname">
-        {{fullname }}
+        <p>{{ displayValue.toUpperCase() }}</p>
     </form>
 </template>
