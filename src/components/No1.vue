@@ -1,14 +1,18 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
+   
 
-    const count = ref(0)
-    
+    let count = 0
+    const countUP =  () => {
+        count++
+        console.log(count);
+        
+    }
 </script>
 <template>
     <div>
         <button type="button" @click="count--">-</button>
         count : {{ count }}
-        <button type="button" @click="count++">+</button>
+        <button type="button" @click="countUP">+</button>
     </div>
     
     

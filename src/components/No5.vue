@@ -1,12 +1,13 @@
 <script setup lang="ts">
-    import { ref ,watch} from 'vue'
-    import Card from './Card.vue';
+import { ref, watch, computed } from 'vue'
+import Card from './Card.vue';
 
-    const count = ref("No5")
-    
-interface Type<T,U=string> {
+const count = ref("No5")
+
+interface Type<T, U = string> {
     id: T;
     name: U;
+
 }
 
 interface EmployeeType {
@@ -20,25 +21,25 @@ interface EmployeeType {
     position_id: number;
 }
 
-const teamList: Type<number>[]= [
+const teamList: Type<number>[] = [
     { id: 1, name: 'Web Dev' },
     { id: 2, name: 'Mobile Dev' },
     { id: 3, name: 'Sale' },
     { id: 4, name: 'Support' },
     { id: 5, name: 'Business Analyst' },
-  ]
-  
-  const positionList:Type<number>[] = [
+]
+
+const positionList: Type<number>[] = [
     { id: 1, name: 'Tester' },
     { id: 2, name: 'UX/UI' },
-    { id: 3, name: 'Full-Stack' },  
+    { id: 3, name: 'Full-Stack' },
     { id: 4, name: 'Front-End' },
     { id: 5, name: 'Back-End' },
-  ]
-  
-  
-  
-  const employeeList: EmployeeType[] = [
+]
+
+
+
+const employeeList: EmployeeType[] = [
     { id: '79ef2c25-85f5-4050-b409-0872b381ac56', first_name: 'Conroy', last_name: 'Prozescky', email: 'cprozescky0@indiatimes.com', gender: 'Male', age: 28, team_id: 2, position_id: 4 },
     { id: 'cc3c220e-1638-448a-b9f0-0bd881dc04bd', first_name: 'Genevieve', last_name: 'Avramov', email: 'gavramov1@nyu.edu', gender: 'Female', age: 37, team_id: 3, position_id: 5 },
     { id: 'dd20d5bf-a6dd-4198-97c2-fca6a9d397d0', first_name: 'Krysta', last_name: 'Drewery', email: 'kdrewery2@wikispaces.com', gender: 'Polygender', age: 37, team_id: 4, position_id: 1 },
@@ -239,100 +240,143 @@ const teamList: Type<number>[]= [
     { id: '74d83fa8-637a-4f59-a6f5-adee8585436b', first_name: 'Jarid', last_name: 'Blewitt', email: 'jblewitt5h@unesco.org', gender: 'Male', age: 34, team_id: 3, position_id: 4 },
     { id: '54ed46eb-e44b-4a7a-8547-59be1919c64b', first_name: 'Novelia', last_name: 'Hurd', email: 'nhurd5i@state.tx.us', gender: 'Female', age: 31, team_id: 3, position_id: 1 },
     { id: 'a3fcba8a-bcef-47de-a72d-5fb7e44e247b', first_name: 'Skye', last_name: 'O\'Driscoll', email: 'sodriscoll5j@tamu.edu', gender: 'Male', age: 36, team_id: 1, position_id: 1 },
-  ]
+]
 
-  const employeeSelect = employeeList.filter((em)=> em.first_name.startsWith('A') && em.gender === "Male")    
-  //console.log(employeeSelect);
-  
-  const getTeam = (teamId: number) : string => {
-        const employeeTeam= teamList.find(t => t.id === teamId)
-        return employeeTeam ? employeeTeam.name : 'Not found'
-    }
+const employeeSelect = employeeList.filter((em) => em.first_name.startsWith('A') && em.gender === "Male")
 
-    const getPosition = (positionId: number) : string => {
-        const position = positionList.find(p => p.id === positionId)
-        return position ? position.name : 'Not found'
+
+const getTeam = (teamId: number): string => {
+    const employeeTeam = teamList.find(t => t.id === teamId)
+    return employeeTeam ? employeeTeam.name : 'Not found'
+}
+
+const getPosition = (positionId: number): string => {
+    const position = positionList.find(p => p.id === positionId)
+    return position ? position.name : 'Not found'
+}
+
+
+const selectedTeam = ref<number | null>(null)
+const selectedPosition = ref<number | null>(null)
+const searchText = ref("")
+const employeefilter = ref<EmployeeType[]>([]);
+
+const selectAllOption = { id: null, name: 'ทั้งหมด' };
+const teamListWithAll = ref([selectAllOption, ...teamList]);
+const positionListWithAll = ref([selectAllOption, ...positionList]);
+
+const filteredEmployees = () => {
+    employeefilter.value = employeeList.filter((em) => {
+        const teamMatch = selectedTeam.value === null || selectedTeam.value == em.team_id;
+        const positionMatch = selectedPosition.value === null || selectedPosition.value == em.position_id;
+        const searchMatch = em.first_name.toLowerCase().includes(searchText.value.toLowerCase()) ||
+            em.last_name.toLowerCase().includes(searchText.value.toLowerCase()) ||
+            em.email.toLowerCase().includes(searchText.value.toLowerCase());
+        return teamMatch && positionMatch && searchMatch
+    })
+}
+
+watch([selectedTeam, selectedPosition, searchText], () => {
+    filteredEmployees();
+},
+    { immediate: true }
+);
+const resetValue = () => {
+    selectedTeam;
+    selectedPosition;
+    searchText;
+
+
+}
+
+interface PageType {
+    id: number;
+    amount: number;
+}
+
+const pageList: PageType[] = [
+    { id: 1, amount: 10 },
+    { id: 2, amount: 20 },
+    { id: 3, amount: 50 },
+]
+const currentPage = ref<number>(0)
+const pageSize = ref(pageList[0].amount)
+
+
+
+const totalPages = computed(() => Math.ceil(employeefilter.value.length / pageSize.value));
+
+watch([pageSize, employeefilter, searchText,currentPage], () => {
+    //currentPage.value = 0;
+    console.log(pageSize.value);
+    
+},
+    { immediate: true }
+);
+
+const updatePage = computed(()=> 
+    {
+        console.log('updatepage');
     }
     
-  
-    const selectedTeam = ref<number|null>(null)
-    const selectedPosition = ref<number|null>(null)
-    const searchText = ref("")
-    const employeefilter = ref<EmployeeType[]>([]);
+);
 
-    const selectAllOption = { id: null, name: 'ทั้งหมด' };
-    const teamListWithAll = ref([ selectAllOption,...teamList]);
-    const positionListWithAll = ref([selectAllOption,...positionList]);
-
-    const filteredEmployees = () =>{
-        employeefilter.value = employeeList.filter((em)=>{
-            const teamMatch = selectedTeam.value === null || selectedTeam.value == em.team_id   ;
-            const positionMatch = selectedPosition.value === null || selectedPosition.value == em.position_id;
-            const searchMatch  = em.first_name.toLowerCase().includes(searchText.value.toLowerCase()) || 
-                                em.last_name.toLowerCase().includes(searchText.value.toLowerCase()) ||  
-                                em.email.toLowerCase().includes(searchText.value.toLowerCase());  
-            return teamMatch && positionMatch && searchMatch
-        })
+const prevPage = () => {
+    if (currentPage.value > 0) {
+        currentPage.value--;
     }
+    console.log('prevPage', currentPage.value);
 
-    watch([selectedTeam, selectedPosition, searchText], () => {
-        filteredEmployees();
-    });
+}
 
-
-
-    const resetValue = () =>{
-        selectedTeam;
-        selectedPosition;
-        searchText;
-        
-        
+const nextPage = () => {
+    if (currentPage.value < totalPages.value - 1) {
+        currentPage.value++;
     }
-    
+    console.log('nextPage', currentPage.value);
+
+}
+
 </script>
 <template>
-    <Card 
-    :employee="employeeSelect"
-    :getTeam="getTeam"
-    :getPosition="getPosition"    
-    ></Card>
+    <Card :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></Card>
 
     <p> {{ count }} </p>
-    <h1>Employee ({{ employeefilter.length }})</h1> 
+    <h1>Employee ({{ employeefilter.length }})</h1>
     <form class="formsearch">
         <div class="team">
             <p>Team</p>
-            <select v-model="selectedTeam" >
-                
-                <option  v-for="team in teamListWithAll" :key="team.id" :value="team.id">
+            <select v-model="selectedTeam">
+
+                <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
                     {{ team.name }}
                 </option>
-            </select> 
+            </select>
         </div>
         <div class="position">
             <p>Position</p>
-            <select v-model="selectedPosition"  >
-                <option  v-for="position in positionListWithAll" :key="position.id" :value="position.id"> 
+            <select v-model="selectedPosition">
+                <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
                     {{ position.name }}
                 </option>
-            </select> 
+            </select>
         </div>
         <div class="search">
             <p>Search</p>
             <input v-model="searchText" @input="filteredEmployees">
             <button @click="resetValue">Reset</button>
         </div>
-        
+
     </form>
     <hr>
     <table class="display">
-        <thead >
-            <tr >
-            <th>Name</th>
-            <th>Email</th>
-            <th>Gender</th>
-            <th>Team</th>
-            <th>Position</th>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Team</th>
+                <th>Position</th>
             </tr>
         </thead>
         <tbody>
@@ -343,24 +387,58 @@ const teamList: Type<number>[]= [
                 <td>{{ getTeam(employee.team_id) }}</td>
                 <td>{{ getPosition(employee.position_id) }}</td>
             </tr>
-        </tbody>   
+        </tbody>
     </table>
-    
+    <div class="pagenation">
+        <div>
+            แสดง :
+            <select v-model="pageSize">
+                <option v-for="page in pageList " :key="page.id" :value="page.amount">
+                    {{ page.amount }}
+                </option>
+            </select>
+            <span> {{ currentPage + 1 }} จาก {{ totalPages }}</span>
+        </div>
+        <div class="pagination-wrapper">
+            <span @click="prevPage()" class="pagination-btn">
+                < </span>
+                    <span class="pageshow">{{ currentPage + 1 }}</span> / {{ totalPages }}
+                    <span @click="nextPage()" class="pagination-btn"> > </span>
+        </div>
+    </div>
+
 </template>
 <style scoped>
-.formsearch{
+.formsearch {
     display: flex;
     flex-direction: row;
 }
-.team{
+
+.team {
     padding-right: 6px;
 }
-.position{
+
+.position {
     padding-right: 6px;
 }
-.search button{
+
+.search button {
     margin-left: 6px;
 }
 
+.pagination-btn {
+    cursor: pointer;
+}
 
+.pagenation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 18px 18px;
+}
+
+.pageshow {
+    border: 1px solid darkgray;
+    
+}
 </style>

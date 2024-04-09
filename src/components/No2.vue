@@ -3,8 +3,12 @@
 
     const firstname = ref('')
     const lastname = ref('')
+    const fullname2 = ref('')
 
     const fullname = computed(()=>{
+        console.log('computed');
+        
+        fullname2.value = `${firstname.value} ${lastname.value}`
         return `${firstname.value} ${lastname.value}`
     })
 </script>
@@ -15,6 +19,7 @@
         <p>lastname</p>
         <input type="text" v-model="lastname">
         <p>{{ fullname.toUpperCase() }}</p>
+        fullname2:    <div>{{ fullname2 }}</div>
     </form>
     
 </template>
