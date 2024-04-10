@@ -38,6 +38,8 @@
   :changeMessage="changeMessage"
   ></Form>
   <HelloWorld msg="hello world"/> -->
+  <a href="#/">Home</a> |
+  <a href="#/about">About</a> |
   <button @click="show = !show">show</button> {{ show }}
   <No6 v-if="show"></No6>
   <No7 v-show="show"></No7>

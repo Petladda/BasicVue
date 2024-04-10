@@ -306,19 +306,13 @@ const pageSize = ref(pageList[0].amount)
 
 const totalPages = computed(() => Math.ceil(employeefilter.value.length / pageSize.value));
 
-watch([pageSize, employeefilter, searchText,currentPage], () => {
-    //currentPage.value = 0;
-    console.log(pageSize.value);
-    
-},
-    { immediate: true }
-);
 
-const updatePage = computed(()=> 
-    {
-        console.log('updatepage');
-    }
+const updatePage = computed(()=>{
+    const startIndex = currentPage.value  * pageSize.value;
+    const endIndex = startIndex + pageSize.value;
+    return employeefilter.value.slice(startIndex,endIndex)
     
+    }
 );
 
 const prevPage = () => {
@@ -380,7 +374,7 @@ const nextPage = () => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="employee in employeefilter" :key="employee.id">
+            <tr v-for="employee in updatePage" :key="employee.id">
                 <td>{{ employee.first_name }} {{ employee.last_name }}</td>
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.gender }}</td>
@@ -389,6 +383,7 @@ const nextPage = () => {
             </tr>
         </tbody>
     </table>
+    
     <div class="pagenation">
         <div>
             แสดง :
@@ -397,12 +392,12 @@ const nextPage = () => {
                     {{ page.amount }}
                 </option>
             </select>
-            <span> {{ currentPage + 1 }} จาก {{ totalPages }}</span>
+            <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages }}</span>
         </div>
         <div class="pagination-wrapper">
             <span @click="prevPage()" class="pagination-btn">
                 < </span>
-                    <span class="pageshow">{{ currentPage + 1 }}</span> / {{ totalPages }}
+                    <span class="pageshow">{{ currentPage + 1 }}</span> / <span class="totalpage">{{ totalPages }}</span>
                     <span @click="nextPage()" class="pagination-btn"> > </span>
         </div>
     </div>
@@ -439,6 +434,10 @@ const nextPage = () => {
 
 .pageshow {
     border: 1px solid darkgray;
+    border-radius: 2px ;
     
+}
+.totalpage{
+    font-size: small;
 }
 </style>
