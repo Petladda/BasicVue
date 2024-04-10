@@ -35,7 +35,7 @@ defineProps<{
     border: 1px solid gray;
     padding: 14px 14px 14px 14px;
     width: 250px;
-    height: 100px;
+    height: 120px;
     
     
 }

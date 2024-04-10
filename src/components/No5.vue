@@ -285,6 +285,7 @@ const resetValue = () => {
     selectedTeam;
     selectedPosition;
     searchText;
+    console.log('clickbuuton');
 
 
 }
@@ -307,12 +308,12 @@ const pageSize = ref(pageList[0].amount)
 const totalPages = computed(() => Math.ceil(employeefilter.value.length / pageSize.value));
 
 
-const updatePage = computed(()=>{
-    const startIndex = currentPage.value  * pageSize.value;
+const updatePage = computed(() => {
+    const startIndex = currentPage.value * pageSize.value;
     const endIndex = startIndex + pageSize.value;
-    return employeefilter.value.slice(startIndex,endIndex)
-    
-    }
+    return employeefilter.value.slice(startIndex, endIndex)
+
+}
 );
 
 const prevPage = () => {
@@ -330,78 +331,100 @@ const nextPage = () => {
     console.log('nextPage', currentPage.value);
 
 }
+const show = ref(false)
+const buttondisplay = ref();
 
 </script>
 <template>
-    <Card :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></Card>
-
-    <p> {{ count }} </p>
-    <h1>Employee ({{ employeefilter.length }})</h1>
-    <form class="formsearch">
-        <div class="team">
-            <p>Team</p>
-            <select v-model="selectedTeam">
-
-                <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
-                    {{ team.name }}
-                </option>
-            </select>
-        </div>
-        <div class="position">
-            <p>Position</p>
-            <select v-model="selectedPosition">
-                <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
-                    {{ position.name }}
-                </option>
-            </select>
-        </div>
-        <div class="search">
-            <p>Search</p>
-            <input v-model="searchText" @input="filteredEmployees">
-            <button @click="resetValue">Reset</button>
-        </div>
-
-    </form>
-    <hr>
-    <table class="display">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Team</th>
-                <th>Position</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="employee in updatePage" :key="employee.id">
-                <td>{{ employee.first_name }} {{ employee.last_name }}</td>
-                <td>{{ employee.email }}</td>
-                <td>{{ employee.gender }}</td>
-                <td>{{ getTeam(employee.team_id) }}</td>
-                <td>{{ getPosition(employee.position_id) }}</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <div class="pagenation">
+    <main>
         <div>
-            แสดง :
-            <select v-model="pageSize">
-                <option v-for="page in pageList " :key="page.id" :value="page.amount">
-                    {{ page.amount }}
-                </option>
-            </select>
-            <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages }}</span>
+            <button class="cart-btn" @click="show = !show">Show Cart</button>
         </div>
-        <div class="pagination-wrapper">
-            <span @click="prevPage()" class="pagination-btn">
-                < </span>
-                    <span class="pageshow">{{ currentPage + 1 }}</span> / <span class="totalpage">{{ totalPages }}</span>
-                    <span @click="nextPage()" class="pagination-btn"> > </span>
-        </div>
-    </div>
+        <Card v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></Card>
 
+        <p> {{ count }} </p>
+        <h1>Employee ({{ employeefilter.length }})</h1>
+
+        <form class="formsearch">
+            <div class="team">
+                <p>Team</p>
+
+
+                <select v-model="selectedTeam">
+
+                    <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
+                        {{ team.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="position">
+                <p>Position</p>
+                <select v-model="selectedPosition">
+                    <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
+                        {{ position.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="search">
+                <p>Search</p>
+                
+                <InputText   v-model="searchText" @input="filteredEmployees"/>
+                <Button @click="resetValue" label="reset" icon="pi pi-search"></Button>
+                <button @click="resetValue">Reset</button>
+            </div>
+
+        </form>
+        <hr>
+        <table class="display">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Team</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="employee in updatePage" :key="employee.id">
+                    <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.gender }}</td>
+                    <td>{{ getTeam(employee.team_id) }}</td>
+                    <td>{{ getPosition(employee.position_id) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagenation">
+            <div>
+                แสดง :
+                <select v-model="pageSize">
+                    <option v-for="page in pageList " :key="page.id" :value="page.amount">
+                        {{ page.amount }}
+                    </option>
+                </select>
+                <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages
+                    }}</span>
+            </div>
+            <div class="pagination-wrapper">
+                <span @click="prevPage()" class="pagination-btn">
+                    < </span>
+                        <span class="pageshow">{{ currentPage + 1 }}</span> / <span class="totalpage">{{ totalPages
+                            }}</span>
+                        <span @click="nextPage()" class="pagination-btn"> > </span>
+            </div>
+        </div>
+
+    </main>
+    <div class="card flex justify-content-center">
+        <Dropdown v-model="selectedTeam" :options="teamListWithAll" optionLabel="name" class="w-full md:w-14rem" />
+
+    </div>
+    <div class="flex-auto">
+        <label for="buttondisplay" class="font-bold block mb-2" > </label>
+        <Calendar v-model="buttondisplay" placeholder="Date" showIcon :showOnFocus="false" inputId="buttondisplay" />
+    </div>
 </template>
 <style scoped>
 .formsearch {
@@ -434,10 +457,19 @@ const nextPage = () => {
 
 .pageshow {
     border: 1px solid darkgray;
-    border-radius: 2px ;
-    
+    border-radius: 2px;
+
 }
-.totalpage{
+
+.totalpage {
     font-size: small;
+}
+
+.cart-btn {
+    background: cadetblue;
+    border-radius: 4px;
+    border-color: aliceblue;
+    cursor: pointer;
+    color: azure
 }
 </style>
