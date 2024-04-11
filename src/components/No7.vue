@@ -1,10 +1,9 @@
 <template>
     <div>
         component 7
-        <button @click="countUP">a++</button>
-        <div> Point </div>
-        {{ aaa }}
-
+        <button @click="countUP">Up Point++</button>
+        <div> Point: {{ aaa }} </div>
+        
         <div v-if="aaa >= 10">
             grade D
         </div>
@@ -12,7 +11,7 @@
             grade A++
         </div>
         <div v-else>
-            F
+            grade  F
         </div>
     </div>
 </template>

@@ -1,0 +1,14 @@
+<template>
+    <div class="box">
+      Level 4
+      <slot></slot>
+
+    </div>
+</template>
+
+<script setup lang="ts">
+
+
+</script>
+
+<style scoped></style>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import Card from './Card.vue';
+
+import CardEmployee from './Card/CardEmployee.vue'
+
 
 const count = ref("No5")
 
@@ -332,15 +334,16 @@ const nextPage = () => {
 
 }
 const show = ref(false)
-const buttondisplay = ref();
+
 
 </script>
 <template>
-    <main>
+    <main class="employee">
+       
         <div>
-            <button class="cart-btn" @click="show = !show">Show Cart</button>
+            <button class="cart-btn" @click="show = !show">Show Cards</button>
         </div>
-        <Card v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></Card>
+        <CardEmployee v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></CardEmployee>
 
         <p> {{ count }} </p>
         <h1>Employee ({{ employeefilter.length }})</h1>
@@ -348,9 +351,7 @@ const buttondisplay = ref();
         <form class="formsearch">
             <div class="team">
                 <p>Team</p>
-
-
-                <select v-model="selectedTeam">
+                <select v-model="selectedTeam" style=" cursor: pointer;">
 
                     <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
                         {{ team.name }}
@@ -359,7 +360,7 @@ const buttondisplay = ref();
             </div>
             <div class="position">
                 <p>Position</p>
-                <select v-model="selectedPosition">
+                <select v-model="selectedPosition" style=" cursor: pointer;">
                     <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
                         {{ position.name }}
                     </option>
@@ -367,82 +368,98 @@ const buttondisplay = ref();
             </div>
             <div class="search">
                 <p>Search</p>
-                
-                <InputText   v-model="searchText" @input="filteredEmployees"/>
-                <Button @click="resetValue" label="reset" icon="pi pi-search"></Button>
-                <button @click="resetValue">Reset</button>
+
+                <input v-model="searchText" @input="filteredEmployees" >
+                <button @click="resetValue">reset</button>
             </div>
 
         </form>
         <hr>
-        <table class="display">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Team</th>
-                    <th>Position</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="employee in updatePage" :key="employee.id">
-                    <td>{{ employee.first_name }} {{ employee.last_name }}</td>
-                    <td>{{ employee.email }}</td>
-                    <td>{{ employee.gender }}</td>
-                    <td>{{ getTeam(employee.team_id) }}</td>
-                    <td>{{ getPosition(employee.position_id) }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="pagenation">
-            <div>
-                แสดง :
-                <select v-model="pageSize">
-                    <option v-for="page in pageList " :key="page.id" :value="page.amount">
-                        {{ page.amount }}
-                    </option>
-                </select>
-                <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages
-                    }}</span>
-            </div>
-            <div class="pagination-wrapper">
-                <span @click="prevPage()" class="pagination-btn">
-                    < </span>
-                        <span class="pageshow">{{ currentPage + 1 }}</span> / <span class="totalpage">{{ totalPages
+        <div class="display">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Team</th>
+                            <th>Position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="employee in updatePage" :key="employee.id">
+                            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.gender }}</td>
+                            <td>{{ getTeam(employee.team_id) }}</td>
+                            <td>{{ getPosition(employee.position_id) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagenation">
+                    <div>
+                        แสดง :
+                        <select v-model="pageSize">
+                            <option v-for="page in pageList " :key="page.id" :value="page.amount">
+                                {{ page.amount }}
+                            </option>
+                        </select>
+                        <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages
                             }}</span>
-                        <span @click="nextPage()" class="pagination-btn"> > </span>
+                    </div>
+                    <div class="pagination-wrapper">
+                        <span @click="prevPage()" class="pagination-btn">
+                            < </span>
+                                <span class="pageshow">{{ currentPage + 1 }}</span> / 
+                                <span class="totalpage">{{totalPages }}</span>
+                                <span @click="nextPage()" class="pagination-btn"> > </span>
+                    </div>
+                </div>
             </div>
         </div>
 
-    </main>
-    <div class="card flex justify-content-center">
-        <Dropdown v-model="selectedTeam" :options="teamListWithAll" optionLabel="name" class="w-full md:w-14rem" />
 
-    </div>
-    <div class="flex-auto">
-        <label for="buttondisplay" class="font-bold block mb-2" > </label>
-        <Calendar v-model="buttondisplay" placeholder="Date" showIcon :showOnFocus="false" inputId="buttondisplay" />
-    </div>
+
+    </main>
+
 </template>
 <style scoped>
 .formsearch {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
 .team {
     padding-right: 6px;
+   
 }
 
 .position {
     padding-right: 6px;
+   
 }
 
 .search button {
     margin-left: 6px;
+    background-color: brown; 
+    color: azure; 
+    cursor: pointer;
 }
+
+.display {
+    display: flex;
+    justify-content: center;
+
+}
+
+.table-container {
+    width: 100%;
+    max-width: 800px;
+    text-align: start;
+}
+
 
 .pagination-btn {
     cursor: pointer;
@@ -452,7 +469,7 @@ const buttondisplay = ref();
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 18px 18px;
+    padding-top: 20px;
 }
 
 .pageshow {
@@ -470,6 +487,13 @@ const buttondisplay = ref();
     border-radius: 4px;
     border-color: aliceblue;
     cursor: pointer;
-    color: azure
+    color: azure;
+    height: 40px;
+    width: 100px;
+}
+
+.employee {
+    padding-top: 15px;
+    text-align: center;
 }
 </style>
