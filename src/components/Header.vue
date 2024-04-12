@@ -6,7 +6,7 @@ const items = ref([
     {
         label: 'Home',
         icon: 'pi pi-home',
-        route:'/home',
+        route:'home',
     },
     {
         label: 'Employee',
@@ -26,7 +26,7 @@ const items = ref([
     <div class="card ">
         <Menubar class="sticky" :model="items">
             <template #item="{ item, props }">
-                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{name:item.route}" custom>
                     <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                         <span :class="item.icon"></span>
                         <span class="ml-2">{{ item.label }}</span>

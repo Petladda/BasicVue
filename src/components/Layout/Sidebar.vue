@@ -44,12 +44,12 @@ const items = ref([
     {
         label: 'Team',
         icon: 'pi pi-envelope',
-        route: 'team',
+        route: 'Team',
     },
     {
         label: 'Position',
         icon: 'pi pi-envelope',
-        route: 'position',
+        route: 'Position',
     },
     
 
@@ -67,7 +67,7 @@ const items = ref([
                     <Menu :model="items"  >
                         <template #item="{ item, props }">
                             
-                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{name:item.route }" custom>
                                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                                     <span :class="item.icon"></span>
                                     <span class="ml-2">{{ item.label }}</span>

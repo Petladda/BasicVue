@@ -8,12 +8,12 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "home",
-        name: "Home",
+        name: "home",
         component: () => import("../views/Home.vue"),
       },
       {
         path: "employee",
-        name: "Employee",
+        name: "employee",
         component: () => import("../views/Employee.vue"),
       },
       {
@@ -60,12 +60,12 @@ const routes: RouteRecordRaw[] = [
             component: () => import("../components/No7.vue"),
           },
           {
-            path: "team",
+            path: "Peam",
             name: "Team",
             component: () => import("../components/Team.vue"),
           },
           {
-            path: "position",
+            path: "Position",
             name: "Position",
             component: () => import("../components/Position.vue"),
           },
