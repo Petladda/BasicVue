@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import No5 from '../components/No5.vue';
+import No5 from '../modules/exambasicvue/No5.vue';
 
 
 

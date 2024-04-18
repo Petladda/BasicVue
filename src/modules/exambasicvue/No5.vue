@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 
-import CardEmployee from './Card/CardEmployee.vue'
+
+import CardEmployee from '../../components/Card/CardEmployee.vue';
 
 
 const count = ref("No5")
