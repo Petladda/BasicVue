@@ -5,7 +5,7 @@
                 <h2>Position( {{ rawData.data.length }} )</h2>
             </div>
             <div class="create-btn">
-                <Button label="create" @click="openModal"><span> + </span> Create</Button>
+                <Button label="create" @click="openModalManage()"><span> + </span> Create</Button>
 
                 <ModalManage ref="modalManage"  @createsuccess="loadPositon"  >
 
@@ -39,8 +39,7 @@
 
                         <td>
                             <Checkbox v-model="isSelected"></Checkbox>
-                            <span style="cursor: pointer;">{{
-                    position.name }}</span>
+                            <span style="cursor: pointer; padding-left: 6px;">{{position.name }}</span>
                         </td>
                         <td class="description">{{ position.description }} </td>
                         <td class="manage">
@@ -78,7 +77,7 @@
     </main>
 </template>
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import axios, { AxiosResponse } from "axios";
 import ModalManage from './ModalManage.vue'
 
@@ -94,13 +93,11 @@ const isSelected = ref(false);
 
 const modalManage = ref<InstanceType<typeof ModalManage>>(null!)
 
-const openModalManage = (id: string) => {
-    modalManage.value.openModalUpdate(id)
+const openModalManage = (id?: string | null) => {
+    modalManage.value.openModalManage(id)
 }
 
-const openModal = () => {
-    modalManage.value.openModalCreate()
-}
+
 
 
 const pageList: PageType[] = [
@@ -121,7 +118,6 @@ const rawData = ref<Response>({
     rowCount: 0,
     data: []
 })
-
 
 
 const totalPages = computed(() => Math.ceil(rawData.value.rowCount / sizePage.value));
@@ -156,13 +152,6 @@ const loadPositon = async () => {
 
         })
 }
-
-
-
-
-
-
-
 
 const deletePosition = (position: any) => {
     client.post("/position/delete", position)
