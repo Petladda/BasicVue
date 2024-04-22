@@ -23,7 +23,7 @@ const items = ref([
 </script>
 
 <template>
-    <div class="card ">
+    <div class="">
         <Menubar class="sticky" :model="items">
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{name:item.route}" custom>
@@ -40,7 +40,7 @@ const items = ref([
 </template>
 
 <style scoped>
-.card{
+.card-navigate {
     padding-bottom: 40px;
     display: block;
 }

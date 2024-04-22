@@ -37,7 +37,7 @@ const emit = defineEmits<{
 const visible = ref(false)
 // const isCreateMode = ref(true)
 const client = axios.create({
-    baseURL: "https://api.arnut.co"
+    baseURL: "http://localhost:3000"
 });
 
 const form = reactive<Update>({

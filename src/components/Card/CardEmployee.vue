@@ -20,7 +20,7 @@ defineProps<{
     <p>Card components</p>
     <div class="container">
         <div class="post" v-for="(em, index) in employee" :key="index">
-            <div class="card" >
+            <div class="card-employee" >
                 <span>{{ `${em.first_name} ${em.last_name}` }}</span>
                 <p>{{ em.email }}</p>
                 <span>{{ em.gender }}</span>
@@ -31,7 +31,7 @@ defineProps<{
     </div>  
 </template>
 <style scoped>
-.card{
+.card-employee{
     border: 1px solid gray;
     padding: 14px 14px 14px 14px;
     width: 250px;

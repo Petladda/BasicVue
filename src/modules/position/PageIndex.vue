@@ -86,7 +86,7 @@ import { PageType, Response } from './interface';
 
 
 const client = axios.create({
-    baseURL: "https://api.arnut.co"
+    baseURL: "http://localhost:3000"
 });
 
 const isSelected = ref(false);
@@ -204,7 +204,7 @@ const deletePosition = (position: any) => {
 
 table {
     width: 100%;
-    padding-top: 5px;
+    
     min-width: 65rem;
 
 }
@@ -237,7 +237,7 @@ i {
 }
 
 .head-table {
-    border: 5px solid black;
+    border: 2px solid black;
 
 }
 </style>

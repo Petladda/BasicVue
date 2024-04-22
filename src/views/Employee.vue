@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import PageIndex from '../modules/employee/PageIndex.vue';
 
 
-import No5 from '../modules/exambasicvue/No5.vue';
+
 
 
 
@@ -9,6 +10,6 @@ import No5 from '../modules/exambasicvue/No5.vue';
 
 <template>
     <main>
-        <No5 />
+        <PageIndex></PageIndex>
     </main>
 </template>

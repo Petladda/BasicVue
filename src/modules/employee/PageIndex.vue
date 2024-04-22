@@ -1,14 +1,14 @@
 <template>
      <main>
           <div class="container">
-               {{ positionDropdown}}
+
                <h3>Employee ({{ rawData.data.length }})</h3>
                <table>
                     <thead>
                          <tr>
-                              <th class="text-position">Firstname</th>
+                              <th class="">Firstname</th>
                               <th class="">Lastname</th>
-                              <th class="text-manage">Email</th>
+                              <th class="">Email</th>
                               <th class="">DateOfBirth</th>
                               <th class="">Position</th>
                               <th class="">Team</th>
@@ -17,15 +17,15 @@
                     </thead>
                     <tbody>
                          <tr v-for="employee in rawData.data" :key="employee.employeeId">
-                              <td><span style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span></td>
+                              <td  @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"><span style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span></td>
                               <td class="">{{ employee.lastname }}</td>
                               <td class="">{{ employee.email }}</td>
                               <td class="">{{ employee.dateOfBirth }}</td>
-                              <td class="">{{ }}</td>
-                              <td class="">{{ }}</td>
-                              <td class="manage">
-                                   <i class="pi pi-pencil"> </i>
-                                   <i class="pi pi-trash"></i>
+                              <td class="">{{ getPositionName(employee.positionId) }}</td>
+                              <td class="">{{ getTeamName(employee.teamId) }}</td>
+                              <td >
+                                  <i style="cursor: pointer;"  class="pi pi-pencil"  @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })" ></i>
+                                   <i style="cursor: pointer;"  class="pi pi-trash" @click="deleteEmployee(employee.employeeId)" ></i>
                               </td>
 
                          </tr>
@@ -37,20 +37,22 @@
           <div class="pagination" ref="pagination">
                <div>
                     แสดง :
-                    <select @change="loadEmployee" v-model="pageLoad.pageSize">
+                    <select class="pagesize" @change="loadEmployee" v-model="pageLoad.pageSize">
                          <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
                     </select>
                     <span style="padding-left: 4px; font-size: small;">{{ currentPage * pageLoad.pageSize + 1 }} - {{
-                    Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
+                    Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} จาก {{ rawData.rowCount
+                         }}</span>
                </div>
                <div class="">
-                    <span @click="prevPage()" class="pagination-btn"> < </span>
-                    <span class="pageshow">{{ currentPage+1 }} </span> /
-                    <span style="font-size: small;">{{ totalPages }}</span>
-                    <span @click="nextPage()" class="pagination-btn"> > </span>
+                    <span @click="prevPage()" class="btn">
+                         < </span>
+                              <span class="pageshow">{{ currentPage + 1 }} </span> /
+                              <span style="font-size: small;">{{ totalPages }}</span>
+                              <span @click="nextPage()" class="btn"> > </span>
                </div>
           </div>
-          
+
      </main>
 
 
@@ -58,11 +60,12 @@
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
 import { computed, reactive, ref } from 'vue';
-import {Index, PageType, Response,DropDown } from './interface';
+import { Index, PageType, Response, DropDown } from './interface';
+// import { useRouter } from 'vue'
 
 
 const client = axios.create({
-     baseURL: "https://api.arnut.co"
+     baseURL: "http://localhost:3000"
 });
 
 const pageList: PageType[] = [
@@ -89,13 +92,14 @@ const rawData = ref<Response>({
      data: []
 })
 
-const positionDropdown = ref<DropDown>({
-     text: '',
-     value: '',
-})
+const positionDropdown = ref<DropDown[]>([]);
+const teamDropDown = ref<DropDown[]>([]);
+
 
 const currentPage = ref<number>(0)
 const totalPages = computed(() => Math.ceil(rawData.value.rowCount / pageLoad.pageSize));
+
+
 
 const nextPage = () => {
      if (currentPage.value < totalPages.value - 1) {
@@ -121,26 +125,57 @@ const loadEmployee = async () => {
      await client.post<any, AxiosResponse<Response, any>>("/employee/index", pageSelect)
           .then((res) => {
                rawData.value = res.data;
-               console.log("loademploy", res);
+               // console.log("loademploy", res);
           })
 }
 
-const getpositionDropdown = async() =>{
-     await client.get<any, AxiosResponse<DropDown,any>>("/position/getPositionDropdown")
+const getpositionDropdown = async () => {
+     await client.get<any, AxiosResponse<DropDown[], any>>("/position/getPositionDropdown")
+          .then((res) => {
+               // console.log("dropdownPosition",res);
+               positionDropdown.value = res.data
+               loadEmployee()
+          })
+}
+
+const getTeamDropDown = async () => {
+     await client.get<any, AxiosResponse<DropDown[], any>>("/team/getTeamDropdown")
+          .then((res) => {
+               // console.log("teamdropdown",res);
+               teamDropDown.value = res.data
+               loadEmployee()
+          })
+}
+
+const getPositionName = (positionId: string) => {
+     const position = positionDropdown.value.find((p) => p.value === positionId);
+     return position ? position.text : '';
+};
+
+const getTeamName = (teamId: string) => {
+     const team = teamDropDown.value.find((t) => t.value === teamId);
+     return team ? team.text : '';
+}
+
+const deleteEmployee = async(employeeId: string) => {
+     await client.post("/employee/delete",employeeId)
      .then((res)=>{
-          console.log("dropdownPosition",res);
-          positionDropdown.value = res.data
+          console.log("delete",res);
+          loadEmployee()
      })
 }
 
-
 (async () => {
-     await loadEmployee()
-     await getpositionDropdown()
-     
+     loadEmployee()
+     getpositionDropdown()
+     getTeamDropDown()
 })()
 </script>
 <style>
+
+body{
+     padding-top: 50px;
+}
 table {
      border-spacing: 1;
      border-collapse: collapse;
@@ -182,8 +217,9 @@ i {
      padding-top: 20px;
      padding: 6px 6px;
 }
-
-.pagination-btn {
-     cursor: pointer;
+.container{
+     padding-bottom: 50px;
+     
 }
+
 </style>

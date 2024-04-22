@@ -12,7 +12,7 @@
         </div>
         <div class="flex align-items-center gap-3 mb-2">
             <p for="description" class="font-semibold w-6rem">Description</p>
-            <InputText id="description" v-model="form.description" class="flex-auto" autocomplete="off" />
+            <InputText id="description" v-model="form.description" class="flex-auto" autocomplete="off" />{{ form.teamId }}
         </div>
         <hr>
         <div class="flex justify-content-end gap-2">
@@ -37,7 +37,7 @@ const emit = defineEmits<{
 const visible = ref(false)
 // const isCreateMode = ref(true)
 const client = axios.create({
-    baseURL: "https://api.arnut.co"
+    baseURL: "http://localhost:3000"
 });
 
 const form = reactive<Update>({
@@ -137,4 +137,5 @@ defineExpose({
 </script>
 
 
-<style></style>
+<style>
+</style>

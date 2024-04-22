@@ -14,14 +14,23 @@ const routes: RouteRecordRaw[] = [
       {
         path: "employee",
         name: "employee",
-        component: () => import("../modules/employee/PageIndex.vue"),
-        children: [
-          {
-            path: "pageview",
-            name: "pageview",
-            component: () => import("../modules/employee/PageView.vue"),
-          },
-        ]
+        component: () => import("../views/Employee.vue"),
+      
+      },
+      {
+        path: "employee/view/:id",
+        name: "view",
+        component: () => import("../modules/employee/PageView.vue"),
+      },
+      {
+        path: "employee/create",
+        name: "create",
+        component: () => import("../modules/employee/PageManage.vue"),
+      },
+      {
+        path: "employee/edit/:id",
+        name: "edit",
+        component: () => import("../modules/employee/PageManage.vue"),
       },
       {
         path: "setting",
