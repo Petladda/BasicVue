@@ -1,43 +1,43 @@
 <script setup lang="ts">
 
-import { RouterView,RouterLink } from 'vue-router';
+import { RouterView, } from 'vue-router';
 
 import { ref } from 'vue'
 
 
 const items = ref([
     {
-        label: 'No1',
+        label: 'No.1',
         icon: 'pi pi-calculator',
-        route:'No1',
+        route: 'No1',
     },
     {
-        label: 'No2',
+        label: 'No.2',
         icon: 'pi pi-circle-fill',
         route: 'No2',
     },
     {
-        label: 'No3',
+        label: 'No.3',
         icon: ' pi pi-bullseye',
         route: 'No3',
     },
     {
-        label: 'No4',
+        label: 'No.4',
         icon: 'pi pi-bullseye',
         route: 'No4',
     },
     {
-        label: 'No5',
+        label: 'No.5',
         icon: 'pi pi-address-book',
         route: 'No5',
     },
     {
-        label: 'No6',
+        label: 'No.6',
         icon: 'pi pi-circle-fill',
         route: 'No6',
     },
     {
-        label: 'No7',
+        label: 'No.7',
         icon: 'pi pi-circle-fill',
         route: 'No7',
     },
@@ -51,7 +51,7 @@ const items = ref([
         icon: 'pi pi-envelope',
         route: 'Position',
     },
-    
+
 
 ]);
 
@@ -59,39 +59,73 @@ const items = ref([
 </script>
 
 <template>
-    <main>
-        <div class="page">
+
+    <div class="sidebar">
+        <div class="menu-bar">
+            <div class="menu" v-for="item in items" :key="item.label">
+                <a @click="$router.push({ name: item.route })">
+                    <!-- <span style=" " class="pi pi-circle-fill"></span> -->
+                    <span style=" padding-right: 10px;" class="ml-2">{{ item.label }}</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="view">
+        <router-view />
+    </div>
+    <!-- <div class="page">
             <div class="">
                 <div class=" flex justify-content-center">
-                
-                    <Menu :model="items"  >
+
+                    <Menu :model="items">
                         <template #item="{ item, props }">
-                            
-                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{name:item.route }" custom>
+
+                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{ name: item.route }"
+                                custom>
                                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                                     <span :class="item.icon"></span>
                                     <span class="ml-2">{{ item.label }}</span>
                                 </a>
                             </router-link>
                         </template>
-                    </Menu>
-                </div>
+</Menu>
+</div>
+</div>
 
-                
-            </div> 
 
-            <div class="view">
-                <router-view />
-            </div>
-        
-             
-        </div>
-        
-        
-    </main>
-   
+
+</div> -->
+
+
+
+
 </template>
 
-<style>
+<style lang="scss" scoped>
+.sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+}
 
+.menu-bar {
+    width: 216px;
+    height: 100vh;
+    background: #F7F8FC;
+    padding: 12px 36px 12px 12px;
+
+}
+
+.menu {
+    width: 168px;
+    height: 32px;
+    padding: 6px, 8px, 6px, 8px;
+    cursor: pointer;
+}
+
+.view{
+    padding: 50px 0 0 216px;
+}
 </style>

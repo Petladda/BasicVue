@@ -4,10 +4,10 @@
             <div>
                 <h2>Position( {{ rawData.data.length }} )</h2>
             </div>
-            <div class="create-btn">
-                <Button label="create" @click="openModalManage()"><span> + </span> Create</Button>
+            <div>
+                <button class="btn-create" @click="openModalManage()"><span> + </span> Create</button>
 
-                <ModalManage ref="modalManage"  @createsuccess="loadPositon"  >
+                <ModalManage ref="modalManage" @createsuccess="loadPositon">
 
                 </ModalManage>
 
@@ -15,31 +15,27 @@
             </div>
         </div>
         <hr>
-        <div>
-            <IconField iconPosition="left">
-                <InputIcon class="pi pi-search"> </InputIcon>
-                <InputText id="search" placeholder="Search" />
-            </IconField>
+        <div class="search">
+            <i class="pi pi-search"></i>
+            <input class="search-btn" placeholder="Search...">
         </div>
         <div>
             <table>
                 <thead>
-                    <tr class="head-table">
-                        <th class="text-position">
-                            <Checkbox v-model="isSelected"></Checkbox>
-                            Position
-                        </th>
-                        <th class="">Description</th>
-                        <th class="text-manage">Manage</th>
-
-                    </tr>
+                    <th class="text-position">
+                        <input type="checkbox" name="select" class="check-box">
+                        Position
+                    </th>
+                    <th>Description</th>
+                    <th>Manage</th>
                 </thead>
                 <tbody>
                     <tr v-for="position in rawData.data" :key="position.positionId">
 
-                        <td>
-                            <Checkbox v-model="isSelected"></Checkbox>
-                            <span style="cursor: pointer; padding-left: 6px;">{{position.name }}</span>
+                        <td class="text-position">
+    
+                            <input type="checkbox" name="select" class="check-box">
+                            <span style="cursor: pointer; padding-left: 6px;">{{ position.name }}</span>
                         </td>
                         <td class="description">{{ position.description }} </td>
                         <td class="manage">
@@ -49,13 +45,13 @@
                         </td>
 
                     </tr>
+
                 </tbody>
             </table>
-
         </div>
 
 
-        <div class="pagenation" ref="pagination">
+        <div class="pagination" ref="pagination">
             <div>
                 แสดง :
                 <select @change="loadPositon" v-model="sizePage">
@@ -89,7 +85,7 @@ const client = axios.create({
     baseURL: "http://localhost:3000"
 });
 
-const isSelected = ref(false);
+// const isSelected = ref(false);
 
 const modalManage = ref<InstanceType<typeof ModalManage>>(null!)
 
@@ -168,16 +164,34 @@ const deletePosition = (position: any) => {
 })()
 
 </script>
-<style>
+<style lang="scss" scoped>
+$color-text: #646D78;
+$color-btn:#2BB8AF;
+$color-border: #E3E7F0;
+
 .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 14px 14px 11px 0;
+
+    h2{
+        padding-left: 12px
+    }
 }
 
-.create-btn {
+.btn-create {
+    color: white;
+    background: $color-btn;
+    border: none;
+    border-radius: 4px;
+    width: 100px;
+    height: 32px;
+    font-size: large;
+    cursor: pointer;
     text-align: center;
-    padding-top: 2%;
+
 
 }
 
@@ -185,11 +199,15 @@ const deletePosition = (position: any) => {
     cursor: pointer;
 }
 
-.pagenation {
+.pagination {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 20px;
+    padding-top: 60vh;
+    padding-left: 10px;
+    padding-right: 10px;
+    bottom: 15px;
+    color: $color-text;
 }
 
 .pageshow {
@@ -203,41 +221,85 @@ const deletePosition = (position: any) => {
 }
 
 table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
     width: 100%;
-    
-    min-width: 65rem;
+    margin: 0 auto;
 
 }
 
-tr {
-    padding-left: 3px;
-}
-
-.manage {
-    text-align: end;
-    cursor: pointer;
-}
-
-.manage,
-i {
-    padding-left: 10px;
-    padding-right: 5px;
-}
-
-.text-position {
+th,
+td {
+    padding-left: 12px;
     text-align: start;
+
+
 }
 
-.text-manage {
-    text-align: end;
+th {
+    
+    i {
+        color: #646D78;
+        padding-left:  20px;
+        align-items: end;
+        cursor: pointer;
+    }
 }
 
-.description {
-    text-align: center;
+
+
+thead tr {
+    height: 38px;
+    background: #F7F8FC;
+    font-size: 14px;
+    color: $color-text;
+    box-shadow: 1px solid $color-border;
+}
+
+tbody tr {
+    height: 48px;
+    border-bottom: 1px solid $color-border;
+
+}
+
+td {
+    i {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 }
 
 .head-table {
     border: 2px solid black;
+
+}
+
+
+hr {
+    border: 1px solid #E3E7F0;
+}
+
+.search {
+    padding: 12px;
+
+    .search-btn {
+        width: 240px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid $color-border;
+        background: white;
+        padding-left: 6px;
+        margin-left: 4px;
+    }
+
+    i {
+        color: $color-text;
+        padding-right: 4px;
+
+    }
 
 }
 </style>

@@ -33,7 +33,8 @@ defineProps<{
 <style scoped>
 .card-employee{
     border: 1px solid gray;
-    padding: 14px 14px 14px 14px;
+    text-align: center;
+    padding: 20px 14px 14px 14px;
     width: 250px;
     height: 120px;
     
@@ -41,7 +42,7 @@ defineProps<{
 }
 .container {
     padding-bottom: 4px;
-    
+    padding-left: 20px;
     margin-right: 8px;
     display: flex;
     flex-wrap: wrap; 

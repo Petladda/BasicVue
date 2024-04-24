@@ -1,5 +1,5 @@
 <template>
-    <div>main</div>
+    <div class="home">main</div>
     <button @click="pushByPath">
         pushByPath
     </button>
@@ -21,8 +21,9 @@ const pushByName = () => {
 </script>
 <style>
 .home {
-    text-align: center;
+   
     justify-content: center;
+    padding-top: 50px;
 
 }
 </style>

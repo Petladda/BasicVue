@@ -1,28 +1,29 @@
 <template>
 
-    <Dialog v-model:visible="visible" modal header="Team" :style="{ width: '25rem' }">
-        isCreateMode {{ isCreateMode }}
+    <Dialog v-model:visible="visible" modal header="Team" :style="{ width: '480px', height: '358px' }">
+        <!-- isCre  ateMode {{ isCreateMode }} -->
 
-        <p class="p-text-secondary block mb-5">Fields marked with an <span style="color: red;">*</span>
+        <p class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
             are required</p>
         <div class="flex align-items-center gap-3 mb-2">
             <p for="name" class="font-semibold w-6rem">Team Name <span style="color: red;">*</span>
             </p>
-            <InputText id="name" v-model="form.name" class="flex-auto " autocomplete="off" />
+            <input id="name" v-model="form.name" class="flex-auto " autocomplete="off" />
         </div>
         <div class="flex align-items-center gap-3 mb-2">
             <p for="description" class="font-semibold w-6rem">Description</p>
-            <InputText id="description" v-model="form.description" class="flex-auto" autocomplete="off" />{{ form.teamId }}
+            <input id="description" v-model="form.description" class="flex-auto" autocomplete="off" />{{ form.teamId }}
         </div>
         <hr>
         <div class="flex justify-content-end gap-2">
-            <Button type="button" label="Cancel" severity="secondary" @click="closeModal"></Button>
+            <button class="cancle-btn" type="button" label="Cancel" severity="secondary"
+                @click="closeModal">Cancel</button>
 
-            <Button type="button" label="Save" @click="onSave"></Button>
+            <button class="save-btn" type="button" label="Save" @click="onSave">Save</button>
 
         </div>
     </Dialog>
-
+    
 </template>
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
@@ -137,5 +138,32 @@ defineExpose({
 </script>
 
 
-<style>
+<style lang="scss" scoped>
+hr {
+    border: 1px solid #E3E7F0;
+}
+
+.cancle-btn {
+    width: 100px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #E3E7F0;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.save-btn {
+    width: 100px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #E3E7F0;
+    background: #5119F0;
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+.save-btn :hover {
+            background: #454957;
+        }
+
 </style>

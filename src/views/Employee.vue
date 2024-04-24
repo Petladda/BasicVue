@@ -13,3 +13,7 @@ import PageIndex from '../modules/employee/PageIndex.vue';
         <PageIndex></PageIndex>
     </main>
 </template>
+
+<style>
+
+</style>

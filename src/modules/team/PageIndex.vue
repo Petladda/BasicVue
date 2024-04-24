@@ -4,10 +4,10 @@
             <div>
                 <h2>Team ( {{ rawData.data.length }} )</h2>
             </div>
-            <div class="create-btn">
-                <Button label="create" @click="openModalManage()"><span> + </span> Create</Button>
+            <div>
+                <button class="btn-create" label="create" @click="openModalManage()"><span> + </span> Create</button>
 
-                <PageManage ref="modalManage"  @createsuccess="loadPositon"  >
+                <PageManage ref="modalManage" @createsuccess="loadPositon">
 
                 </PageManage>
 
@@ -15,31 +15,30 @@
             </div>
         </div>
         <hr>
-        <div>
-            <IconField iconPosition="left">
-                <InputIcon class="pi pi-search"> </InputIcon>
-                <InputText id="search" placeholder="Search" />
-            </IconField>
+        <div class="search">
+            <i class="pi pi-search"></i>
+            <input class="search-btn" placeholder="Search...">
         </div>
         <div>
             <table>
                 <thead>
-                    <tr class="head-table">
-                        <th class="text-position">
-                            <Checkbox v-model="isSelected"></Checkbox>
+                    <tr>
+                        <th class="text-team">
+                            <input type="checkbox" name="select" class="check-box">
                             Team
+                            <i class="pi pi-sort"></i>
                         </th>
-                        <th class="">Description</th>
-                        <th class="text-manage">Manage</th>
+                        <th class="">Description <i class="pi pi-sort"></i></th>
+                        <th class="text-manage">Manage </th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="team in rawData.data" :key="team.teamId">
 
-                        <td>
-                            <Checkbox v-model="isSelected"></Checkbox>
-                            <span style="cursor: pointer; padding-left: 6px;">{{team.name }}</span>
+                        <td class="text-team">
+                            <input type="checkbox" name="select" class="check-box">
+                            <span style="cursor: pointer; padding-left: 6px;">{{ team.name }}</span>
                         </td>
                         <td class="description">{{ team.description }} </td>
                         <td class="manage">
@@ -77,11 +76,11 @@
     </main>
 </template>
 <script setup lang="ts">
-import { ref, computed} from 'vue';
+import { ref, computed } from 'vue';
 import axios, { AxiosResponse } from "axios";
 import PageManage from './PageManage.vue'
 
-import { PageType,Response } from './interface';
+import { PageType, Response } from './interface';
 
 
 
@@ -89,7 +88,7 @@ const client = axios.create({
     baseURL: "http://localhost:3000"
 });
 
-const isSelected = ref(false);
+// const isSelected = ref(false);
 
 const modalManage = ref<InstanceType<typeof PageManage>>(null!)
 
@@ -168,16 +167,36 @@ const deletePosition = (position: any) => {
 })()
 
 </script>
-<style>
+<style lang="scss" scoped>
+$color-border: #E3E7F0;
+$color-text: #646D78;
+$color-btn: #2BB8AF;
+
 .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 14px 14px 11px 0;
+
+    h2{
+        padding-left: 12px
+    }
 }
 
-.create-btn {
-    text-align: center;
-    padding-top: 2%;
+hr {
+    border: 1px solid #E3E7F0;
+}
+
+.btn-create {
+    color: white;
+    background: $color-btn;
+    border: none;
+    border-radius: 4px;
+    width: 100px;
+    height: 32px;
+    font-size: large;
+    cursor: pointer;
 
 }
 
@@ -203,41 +222,82 @@ const deletePosition = (position: any) => {
 }
 
 table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
     width: 100%;
-    padding-top: 5px;
-    min-width: 65rem;
+    margin: 0 auto;
 
 }
 
-tr {
-    padding-left: 3px;
-}
-
-.manage {
-    text-align: end;
-    cursor: pointer;
-}
-
-.manage,
-i {
-    padding-left: 10px;
-    padding-right: 5px;
-}
-
-.text-position {
+th,
+td {
+    padding-left: 12px;
     text-align: start;
+
+
 }
 
-.text-manage {
-    text-align: end;
+th {
+    
+    i {
+        color: #2BB8AF;
+        padding-left:  20px;
+        align-items: end;
+        cursor: pointer;
+    }
 }
 
-.description {
-    text-align: center;
+
+
+thead tr {
+    height: 38px;
+    background: #F7F8FC;
+    font-size: 14px;
+    color: $color-text;
+    box-shadow: 1px solid $color-border;
 }
+
+tbody tr {
+    height: 48px;
+    border-bottom: 1px solid $color-border;
+
+}
+
+td {
+    i {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+
 
 .head-table {
     border: 2px solid black;
+
+}
+
+.search {
+    padding: 12px;
+
+    .search-btn {
+        width: 240px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid $color-border;
+        background: white;
+        padding-left: 6px;
+        margin-left: 4px;
+    }
+
+    i {
+        color: $color-text;
+        padding-right: 4px;
+
+    }
 
 }
 </style>

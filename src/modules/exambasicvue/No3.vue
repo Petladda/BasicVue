@@ -12,13 +12,7 @@ const showInputValue = () => {
 
 <template>
     <form @click="showInputValue">
-        <div>
-            <FloatLabel>
-                <InputText id="firstname" v-model="firstname" />
-                <label for="firstname">Firstname</label>
-            </FloatLabel>
-        </div>
-
+        <h2>NAME :</h2>
         <p>Firstname</p>
         <input type="text" v-model="firstname">
         <p>Lastname</p>

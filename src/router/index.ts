@@ -76,7 +76,7 @@ const routes: RouteRecordRaw[] = [
             component: () => import("../modules/exambasicvue/No7.vue"),
           },
           {
-            path: "Peam",
+            path: "Team",
             name: "Team",
             component: () => import("../modules/team/PageIndex.vue"),
           },

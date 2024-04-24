@@ -1,37 +1,61 @@
 <template>
      <main>
           <div class="container">
+               <div class="header">
+                    <div>
+                         <h3>Employee ({{ rawData.data.length }})</h3>
+                    </div>
+                    <div>
+                         <button class="create-btn" @click="$router.push({ name: 'create' })"><span
+                                   style="font-size: larger;"> + </span> Create</button>
+                    </div>
+               </div>
+               <hr>
+               <div class="search">
+                    <i class="pi pi-search"></i>
+                    <input class="search-btn" placeholder="Search...">
+               </div>
+               <div class="table">
+                    <table>
+                         <thead>
+                              <tr>
+                                   <th class="firstname">
+                                        <input type="checkbox" name="select" class="check-box"> Firstname <i
+                                             class="pi pi-sort"></i>
+                                   </th>
+                                   <th class="">Lastname <i class="pi pi-sort"></i></th>
+                                   <th class="">Email <i class="pi pi-sort"></i></th>
+                                   <th class="">DateOfBirth <i class="pi pi-sort"></i></th>
+                                   <th class="">Position <i class="pi pi-sort"></i></th>
+                                   <th class="">Team <i class="pi pi-sort"></i></th>
+                                   <th class="">Manage </th>
+                              </tr>
+                         </thead>
+                         <tbody>
+                              <tr v-for="employee in rawData.data" :key="employee.employeeId">
+                                   <td>
+                                        <input type="checkbox" name="select" class="check-box">
+                                        <span @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"
+                                             style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span>
+                                   </td>
+                                   <td class="">{{ employee.lastname }}</td>
+                                   <td class="">{{ employee.email }}</td>
+                                   <td class="">{{ employee.dateOfBirth }}</td>
+                                   <td class="">{{ getPositionName(employee.positionId) }}</td>
+                                   <td class="">{{ getTeamName(employee.teamId) }}</td>
+                                   <td>
+                                        <i style="cursor: pointer; color: #646D78;" class="pi pi-pencil"
+                                             @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })"></i>
+                                        <i style="cursor: pointer; color: #646D78;" class="pi pi-trash"
+                                             @click="deleteEmployee(employee.employeeId)"></i>
+                                   </td>
 
-               <h3>Employee ({{ rawData.data.length }})</h3>
-               <table>
-                    <thead>
-                         <tr>
-                              <th class="">Firstname</th>
-                              <th class="">Lastname</th>
-                              <th class="">Email</th>
-                              <th class="">DateOfBirth</th>
-                              <th class="">Position</th>
-                              <th class="">Team</th>
-                              <th class="">Manage</th>
-                         </tr>
-                    </thead>
-                    <tbody>
-                         <tr v-for="employee in rawData.data" :key="employee.employeeId">
-                              <td  @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"><span style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span></td>
-                              <td class="">{{ employee.lastname }}</td>
-                              <td class="">{{ employee.email }}</td>
-                              <td class="">{{ employee.dateOfBirth }}</td>
-                              <td class="">{{ getPositionName(employee.positionId) }}</td>
-                              <td class="">{{ getTeamName(employee.teamId) }}</td>
-                              <td >
-                                  <i style="cursor: pointer;"  class="pi pi-pencil"  @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })" ></i>
-                                   <i style="cursor: pointer;"  class="pi pi-trash" @click="deleteEmployee(employee.employeeId)" ></i>
-                              </td>
+                              </tr>
 
-                         </tr>
+                         </tbody>
+                    </table>
+               </div>
 
-                    </tbody>
-               </table>
 
           </div>
           <div class="pagination" ref="pagination">
@@ -41,7 +65,7 @@
                          <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
                     </select>
                     <span style="padding-left: 4px; font-size: small;">{{ currentPage * pageLoad.pageSize + 1 }} - {{
-                    Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} จาก {{ rawData.rowCount
+                              Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} จาก {{ rawData.rowCount
                          }}</span>
                </div>
                <div class="">
@@ -99,21 +123,20 @@ const teamDropDown = ref<DropDown[]>([]);
 const currentPage = ref<number>(0)
 const totalPages = computed(() => Math.ceil(rawData.value.rowCount / pageLoad.pageSize));
 
-
-
-const nextPage = () => {
+function nextPage() {
      if (currentPage.value < totalPages.value - 1) {
           currentPage.value++;
           loadEmployee();
      }
 }
 
-const prevPage = () => {
+function prevPage() {
      if (currentPage.value > 0) {
           currentPage.value--;
           loadEmployee();
      }
 }
+
 
 const loadEmployee = async () => {
      const pageSelect = reactive<Index>({
@@ -157,12 +180,12 @@ const getTeamName = (teamId: string) => {
      return team ? team.text : '';
 }
 
-const deleteEmployee = async(employeeId: string) => {
-     await client.post("/employee/delete",employeeId)
-     .then((res)=>{
-          console.log("delete",res);
-          loadEmployee()
-     })
+const deleteEmployee = async (employeeId: string) => {
+     await client.post("/employee/delete", employeeId)
+          .then((res) => {
+               console.log("delete", res);
+               loadEmployee()
+          })
 }
 
 (async () => {
@@ -171,11 +194,15 @@ const deleteEmployee = async(employeeId: string) => {
      getTeamDropDown()
 })()
 </script>
-<style>
+<style lang="scss" scoped>
+$color-btn: #2BB8AF;
+$color-text: #646D78;
+$color-border: #E3E7F0;
 
-body{
-     padding-top: 50px;
+.table {
+     padding: 10px 12px 0 12px;
 }
+
 table {
      border-spacing: 1;
      border-collapse: collapse;
@@ -184,42 +211,120 @@ table {
      overflow: hidden;
      width: 100%;
      margin: 0 auto;
-     position: relative;
 
 }
 
 th,
 td {
-     padding-left: 8px;
-     text-align: center;
+     padding-left: 12px;
+     text-align: start;
+
+
 }
 
+th {
+     i {
+          color: $color-text;
+          padding-left: 125px;
+          cursor: pointer;
+     }
+}
+
+
+
 thead tr {
-     height: 60px;
-     background: cadetblue;
-     font-size: 16px;
+     height: 38px;
+     background: #F7F8FC;
+     font-size: 14px;
+     color: $color-text;
+     box-shadow: 1px solid $color-border;
 }
 
 tbody tr {
      height: 48px;
-     border-bottom: 1px solid #E3F1D5;
+     border-bottom: 1px solid $color-border;
 
 }
 
-i {
-     padding-left: 8px;
+td {
+     i {
+          padding-left: 8px;
+          padding-right: 8px;
+     }
 }
+
 
 .pagination {
      display: flex;
+     width: 100%;
      flex-direction: row;
      justify-content: space-between;
-     padding-top: 20px;
-     padding: 6px 6px;
-}
-.container{
-     padding-bottom: 50px;
-     
+     padding: 26px 6px;
+     color: $color-text;
+     position: fixed;
+     bottom: 15px;
 }
 
+.pageshow {
+     color: black;
+     width: 32px;
+     height: 24px;
+     border: 1px solid $color-border;
+}
+
+.container {
+     padding-bottom: 50px;
+     padding-top: 60px;
+}
+
+.header {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0 13px 10px 12px;
+}
+
+.create-btn {
+     color: white;
+     background: $color-btn;
+     border: none;
+     border-radius: 4px;
+     width: 100px;
+     height: 32px;
+     font-size: large;
+     cursor: pointer;
+}
+
+.search {
+     padding: 12px;
+
+     .search-btn {
+          width: 240px;
+          height: 32px;
+          border-radius: 8px;
+          border: 1px solid $color-border;
+          background: white;
+          padding-left: 6px;
+          margin-left: 4px;
+     }
+
+     i {
+          color: $color-text;
+          padding-right: 4px;
+
+     }
+
+}
+
+hr {
+     border: 1px solid $color-border;
+}
+
+.check-box {
+     width: 18px;
+     height: 18px;
+     padding-right: 17px;
+     text-align: center;
+}
 </style>

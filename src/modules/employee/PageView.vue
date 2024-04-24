@@ -1,5 +1,5 @@
 <template>
-    
+
     <div class="header-bar">
         <div>
 
@@ -10,19 +10,20 @@
         </div>
         <div class="header-btn">
             <div style="padding-right: 15px;">
-                <Button label="Cancle" severity="secondary" @click="$router.push({ name: 'employee' })"></Button>
+                <button class="cancle-btn" severity="secondary"
+                    @click="$router.push({ name: 'employee' })">Cancle</button>
             </div>
             <div>
-                <Button label="Save" severity="info"></Button>
+                <button class="save-btn" severity="info">Save</button>
             </div>
-
         </div>
 
     </div>
+    <hr>
     <div class="card-view">
         <div class="card-info">
             <div class="">
-                <h3 style="padding-left: 50px;">Basic Info</h3>
+                <h3 style="padding: 26px 0 0 68px; ">Basic Info</h3>
                 <div class="info">
                     <div>
                         <label>Firstname</label><span style="color: red;"> *</span>
@@ -36,9 +37,10 @@
                         <label>Email</label><span style="color: red;"> *</span>
                         <p>{{ rawData.email }}</p>
                     </div>
-
-                </div>
-                <div class="info">
+                    <div>
+                        <label>Date of Birth<span style="color: red;"> *</span></label>
+                        <p>{{ rawData.dateOfBirth }}</p>
+                    </div>
                     <div>
                         <label>Team</label><span style="color: red;"> *</span>
                         <p>{{ getTeamName(rawData.teamId) }}</p>
@@ -47,17 +49,16 @@
                         <label>Position</label><span style="color: red;"> *</span>
                         <p>{{ getPositionName(rawData.positionId) }}</p>
                     </div>
-
                 </div>
 
 
                 <hr>
-                <div>
+                <div class="phone">
 
-                    <i class="pi pi-phone" style="color: gray; font-size: 1rem;"></i>
+                    <i class="pi pi-phone" style="color: gray; font-size: 0.8rem;"></i>
                     <label> Phone</label>
                     <div v-for="phone in rawData.phones">
-                        <p>{{ getPhoneNumber(phone.phoneId) }}</p>
+                        <p class="number">{{ getPhoneNumber(phone.phoneId) }}</p>
                     </div>
 
                 </div>
@@ -133,17 +134,19 @@ const getPhoneNumber = (phoneId: string) => {
     const phone = rawData.value.phones.find((p) => p.phoneId === phoneId);
     return phone ? phone.phoneNumber : '';
 }
+
 (async () => {
     employeeDetail()
     getpositionDropdown()
     getTeamDropDown()
 })()
-</script>
-<style>
-body {
-    padding-top: 50px;
 
-}
+</script>
+<style lang="scss" scoped>
+$color-border: #E3E7F0;
+$text-white: #FFFFFF;
+
+
 
 label {
     color: #454957;
@@ -162,7 +165,33 @@ label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-right: 12px;
+    
+    .cancle-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid $color-border;
+        background: $text-white;
+        cursor: pointer;
+    }
 
+    .save-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid $color-border;
+        background: #5119F0;
+        color: $text-white;
+        cursor: pointer;
+        
+    }
+}
+
+hr {
+    border: 1px solid $color-border;
+    padding-left: 20px;
+    // box-shadow: 0.5px 0.8px 0.8px 0.8px rgb(207, 207, 207);
 }
 
 .header-bar {
@@ -170,19 +199,23 @@ label {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-top: 8px;
-    margin-bottom: 40px;
+    padding-top: 55px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border-bottom: 1px solid azure;
+    font-weight: 700;
+    font-size: 14px;
 
 }
 
 .card-info {
-    
+    margin-top: 50px;
+    margin-bottom: 40px;
     border-radius: 8px;
     background: white;
     width: 609px;
     height: 663px;
-    padding: 15px 20px 15px 20px;
+    padding: 15px 21px 15px 21px;
     box-shadow: 1px 2px 2px 2px rgb(209, 209, 209);
 }
 
@@ -190,14 +223,27 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-
+    height: 100%;
+    background: #F7F8FC;
 }
 
 .info {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
-    padding: 10px;
+    padding: 20px 0 10px 0;
+
+    p {
+        font-size: 14px;
+    }
+}
+
+.number {
+    // padding-left: 10px;
+    padding-top: 10px;
+}
+
+.phone {
+    padding-top: 12px;
 }
 </style>

@@ -5,8 +5,6 @@ import { ref, watch, computed } from 'vue'
 import CardEmployee from '../../components/Card/CardEmployee.vue';
 
 
-const count = ref("No5")
-
 interface Type<T, U = string> {
     id: T;
     name: U;
@@ -340,13 +338,13 @@ const show = ref(false)
 </script>
 <template>
     <main class="employee">
-       
+
         <div>
             <button class="cart-btn" @click="show = !show">Show Cards</button>
         </div>
-        <CardEmployee v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition"></CardEmployee>
+        <CardEmployee v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition">
+        </CardEmployee>
 
-        <p> {{ count }} </p>
         <h1>Employee ({{ employeefilter.length }})</h1>
 
         <form class="formsearch">
@@ -370,7 +368,7 @@ const show = ref(false)
             <div class="search">
                 <p>Search</p>
 
-                <input v-model="searchText" @input="filteredEmployees" >
+                <input v-model="searchText" @input="filteredEmployees">
                 <button @click="resetValue">reset</button>
             </div>
 
@@ -412,8 +410,8 @@ const show = ref(false)
                     <div class="pagination-wrapper">
                         <span @click="prevPage()" class="pagination-btn">
                             < </span>
-                                <span class="pageshow">{{ currentPage + 1 }}</span> / 
-                                <span class="totalpage">{{totalPages }}</span>
+                                <span class="pageshow">{{ currentPage + 1 }}</span> /
+                                <span class="totalpage">{{ totalPages }}</span>
                                 <span @click="nextPage()" class="pagination-btn"> > </span>
                     </div>
                 </div>
@@ -425,7 +423,7 @@ const show = ref(false)
     </main>
 
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .formsearch {
     display: flex;
     flex-direction: row;
@@ -434,30 +432,29 @@ const show = ref(false)
 
 .team {
     padding-right: 6px;
-   
+
 }
 
 .position {
     padding-right: 6px;
-   
+
 }
 
 .search button {
     margin-left: 6px;
-    background-color: brown; 
-    color: azure; 
+    background-color: brown;
+    color: azure;
     cursor: pointer;
 }
 
 .display {
-    display: flex;
-    justify-content: center;
+    padding-left: 10px;
+    padding-top: 10px;
 
 }
 
 .table-container {
     width: 100%;
-    max-width: 800px;
     text-align: start;
 }
 
@@ -471,6 +468,7 @@ const show = ref(false)
     flex-direction: row;
     justify-content: space-between;
     padding-top: 20px;
+
 }
 
 .pageshow {
@@ -484,13 +482,13 @@ const show = ref(false)
 }
 
 .cart-btn {
-    background: cadetblue;
+    background: #2BB8AF;
     border-radius: 4px;
     border-color: aliceblue;
     cursor: pointer;
     color: azure;
-    height: 40px;
-    width: 100px;
+    height: 32px;
+    width: 110px;
 }
 
 .employee {

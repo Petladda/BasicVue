@@ -5,7 +5,6 @@
     const countUP =  () => {
         count++
         console.log(count);
-        
     }
 </script>
 <template>
