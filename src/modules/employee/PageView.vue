@@ -23,7 +23,7 @@
     <div class="card-view">
         <div class="card-info">
             <div class="">
-                <h3 style="padding: 26px 0 0 68px; ">Basic Info</h3>
+                <h3 style="padding: 26px 0 0 50px; ">Basic Info</h3>
                 <div class="info">
                     <div>
                         <label>Firstname</label><span style="color: red;"> *</span>
@@ -195,21 +195,25 @@ hr {
 }
 
 .header-bar {
+    position: fixed;
+    width: 100%;
+    background: #FFFFFF;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-top: 55px;
-    padding-bottom: 10px;
+    top: 48px;
+    padding-bottom: 8px;
+    padding-top: 8px;
     padding-left: 12px;
     border-bottom: 1px solid azure;
     font-weight: 700;
     font-size: 14px;
-
+    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
 }
 
 .card-info {
-    margin-top: 50px;
+    margin-top: 140px;
     margin-bottom: 40px;
     border-radius: 8px;
     background: white;

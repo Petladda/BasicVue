@@ -10,11 +10,11 @@ import Sidebar from '../components/Layout/Sidebar.vue';
 </script>
 
 <template>
-    <main>
+    
         <Sidebar/>
         
         
-    </main>
+  
    
 </template>
 

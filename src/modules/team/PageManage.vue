@@ -1,29 +1,63 @@
 <template>
 
-    <Dialog v-model:visible="visible" modal header="Team" :style="{ width: '480px', height: '358px' }">
-        <!-- isCre  ateMode {{ isCreateMode }} -->
-
-        <p class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
-            are required</p>
-        <div class="flex align-items-center gap-3 mb-2">
-            <p for="name" class="font-semibold w-6rem">Team Name <span style="color: red;">*</span>
-            </p>
-            <input id="name" v-model="form.name" class="flex-auto " autocomplete="off" />
+    <div v-if="visible" class="modal-container">
+        <div class="header">
+            <div>
+                <h4>Create Team</h4>
+            </div>
+            <div @click="closeModal">
+                <img alt="clear" src="../../components/icons/clear.svg">
+            </div>
         </div>
-        <div class="flex align-items-center gap-3 mb-2">
-            <p for="description" class="font-semibold w-6rem">Description</p>
-            <input id="description" v-model="form.description" class="flex-auto" autocomplete="off" />{{ form.teamId }}
+        <div class="form">
+            <label class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
+                are required</label>
+
+            <div>
+                <p  for="name">Team Name <span style="color: red;">*</span>
+                </p>
+                <input class="name" id="name" v-model="form.name" autocomplete="off" />
+            </div>
+            <div>
+                <p >Description</p>
+                <textarea class="description" v-model="form.description"></textarea>
+            </div>
+
+
         </div>
         <hr>
-        <div class="flex justify-content-end gap-2">
-            <button class="cancle-btn" type="button" label="Cancel" severity="secondary"
-                @click="closeModal">Cancel</button>
-
-            <button class="save-btn" type="button" label="Save" @click="onSave">Save</button>
-
+        <div class="btn">
+            <button class="cancle-btn" @click="closeModal">Cancel</button>
+            <button class="save-btn" @click="onSave">Save</button>
         </div>
-    </Dialog>
-    
+
+
+    </div>
+
+    <!-- 
+    <Dialog v-model:visible="visible" modal header="Team" :style="{ width: '480px', height: '358px' }">
+        isCre  ateMode {{ isCreateMode }}
+
+    <p class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
+        are required</p>
+    <div class="flex align-items-center gap-3 mb-2">
+        <p for="name" class="font-semibold w-6rem">Team Name <span style="color: red;">*</span>
+        </p>
+        <input id="name" v-model="form.name" class="flex-auto " autocomplete="off" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-2">
+        <p for="description" class="font-semibold w-6rem">Description</p>
+        <input id="description" v-model="form.description" class="flex-auto" autocomplete="off" />{{ form.teamId }}
+    </div>
+    <hr>
+    <div class="flex justify-content-end gap-2">
+        <button class="cancle-btn" type="button" label="Cancel" severity="secondary" @click="closeModal">Cancel</button>
+
+        <button class="save-btn" type="button" label="Save" @click="onSave">Save</button>
+
+    </div>
+    </Dialog> -->
+
 </template>
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
@@ -51,28 +85,31 @@ const isCreateMode = computed(() => {
     return !form.teamId
 })
 
-const handleCreatePosition = async () => {
+const handleCreateTeam = async () => {
     const name = form.name
     const description = form.description
 
     await client.post("/team/create", { name, description })
+    emit('createsuccess')
 }
 
 
 
 const handleUpdateForm = async () => {
     await client.post("/team/update", form)
+    emit('createsuccess')   
 }
 
 const onSave = () => {
     if (isCreateMode.value) {
-        handleCreatePosition()
+        handleCreateTeam()
+        
     } else {
         handleUpdateForm()
+        
     }
-
-
-    emit('createsuccess')
+    
+   
     visible.value = false;
 }
 
@@ -106,7 +143,7 @@ const loadDetail = async (id: string) => {
 const clearForm = () => {
     form.teamId = ''
     form.name = ''
-    form.description = ''
+    form.description = '-'
 }
 
 
@@ -139,31 +176,105 @@ defineExpose({
 
 
 <style lang="scss" scoped>
+$color-border: #E3E7F0;
+
+
+.modal-container {
+
+    position: absolute;
+    top: 40vh;
+    left: 40vw;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    width: 480px;
+    height: 358px;
+
+    .header {
+        padding: 11px 16px 11px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        background: #F7F8FC;
+    }
+
+    .form {
+        padding: 12px 16px 64px 16px;
+    }
+
+    p {
+        font-size: 12px;
+        padding-top: 12px;
+        padding-bottom: 4px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 400;
+        padding-bottom: 12px;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    .name {
+        padding-top: 4px;
+        width: 448px;
+        height: 32px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        padding-left: 4px;
+    }
+
+    .description {
+
+        width: 448px;
+        height: 52px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        padding-left: 8px;
+        padding-top: 8px;
+    }
+}
+
 hr {
     border: 1px solid #E3E7F0;
 }
 
-.cancle-btn {
-    width: 100px;
-    height: 32px;
-    border-radius: 4px;
-    border: 1px solid #E3E7F0;
-    background: #FFFFFF;
-    cursor: pointer;
+.btn {
+    display: flex;
+    justify-content: end;
+    padding-right: 16px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+
+    .cancle-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #E3E7F0;
+        background: #FFFFFF;
+        cursor: pointer;
+        margin-right: 12px;
+    }
+
+    .save-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #E3E7F0;
+        background: #5119F0;
+        color: #FFFFFF;
+        cursor: pointer;
+
+    }
+
+    .save-btn :hover {
+        background: #454957;
+    }
 }
-
-.save-btn {
-    width: 100px;
-    height: 32px;
-    border-radius: 4px;
-    border: 1px solid #E3E7F0;
-    background: #5119F0;
-    color: #FFFFFF;
-    cursor: pointer;
-
-}
-.save-btn :hover {
-            background: #454957;
-        }
-
 </style>

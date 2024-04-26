@@ -64,8 +64,7 @@ const items = ref([
         <div class="menu-bar">
             <div class="menu" v-for="item in items" :key="item.label">
                 <a @click="$router.push({ name: item.route })">
-                    <!-- <span style=" " class="pi pi-circle-fill"></span> -->
-                    <span style=" padding-right: 10px;" class="ml-2">{{ item.label }}</span>
+                    <span >{{ item.label }}</span>
                 </a>
             </div>
 
@@ -115,17 +114,29 @@ const items = ref([
     height: 100vh;
     background: #F7F8FC;
     padding: 12px 36px 12px 12px;
+    align-items: center;
+    
 
+    :hover {
+        color: #5119F0;
+        background: #EFEDFF
+    }
+    
 }
 
 .menu {
     width: 168px;
     height: 32px;
-    padding: 6px, 8px, 6px, 8px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 4px;
+    padding-top: 8px;
+    padding-left: 8px;
+    
 }
 
-.view{
+.view {
     padding: 50px 0 0 216px;
 }
 </style>

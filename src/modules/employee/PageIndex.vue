@@ -7,27 +7,33 @@
                     </div>
                     <div>
                          <button class="create-btn" @click="$router.push({ name: 'create' })"><span
-                                   style="font-size: larger;"> + </span> Create</button>
+                                   style="font-size: larger; font-weight: 500;"> + </span> Create</button>
                     </div>
                </div>
-               <hr>
                <div class="search">
-                    <i class="pi pi-search"></i>
+
+                    <img alt="search" src="../../components/icons/search.svg">
                     <input class="search-btn" placeholder="Search...">
                </div>
                <div class="table">
                     <table>
                          <thead>
                               <tr>
-                                   <th class="firstname">
-                                        <input type="checkbox" name="select" class="check-box"> Firstname <i
-                                             class="pi pi-sort"></i>
+                                   <th>
+                                        <input type="checkbox" name="select" class="check-box">
                                    </th>
-                                   <th class="">Lastname <i class="pi pi-sort"></i></th>
-                                   <th class="">Email <i class="pi pi-sort"></i></th>
-                                   <th class="">DateOfBirth <i class="pi pi-sort"></i></th>
-                                   <th class="">Position <i class="pi pi-sort"></i></th>
-                                   <th class="">Team <i class="pi pi-sort"></i></th>
+                                   <th class="firstname">
+                                        Firstname <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   </th>
+                                   <th class="">Lastname <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   </th>
+                                   <th class="">Email <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   </th>
+                                   <th class="">DateOfBirth <a><img alt="sort"
+                                                  src="../../components/icons/sort.svg"></a> </th>
+                                   <th class="">Position <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   </th>
+                                   <th class="">Team <a><img alt="sort" src="../../components/icons/sort.svg"></a> </th>
                                    <th class="">Manage </th>
                               </tr>
                          </thead>
@@ -35,6 +41,9 @@
                               <tr v-for="employee in rawData.data" :key="employee.employeeId">
                                    <td>
                                         <input type="checkbox" name="select" class="check-box">
+                                   </td>
+                                   <td>
+
                                         <span @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"
                                              style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span>
                                    </td>
@@ -44,10 +53,14 @@
                                    <td class="">{{ getPositionName(employee.positionId) }}</td>
                                    <td class="">{{ getTeamName(employee.teamId) }}</td>
                                    <td>
-                                        <i style="cursor: pointer; color: #646D78;" class="pi pi-pencil"
-                                             @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })"></i>
-                                        <i style="cursor: pointer; color: #646D78;" class="pi pi-trash"
-                                             @click="deleteEmployee(employee.employeeId)"></i>
+                                        <a style="cursor: pointer; color: #646D78;"
+                                             @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
+                                             <img alt="edit" src="../../components/icons/editBtn.svg"></a>
+
+                                        <a style="cursor: pointer; color: #646D78;"
+                                             @click="deleteEmployee(employee.employeeId)">
+                                             <img alt="delete" src="../../components/icons/DeleteBtn.svg"></a>
+
                                    </td>
 
                               </tr>
@@ -218,14 +231,14 @@ th,
 td {
      padding-left: 12px;
      text-align: start;
-
+     font-size: 14px;
 
 }
 
 th {
-     i {
+     img {
           color: $color-text;
-          padding-left: 125px;
+          padding-left: 12px;
           cursor: pointer;
      }
 }
@@ -255,11 +268,13 @@ td {
 
 
 .pagination {
-     display: flex;
+     position: sticky;
      width: 100%;
+     background: #FFFFFF;
+     display: flex;
      flex-direction: row;
      justify-content: space-between;
-     padding: 26px 6px;
+     padding: 8px 12px 12px 8px;
      color: $color-text;
      position: fixed;
      bottom: 15px;
@@ -267,9 +282,9 @@ td {
 
 .pageshow {
      color: black;
-     width: 32px;
-     height: 24px;
-     border: 1px solid $color-border;
+     // width: 32px;
+     // height: 24px;
+     // border: 1px solid $color-border;
 }
 
 .container {
@@ -278,11 +293,16 @@ td {
 }
 
 .header {
+     position: fixed;
+     width: 100%;
+     background: #FFFFFF;
+     top: 45px;
      display: flex;
      flex-direction: row;
      justify-content: space-between;
      align-items: center;
-     padding: 0 13px 10px 12px;
+     padding: 10px 13px 10px 12px;
+     box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
 }
 
 .create-btn {
@@ -298,6 +318,8 @@ td {
 
 .search {
      padding: 12px;
+     margin-top: 40px;
+     position: relative;
 
      .search-btn {
           width: 240px;
@@ -305,13 +327,13 @@ td {
           border-radius: 8px;
           border: 1px solid $color-border;
           background: white;
-          padding-left: 6px;
+          padding-left: 34px;
           margin-left: 4px;
      }
 
-     i {
-          color: $color-text;
-          padding-right: 4px;
+     img {
+          position: absolute;
+          padding: 8px 10px 8px 8px;
 
      }
 
@@ -326,5 +348,6 @@ hr {
      height: 18px;
      padding-right: 17px;
      text-align: center;
+
 }
 </style>

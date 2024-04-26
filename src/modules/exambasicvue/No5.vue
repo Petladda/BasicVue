@@ -396,7 +396,7 @@ const show = ref(false)
                         </tr>
                     </tbody>
                 </table>
-                <div class="pagenation">
+                <div class="pagination">
                     <div>
                         แสดง :
                         <select v-model="pageSize">
@@ -424,33 +424,70 @@ const show = ref(false)
 
 </template>
 <style lang="scss" scoped>
+$color-btn: #2BB8AF;
+$color-text: #646D78;
+$color-border: #E3E7F0;
+
 .formsearch {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    padding: 30px;
 }
 
 .team {
     padding-right: 6px;
 
+    select {
+        margin-top: 2px;
+        width: 200px;
+        height: 30px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        box-shadow: 4px;
+    }
 }
 
 .position {
     padding-right: 6px;
 
+    select {
+        margin-top: 2px;
+        width: 200px;
+        height: 30px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        box-shadow: 4px;
+    }
 }
 
-.search button {
-    margin-left: 6px;
-    background-color: brown;
-    color: azure;
-    cursor: pointer;
+.search {
+    button {
+        margin-left: 6px;
+        background-color: $color-btn;
+        width: 50px;
+        height: 30px;
+        color: azure;
+        cursor: pointer;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+
+    }
+   
+    input {
+        margin-top: 2px;
+        width: 200px;
+        height: 30px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        box-shadow: 4px;
+    }
 }
 
 .display {
     padding-left: 10px;
     padding-top: 10px;
-
+    padding-bottom: 20px;
 }
 
 .table-container {
@@ -458,16 +495,77 @@ const show = ref(false)
     text-align: start;
 }
 
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 120px;
+    
+}
+
+th,
+td {
+    padding-left: 12px;
+    text-align: start;
+    font-size: 14px;
+
+}
+
+th {
+    img {
+        color: $color-text;
+        padding-left: 12px;
+        cursor: pointer;
+    }
+}
+
+
+
+thead tr {
+    height: 38px;
+    background: #F7F8FC;
+    font-size: 14px;
+    color: $color-text;
+    box-shadow: 1px solid $color-border;
+}
+
+tbody tr {
+    height: 48px;
+    border-bottom: 1px solid $color-border;
+
+}
+
+td {
+    i {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+hr {
+    border: 1px solid $color-border;
+}
 
 .pagination-btn {
     cursor: pointer;
 }
 
-.pagenation {
+.pagination {
+    position: sticky;
+    width: auto;
+    background: #FFFFFF;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    padding-top: 20px;
+    bottom: 0;
+    padding-bottom: 8px;
+    padding-left: 12px;
+    border: none;
+    padding-top: 8px;
 
 }
 
@@ -489,6 +587,7 @@ const show = ref(false)
     color: azure;
     height: 32px;
     width: 110px;
+    margin-bottom: 20px;
 }
 
 .employee {

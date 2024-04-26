@@ -1,79 +1,89 @@
 <template>
-    <main>
-        <div class="head">
-            <div>
-                <h2>Team ( {{ rawData.data.length }} )</h2>
-            </div>
-            <div>
-                <button class="btn-create" label="create" @click="openModalManage()"><span> + </span> Create</button>
-
-                <PageManage ref="modalManage" @createsuccess="loadPositon">
-
-                </PageManage>
-
-
-            </div>
-        </div>
-        <hr>
-        <div class="search">
-            <i class="pi pi-search"></i>
-            <input class="search-btn" placeholder="Search...">
+    <div class="head">
+        <div>
+            <h2>Team ( {{ rawData.data.length }} )</h2>
         </div>
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="text-team">
-                            <input type="checkbox" name="select" class="check-box">
-                            Team
-                            <i class="pi pi-sort"></i>
-                        </th>
-                        <th class="">Description <i class="pi pi-sort"></i></th>
-                        <th class="text-manage">Manage </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="team in rawData.data" :key="team.teamId">
-
-                        <td class="text-team">
-                            <input type="checkbox" name="select" class="check-box">
-                            <span style="cursor: pointer; padding-left: 6px;">{{ team.name }}</span>
-                        </td>
-                        <td class="description">{{ team.description }} </td>
-                        <td class="manage">
-                            <i @click="openModalManage(team.teamId)" class="pi pi-pencil"> </i>
-                            <i @click="deletePosition(team)" class="pi pi-trash"></i>
-
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-
+            <button class="btn-create" label="create" @click="openModalManage()"><span
+                    style=" font-size: larger; font-weight: 500;"> + </span> Create</button>
         </div>
+       
 
 
-        <div class="pagenation" ref="pagination">
-            <div>
-                แสดง :
-                <select @change="loadPositon" v-model="sizePage">
-                    <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
-                </select>
-                <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
-                    Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
-            </div>
-            <div class="pagination-wrapper">
-                <span @click="prevPage()" class="pagination-btn">
-                    < </span>
-                        <span class="pageshow">{{ currentPage + 1 }} </span> /
-                        <span class="totalpage">{{ totalPages }}
-                        </span>
-                        <span @click="nextPage()" class="pagination-btn"> > </span>
-            </div>
+            <PageManage ref="modalManage" @createsuccess="loadPositon">
+
+            </PageManage>
+
+
+   
+    </div>
+    <hr>
+    <div class="search">
+        <img alt="search" src="../../components/icons/search.svg">
+        <input class="search-btn" placeholder="Search...">
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="select" class="check-box">
+                    </th>
+                    <th class="">
+                        Team
+                        <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                    </th>
+                    <th class="">Description <a><img alt="sort" src="../../components/icons/sort.svg"></a></th>
+                    <th class="text-manage">Manage </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="team in rawData.data" :key="team.teamId">
+                    <td>
+                        <input type="checkbox" name="select" class="check-box">
+                    </td>
+                    <td class="text-team">
+                        <span style="cursor: pointer; padding-left: 6px;">{{ team.name }}</span>
+                    </td>
+                    <td class="description">{{ team.description }} </td>
+                    <td class="manage">
+                        <a style="cursor: pointer; color: #646D78;" @click="openModalManage(team.teamId)">
+                            <img alt="edit" src="../../components/icons/editBtn.svg"></a>
+
+                        <a style="cursor: pointer; color: #646D78;" @click="deletePosition(team)">
+                            <img alt="delete" src="../../components/icons/DeleteBtn.svg"></a>
+
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="pagination" ref="pagination">
+        <div>
+            แสดง :
+            <select @change="loadPositon" v-model="sizePage">
+                <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
+            </select>
+            <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
+                Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
         </div>
+        <div class="pagination-wrapper">
+            <span @click="prevPage()" class="pagination-btn">
+                < </span>
+                    <span class="pageshow">{{ currentPage + 1 }} </span> /
+                    <span class="totalpage">{{ totalPages }}
+                    </span>
+                    <span @click="nextPage()" class="pagination-btn"> > </span>
+        </div>
+    </div>
 
-    </main>
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue';
@@ -163,7 +173,7 @@ const deletePosition = (position: any) => {
 
 
 (async () => {
-    await loadPositon()
+     loadPositon()
 })()
 
 </script>
@@ -173,19 +183,24 @@ $color-text: #646D78;
 $color-btn: #2BB8AF;
 
 .head {
+    position: sticky;
+    width: 100%;
+    background: #FFFFFF;
+    top: 48px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 14px 14px 11px 0;
+    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
 
-    h2{
+    h2 {
         padding-left: 12px
     }
 }
 
 hr {
-    border: 1px solid #E3E7F0;
+    border: 1px solid $color-border;
 }
 
 .btn-create {
@@ -204,16 +219,24 @@ hr {
     cursor: pointer;
 }
 
-.pagenation {
+.pagination {
+    position: sticky;
+    width: auto;
+    background: white;
+    bottom: 0;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    padding-top: 20px;
+    color: #646D78;
+    padding: 8px 12px 12px 8px;
+    margin-top: 390px;
 }
 
 .pageshow {
-    border: 1px solid darkgray;
-    border-radius: 2px;
+    // border: 1px solid darkgray;
+    // border-radius: 2px;
+    color: black;
 
 }
 
@@ -234,19 +257,18 @@ table {
 
 th,
 td {
-    padding-left: 12px;
+    padding-left: 10px;
     text-align: start;
-
+    font-size: 14px;
 
 }
 
 th {
-    
-    i {
-        color: #2BB8AF;
-        padding-left:  20px;
-        align-items: end;
+
+    img {
+        padding-left: 400px;
         cursor: pointer;
+
     }
 }
 
@@ -267,13 +289,17 @@ tbody tr {
 }
 
 td {
-    i {
-        padding-left: 8px;
-        padding-right: 8px;
+    img {
+        padding-right: 6px;
     }
 }
 
+.check-box {
+    width: 18px;
+    height: 18px;
+    padding-right: 17px;
 
+}
 
 .head-table {
     border: 2px solid black;
@@ -282,6 +308,7 @@ td {
 
 .search {
     padding: 12px;
+    position: relative;
 
     .search-btn {
         width: 240px;
@@ -289,13 +316,15 @@ td {
         border-radius: 8px;
         border: 1px solid $color-border;
         background: white;
-        padding-left: 6px;
+        padding-left: 34px;
         margin-left: 4px;
     }
 
-    i {
-        color: $color-text;
-        padding-right: 4px;
+    
+
+    img {
+        position: absolute;
+        padding: 8px 10px 8px 8px;
 
     }
 

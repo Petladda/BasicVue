@@ -1,6 +1,40 @@
 <template>
 
-    <Dialog v-model:visible="visible" modal header="Create Position" :style="{ width: '25rem' }">
+    <div v-if="visible" class="modal-container">
+        <div class="header">
+            <div>
+                <h4>Create Position</h4>
+            </div>
+            <div @click="closeModal">
+                <img alt="clear" src="../../components/icons/clear.svg">
+            </div>
+        </div>
+        <div class="form">
+            <label class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
+                are required</label>
+
+            <div>
+                <p class="p-text-secondary" for="name">Position Name <span style="color: red;">*</span>
+                </p>
+                <input class="name" id="name" v-model="form.name" autocomplete="off" />
+            </div>
+            <div>
+                <p class="p-text-secondary">Description</p>
+                <textarea class="description" id="description" v-model="form.description"></textarea>
+            </div>
+
+
+        </div>
+        <hr>
+        <div class="btn">
+            <button class="cancle-btn" @click="closeModal">Cancel</button>
+            <button class="save-btn" @click="onSave">Save</button>
+        </div>
+
+
+    </div>
+    <!-- 
+    <Dialog v-model:visible="visible" modal header="Create Position" :style="{ width: '480px' , height:'358px'  }">
         isCreateMode {{ isCreateMode }}
 
         <p class="p-text-secondary block mb-5">Fields marked with an <span style="color: red;">*</span>
@@ -21,7 +55,7 @@
             <Button type="button" label="Save" @click="onSave"></Button>
 
         </div>
-    </Dialog>
+    </Dialog> -->
 
 </template>
 <script setup lang="ts">
@@ -55,23 +89,27 @@ const handleCreatePosition = async () => {
     const description = form.description
 
     await client.post("/position/create", { name, description })
+    emit('createsuccess')
 }
 
 
 
 const handleUpdateForm = async () => {
     await client.post("/position/update", form)
+    emit('createsuccess')
 }
 
 const onSave = () => {
     if (isCreateMode.value) {
         handleCreatePosition()
+        // emit('createsuccess')
+
     } else {
         handleUpdateForm()
+        // emit('createsuccess')
+
     }
 
-
-    emit('createsuccess')
     visible.value = false;
 }
 
@@ -117,7 +155,7 @@ const openModalManage = (id?: string | null) => {
 
         loadDetail(id)
     }
-    
+
     visible.value = true
 }
 
@@ -135,4 +173,103 @@ defineExpose({
 </script>
 
 
-<style></style>
+<style lang="scss" scoped>
+$color-border: #E3E7F0;
+
+
+.modal-container {
+    position: absolute;
+    top: 50vh;
+    left: 55vw;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    width: 480px;
+    height: 358px;
+
+    .header {
+        padding: 11px 16px 11px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        background: #F7F8FC;
+    }
+
+    .form {
+        padding: 12px 16px 64px 16px;
+    }
+
+    p {
+        font-size: 12px;
+        padding-top: 12px;
+        padding-bottom: 4px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 400;
+        padding-bottom: 12px;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    .name {
+        padding-top: 4px;
+        width: 448px;
+        height: 32px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+        padding-left: 4px;
+    }
+
+    .description {
+        padding-left: 4px;
+        width: 448px;
+        height: 52px;
+        border: 1px solid $color-border;
+        border-radius: 4px;
+    }
+}
+
+hr {
+    border: 1px solid #E3E7F0;
+}
+
+.btn {
+    display: flex;
+    justify-content: end;
+    padding-right: 16px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+
+    .cancle-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #E3E7F0;
+        background: #FFFFFF;
+        cursor: pointer;
+        margin-right: 12px;
+    }
+
+    .save-btn {
+        width: 100px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #E3E7F0;
+        background: #5119F0;
+        color: #FFFFFF;
+        cursor: pointer;
+
+    }
+
+    .save-btn :hover {
+        background: #454957;
+    }
+}
+</style>

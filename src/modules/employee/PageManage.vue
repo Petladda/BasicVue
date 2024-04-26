@@ -1,7 +1,6 @@
 <template>
     <div class="header-bar">
-        <div>
-
+        <div class="">
             <i @click="$router.push({ name: 'employee' })" class="pi pi-arrow-left"
                 style="cursor: pointer; padding-left: 2px;"></i>
             <span class="text-header">Create Employee </span>
@@ -22,9 +21,11 @@
     <hr>
     <div class="card-view">
         <div class="card-info">
+            <div class="header-info">
+                <img alt="create logo" src="../../components/icons/update.svg" style="padding: 20px 0  16px 0;">
+                <span class="text-hederinfo">Basic Info</span>
+            </div>
 
-            <i class="pi pi-pen-to-square" style="font-size: 2rem; color: blueviolet; padding: 20px 0  16px 20px;"></i>
-            <span class="text-hederinfo">Basic Info</span>
             <div class="info">
                 <div class="inside-info">
                     <label>Firstname<span style="color: red;"> *</span></label>
@@ -44,8 +45,8 @@
                 </div>
                 <div>
                     <label>Team</label><span style="color: red;"> *</span>
-                    <select class="select-option" v-model="rawData.teamId">
-                        <option v-for="team in teamDropDown" :key="team.value" :value="team.value">
+                    <select  class="select-option" v-model="rawData.teamId">
+                        <option  v-for="team in teamDropDown" :key="team.value" :value="team.value">
                             {{ team.text }}
                         </option>
                     </select>
@@ -66,12 +67,13 @@
             <div>
                 <div class="header-phone">
                     <div>
-                        <i class="pi pi-phone" style="color: gray; font-size: 0.8rem;"></i>
+                        <img alt="call" src="../../components/icons/call.svg">
                         <label> Phone</label>
                     </div>
                     <div>
-                        <label class="create-phone" @click="onCreatePhoneNumber()"><span
-                                style="font-size: medium;">+</span>Phone</label>
+                        <label class="create-phone" @click="onCreatePhoneNumber()">
+                            <img alt="plus-phone" src="../../components/icons/plus.svg">
+                            Phone</label>
                     </div>
                 </div>
                 <div class="phone-number">
@@ -79,12 +81,14 @@
                         <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="number"
                             v-model="phone.phoneNumber"></input>
 
-                        <i class="pi pi-minus-circle" @click="onDeletePhoneNumber(index)"
-                            style="color: #646D78; cursor: pointer; padding-right: 37px"></i>
-                        
+                        <a @click="onDeletePhoneNumber(index)"><img alt="minus-phone logo"
+                                src="../../components/icons/minus.svg" style="cursor: pointer; padding-right: 20px"></a>
+    
+
                     </div>
                 </div>
-                <a href="../../components/icons/update.svg"></a>
+
+
 
             </div>
 
@@ -261,6 +265,7 @@ label {
 
 }
 
+
 .text-header {
     padding-left: 15px;
     font-size: large;
@@ -271,7 +276,9 @@ label {
 .text-hederinfo {
     font-size: large;
     font-weight: bold;
-    padding: 26px 0 0 13px;
+    padding-top: 26px;
+    padding-left: 13px;
+    
 }
 
 .header-btn {
@@ -311,18 +318,23 @@ hr {
 }
 
 .header-bar {
+    position: fixed;
+    width: 100%;
+    background: #FFFFFF;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding-top: 55px;
-    padding-bottom: 10px;
+    top: 48px;
+    padding-bottom: 8px;
     padding-left: 12px;
     border: none;
+    padding-top: 8px;
+    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
 }
 
 .card-info {
-    margin-top: 50px;
+    margin-top: 140px;
     margin-bottom: 40px;
     border-radius: 8px;
     background: $text-white;
@@ -408,5 +420,10 @@ input {
     font-weight: bolder;
     padding-right: 57px;
     cursor: pointer;
+}
+
+.header-info{
+    display: flex;
+    // align-items: center;
 }
 </style>
