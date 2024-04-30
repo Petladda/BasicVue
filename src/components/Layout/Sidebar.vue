@@ -1,3 +1,46 @@
+<template>
+
+    <div class="sidebar">
+        <div class="menu-bar">
+            <div class="menu" v-for="item in items" :key="item.label">
+                <a @click="$router.push({ name: item.route })">
+                    <span >{{ item.label }}</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="view">
+        <router-view />
+    </div>
+    <!-- <div class="page">
+            <div class="">
+                <div class=" flex justify-content-center">
+
+                    <Menu :model="items">
+                        <template #item="{ item, props }">
+
+                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{ name: item.route }"
+                                custom>
+                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                                    <span :class="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </a>
+                            </router-link>
+                        </template>
+</Menu>
+</div>
+</div>
+
+
+
+</div> -->
+
+
+
+
+</template>
 <script setup lang="ts">
 
 import { RouterView, } from 'vue-router';
@@ -58,49 +101,7 @@ const items = ref([
 
 </script>
 
-<template>
 
-    <div class="sidebar">
-        <div class="menu-bar">
-            <div class="menu" v-for="item in items" :key="item.label">
-                <a @click="$router.push({ name: item.route })">
-                    <span >{{ item.label }}</span>
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-    <div class="view">
-        <router-view />
-    </div>
-    <!-- <div class="page">
-            <div class="">
-                <div class=" flex justify-content-center">
-
-                    <Menu :model="items">
-                        <template #item="{ item, props }">
-
-                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{ name: item.route }"
-                                custom>
-                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                                    <span :class="item.icon"></span>
-                                    <span class="ml-2">{{ item.label }}</span>
-                                </a>
-                            </router-link>
-                        </template>
-</Menu>
-</div>
-</div>
-
-
-
-</div> -->
-
-
-
-
-</template>
 
 <style lang="scss" scoped>
 .sidebar {
@@ -112,14 +113,14 @@ const items = ref([
 .menu-bar {
     width: 216px;
     height: 100vh;
-    background: #F7F8FC;
+    background: $grey-bg;
     padding: 12px 36px 12px 12px;
     align-items: center;
     
 
     :hover {
-        color: #5119F0;
-        background: #EFEDFF
+        color: $primary;
+        background: $primary-light;
     }
     
 }

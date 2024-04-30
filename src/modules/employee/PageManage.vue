@@ -7,12 +7,13 @@
 
         </div>
         <div class="header-btn">
-            <div style="padding-right: 15px;">
-                <button class="cancle-btn" severity="secondary"
-                    @click="$router.push({ name: 'employee' })">Cancle</button>
+            <div style="padding-right: 15px; ">
+                <Outline text="Cancle" size="md" @click="$router.push({ name: 'employee' })"></Outline>
             </div>
             <div>
-                <button class="save-btn" severity="info" @click="onSave()">Save</button>
+                <MyButton text="Save" size="md" @click="onSave()">
+                </MyButton>
+                <!-- <button class="save-btn" severity="info" @click="onSave()">Save</button> -->
             </div>
 
         </div>
@@ -22,7 +23,10 @@
     <div class="card-view">
         <div class="card-info">
             <div class="header-info">
-                <img alt="create logo" src="../../components/icons/update.svg" style="padding: 20px 0  16px 0;">
+                <div class="edit">
+                    <PersonalInfo class="icon"></PersonalInfo>
+                </div>
+
                 <span class="text-hederinfo">Basic Info</span>
             </div>
 
@@ -45,8 +49,8 @@
                 </div>
                 <div>
                     <label>Team</label><span style="color: red;"> *</span>
-                    <select  class="select-option" v-model="rawData.teamId">
-                        <option  v-for="team in teamDropDown" :key="team.value" :value="team.value">
+                    <select class="select-option" v-model="rawData.teamId">
+                        <option v-for="team in teamDropDown" :key="team.value" :value="team.value">
                             {{ team.text }}
                         </option>
                     </select>
@@ -67,23 +71,24 @@
             <div>
                 <div class="header-phone">
                     <div>
-                        <img alt="call" src="../../components/icons/call.svg">
+                        <Call class="call"></Call>
                         <label> Phone</label>
                     </div>
                     <div>
-                        <label class="create-phone" @click="onCreatePhoneNumber()">
-                            <img alt="plus-phone" src="../../components/icons/plus.svg">
-                            Phone</label>
+                        <Outline text="Phone" size="sm" @click="onCreatePhoneNumber()">
+                            <Plus></Plus>
+                        </Outline>
                     </div>
                 </div>
                 <div class="phone-number">
                     <div class="phone" v-for="(phone, index) in rawData.phones" :key="phone.phoneId">
                         <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="number"
                             v-model="phone.phoneNumber"></input>
+                        <IconButton @click="onDeletePhoneNumber(index)" size="md">
+                            <Circle_minus ></Circle_minus>
+                        </IconButton>
 
-                        <a @click="onDeletePhoneNumber(index)"><img alt="minus-phone logo"
-                                src="../../components/icons/minus.svg" style="cursor: pointer; padding-right: 20px"></a>
-    
+
 
                     </div>
                 </div>
@@ -101,6 +106,13 @@ import axios, { AxiosResponse } from 'axios';
 import { Employee, DropDown, Create, Update, GetDetail, PhoneModel } from './interface';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, reactive, ref } from 'vue';
+import MyButton from '../../components/Button/Button.vue';
+import Outline from '../../components/Button/ButtonOutline.vue';
+import PersonalInfo from '../../components/Icons/PersonalInfo.vue';
+import Call from '../../components/Icons/Call.vue';
+import Plus from '../../components/Icons/Plus.vue';
+import Circle_minus from '../../components/Icons/CircleMinus.vue';
+import IconButton from '../../components/Button/IconButton.vue';
 
 const router = useRouter()
 const route = useRoute()
@@ -230,9 +242,11 @@ const isCreateMode = computed(() => {
 const onSave = () => {
     if (isCreateMode.value) {
         handleCreatePosition()
+        employeeDetail()
         router.push({ name: 'employee' })
     } else {
         updateDetail()
+        employeeDetail()
         router.push({ name: 'employee' })
     }
 
@@ -276,9 +290,9 @@ label {
 .text-hederinfo {
     font-size: large;
     font-weight: bold;
-    padding-top: 26px;
-    padding-left: 13px;
-    
+    padding: 9px 0px 2px 9px;
+
+
 }
 
 .header-btn {
@@ -287,29 +301,6 @@ label {
     justify-content: space-between;
     align-items: center;
     padding-right: 12px;
-
-    .cancle-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid $color-border;
-        background: $text-white;
-        cursor: pointer;
-    }
-
-    .save-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid $color-border;
-        background: #5119F0;
-        color: $text-white;
-        cursor: pointer;
-
-        :hover {
-            background: #454957;
-        }
-    }
 
 }
 
@@ -320,6 +311,7 @@ hr {
 .header-bar {
     position: fixed;
     width: 100%;
+    height: 48px;
     background: #FFFFFF;
     display: flex;
     flex-direction: row;
@@ -329,18 +321,16 @@ hr {
     padding-bottom: 8px;
     padding-left: 12px;
     border: none;
-    padding-top: 8px;
+    padding-top: 10px;
     box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
 }
 
 .card-info {
-    margin-top: 140px;
     margin-bottom: 40px;
     border-radius: 8px;
     background: $text-white;
-    width: 609px;
-    height: 663px;
-    padding: 15px 20px 15px 20px;
+    width: 606px;
+    padding: 19px 20px 15px 20px;
     box-shadow: 1px 2px 2px 2px rgb(207, 207, 207);
 }
 
@@ -348,10 +338,9 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     background: #F7F8FC;
-
-
+    margin-top: 50px;
 }
 
 .info {
@@ -375,7 +364,7 @@ input {
     border-radius: 4px;
     box-shadow: 4px;
     padding-left: 4px;
-    margin-right: 22px;
+    margin-right: 10px;
 }
 
 .select-option {
@@ -392,6 +381,14 @@ input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
+    .call {
+        margin-top: 14px;
+        width: 14px;
+        height: 12px;
+        fill: $medium-grey;
+    }
 }
 
 .phone-number {
@@ -411,19 +408,40 @@ input {
     flex-direction: row;
     align-items: center;
     margin-bottom: 8px;
-
+    margin-right: 9px;
 }
 
 .create-phone {
-    color: #5119F0;
+    color: $primary;
     font-size: small;
     font-weight: bolder;
     padding-right: 57px;
     cursor: pointer;
 }
 
-.header-info{
+.header-info {
     display: flex;
     // align-items: center;
+    margin-bottom: 15px;
+
+    .edit {
+
+        background: $primary-light;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        position: relative;
+        padding: 8px;
+
+        .icon {
+            fill: $primary;
+            width: 20px;
+            height: 20px;
+            align-items: center;
+            position: absolute;
+
+        }
+    }
+
 }
 </style>

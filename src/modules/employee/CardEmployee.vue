@@ -30,7 +30,7 @@ defineProps<{
         </div> 
     </div>  
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .card-employee{
     border: 1px solid gray;
     text-align: center;

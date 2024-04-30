@@ -1,3 +1,11 @@
+
+<template>
+    <div>
+        <button type="button" @click="count--">-</button>
+        count : {{ count }}
+        <button type="button" @click="countUP">+</button>
+    </div>
+</template>
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
@@ -23,10 +31,3 @@ watch(count, (newValue, oldValue) => {
 console.log('setup')
 
 </script>
-<template>
-    <div>
-        <button type="button" @click="count--">-</button>
-        count : {{ count }}
-        <button type="button" @click="countUP">+</button>
-    </div>
-</template>

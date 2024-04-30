@@ -6,7 +6,7 @@
                 <h4>Create Position</h4>
             </div>
             <div @click="closeModal">
-                <img alt="clear" src="../../components/icons/clear.svg">
+                <Close class="close-modal"></Close>
             </div>
         </div>
         <div class="form">
@@ -26,9 +26,9 @@
 
         </div>
         <hr>
-        <div class="btn">
-            <button class="cancle-btn" @click="closeModal">Cancel</button>
-            <button class="save-btn" @click="onSave">Save</button>
+        <div class="modal-btn">
+            <ButtonOutline class="cancle-btn" text="Cancle" size="md" @click="closeModal"></ButtonOutline>
+            <Button text="Save" size="md" @click="onSave"></Button>
         </div>
 
 
@@ -62,6 +62,9 @@
 import { computed, reactive, ref } from 'vue';
 import { Update } from './interface';
 import axios, { AxiosResponse } from 'axios';
+import Close from '../../components/Icons/Close.vue';
+import Button from '../../components/Button/Button.vue';
+import ButtonOutline from '../../components/Button/ButtonOutline.vue';
 
 const emit = defineEmits<{
     (e: 'createsuccess',): void
@@ -196,6 +199,19 @@ $color-border: #E3E7F0;
         align-items: center;
         margin-bottom: 10px;
         background: #F7F8FC;
+
+        h4{
+            font-size: 18px;
+            font-weight: 500;
+            color: $dark-grey;
+        }
+
+        .close-modal {
+            cursor: pointer;
+            width: 15px;
+            height: 15px;
+            fill: $medium-grey;
+        }
     }
 
     .form {
@@ -240,36 +256,17 @@ hr {
     border: 1px solid #E3E7F0;
 }
 
-.btn {
+.modal-btn {
     display: flex;
     justify-content: end;
-    padding-right: 16px;
-    padding-top: 11px;
+    padding-top: 10px;
     padding-bottom: 11px;
+    text-align: center;
+    margin-right: 8px;
 
-    .cancle-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #E3E7F0;
-        background: #FFFFFF;
-        cursor: pointer;
+    .cancle-btn{
         margin-right: 12px;
     }
 
-    .save-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #E3E7F0;
-        background: #5119F0;
-        color: #FFFFFF;
-        cursor: pointer;
-
-    }
-
-    .save-btn :hover {
-        background: #454957;
-    }
 }
 </style>

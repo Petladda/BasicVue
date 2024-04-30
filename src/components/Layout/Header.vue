@@ -1,4 +1,46 @@
+<template>
+    <div class="nav">
+        <div class="nav-ul">
+            <div class="">
+                <ul class="">
+                    <li class="nav-li">
+                        <a @click="$router.push({ name: 'home' })">
+                            <span >Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-li">
+                        <a @click="$router.push({ name: 'employee' })">
+                            <span >Employee</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="icon">
+                <Setting class="setting-icon" @click="$router.push({ name: 'setting' })" />
+            </div>
+
+
+        </div>
+    </div>
+    <!-- <div class="navigate">
+        <Menubar class="sticky" :model="items">
+            <template #item="{ item, props }">
+                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{ name: item.route }" custom>
+                    <a   v-ripple :href="href" v-bind="props.action" @click="navigate">
+                        <span :class="item.icon"></span>
+                        <span class="ml-2">{{ item.label }}</span>
+                    </a>
+                </router-link>
+            </template>
+</Menubar>
+
+</div> -->
+
+</template>
 <script setup lang="ts">
+import Setting from '../Icons/Setting.vue';
+
 
 
 
@@ -22,52 +64,7 @@
 
 </script>
 
-<template>
-    <div class="nav">
-        <div class="nav-ul">
-            <div>
-                <ul class="nav-ul">
-                    <li class="nav-li">
-                        <a @click="$router.push({ name: 'home' })">
-                            <span style="color: white; padding-right: 10px;" class="ml-2">Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-li">
-                        <a @click="$router.push({ name: 'employee' })">
-                            <span style="color: white; " class="ml-2">Employee</span>
-                        </a>
-                    </li>
-                    
-                </ul>
-            </div>
-            <div>
-                <ul >
-                    <li class="setting">
-                        <a @click="$router.push({ name: 'setting' })">
-                            <i style="color: white; font-size: large;" class="pi pi-cog"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
-
-        </div>
-    </div>
-    <!-- <div class="navigate">
-        <Menubar class="sticky" :model="items">
-            <template #item="{ item, props }">
-                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="{ name: item.route }" custom>
-                    <a   v-ripple :href="href" v-bind="props.action" @click="navigate">
-                        <span :class="item.icon"></span>
-                        <span class="ml-2">{{ item.label }}</span>
-                    </a>
-                </router-link>
-            </template>
-</Menubar>
-
-</div> -->
-
-</template>
 
 <style lang="scss" scoped>
 .card-navigate {
@@ -92,8 +89,49 @@
     width: 100%;
     height: 48px;
     align-items: center;
-    padding-left: 8px;
-    padding-right: 20px;
+    padding-left: 16px;
+
+
+}
+
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    :hover {
+        background: $hover-on-black;
+        height: 48px;
+        padding-top: 12px;
+    }
+
+    li{
+        a{
+            color: $primary-light;
+            padding: 12px 12px 12px 12px;
+        }
+    }
+}
+
+
+
+
+.icon {
+    :hover {
+        fill: $neutral-light1;
+    }
+    
+}
+
+.setting-icon {
+    cursor: pointer;
+    fill: $primary-light;
+    margin-right: 16px;
+    width: 20px;
+    height: 20px;
+
 
 }
 
@@ -102,12 +140,9 @@
     text-decoration: none;
     color: white;
     cursor: pointer;
-}
 
-.setting {
-    cursor: pointer;
-   
-    justify-content: space-between
+
+
 }
 
 .sticky {

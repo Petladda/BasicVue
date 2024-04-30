@@ -15,6 +15,3 @@ import Header from '../Layout/Header.vue';
 
 </script>
 
-<style scoped>
-
-</style>

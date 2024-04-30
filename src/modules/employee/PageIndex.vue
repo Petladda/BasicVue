@@ -6,46 +6,47 @@
                          <h3>Employee ({{ rawData.data.length }})</h3>
                     </div>
                     <div>
-                         <button class="create-btn" @click="$router.push({ name: 'create' })"><span
-                                   style="font-size: larger; font-weight: 500;"> + </span> Create</button>
+                         <Button text="Create" size='md' @click="$router.push({ name: 'create' })">
+                              <Plus></Plus>
+
+                         </Button>
+
                     </div>
                </div>
+               <hr>
                <div class="search">
-
-                    <img alt="search" src="../../components/icons/search.svg">
-                    <input class="search-btn" placeholder="Search...">
+                    <Search class="icon"></Search>
+                    <input class="search-btn" placeholder="Search..." v-model="searchQuery">
                </div>
                <div class="table">
                     <table>
                          <thead>
                               <tr>
-                                   <th>
+                                   <!-- <th>
                                         <input type="checkbox" name="select" class="check-box">
-                                   </th>
+                                   </th> -->
                                    <th class="firstname">
-                                        Firstname <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                        Firstname
                                    </th>
-                                   <th class="">Lastname <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   <th class="">Lastname
                                    </th>
-                                   <th class="">Email <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+                                   <th class="">Email
                                    </th>
-                                   <th class="">DateOfBirth <a><img alt="sort"
-                                                  src="../../components/icons/sort.svg"></a> </th>
-                                   <th class="">Position <a><img alt="sort" src="../../components/icons/sort.svg"></a>
-                                   </th>
-                                   <th class="">Team <a><img alt="sort" src="../../components/icons/sort.svg"></a> </th>
+                                   <th class="">DateOfBirth </th>
+                                   <th class="">Position </th>
+                                   <th class="">Team </th>
                                    <th class="">Manage </th>
                               </tr>
                          </thead>
                          <tbody>
                               <tr v-for="employee in rawData.data" :key="employee.employeeId">
-                                   <td>
+                                   <!-- <td>
                                         <input type="checkbox" name="select" class="check-box">
-                                   </td>
+                                   </td> -->
                                    <td>
-
-                                        <span @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"
-                                             style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span>
+                                        <Link :text="employee.firstname"  @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"></Link>
+                                        <!-- <span 
+                                             style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span> -->
                                    </td>
                                    <td class="">{{ employee.lastname }}</td>
                                    <td class="">{{ employee.email }}</td>
@@ -53,13 +54,15 @@
                                    <td class="">{{ getPositionName(employee.positionId) }}</td>
                                    <td class="">{{ getTeamName(employee.teamId) }}</td>
                                    <td>
-                                        <a style="cursor: pointer; color: #646D78;"
+                                        <IconButton size="sm"
                                              @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
-                                             <img alt="edit" src="../../components/icons/editBtn.svg"></a>
+                                             <Edit></Edit>
+                                        </IconButton>
 
-                                        <a style="cursor: pointer; color: #646D78;"
-                                             @click="deleteEmployee(employee.employeeId)">
-                                             <img alt="delete" src="../../components/icons/DeleteBtn.svg"></a>
+                                        <IconButton size="sm" @click="deleteEmployee(employee.employeeId)">
+                                             <Bin></Bin>
+                                        </IconButton>
+
 
                                    </td>
 
@@ -73,20 +76,23 @@
           </div>
           <div class="pagination" ref="pagination">
                <div>
-                    แสดง :
+                    <span style="font-size: 12px;">Show: </span>
                     <select class="pagesize" @change="loadEmployee" v-model="pageLoad.pageSize">
                          <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
                     </select>
-                    <span style="padding-left: 4px; font-size: small;">{{ currentPage * pageLoad.pageSize + 1 }} - {{
-                              Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} จาก {{ rawData.rowCount
+                    <span style="padding-left: 4px; font-size: 12px;">{{ currentPage * pageLoad.pageSize + 1 }} - {{
+                              Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} of {{ rawData.rowCount
                          }}</span>
                </div>
                <div class="">
-                    <span @click="prevPage()" class="btn">
-                         < </span>
-                              <span class="pageshow">{{ currentPage + 1 }} </span> /
-                              <span style="font-size: small;">{{ totalPages }}</span>
-                              <span @click="nextPage()" class="btn"> > </span>
+                    <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
+                    <div class="pageshow">
+                         <label>{{ currentPage + 1 }} </label>
+                    </div>
+                    /
+                    <span style="font-size: small;">{{ totalPages }}</span>
+                    <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
+
                </div>
           </div>
 
@@ -96,10 +102,19 @@
 </template>
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { Index, PageType, Response, DropDown } from './interface';
-// import { useRouter } from 'vue'
+import Button from '../../components/Button/Button.vue';
+import Plus from '../../components/Icons/Plus.vue';
+import Search from '../../components/Icons/Search.vue';
+import Edit from '../../components/Icons/Edit.vue';
+import Bin from '../../components/Icons/Bin.vue';
+import IconButton from '../../components/Button/IconButton.vue';
+import Arrowleft from '../../components/Icons/Arrowleft.vue';
+import ArrowRight from '../../components/Icons/ArrowRight.vue';
+import Link from '../../components/Link/Link.vue'
 
+const searchQuery = ref<string>('')
 
 const client = axios.create({
      baseURL: "http://localhost:3000"
@@ -115,7 +130,7 @@ const pageLoad = reactive<Index>({
      pageIndex: 0,
      pageSize: pageList[0].amount,
      search: {
-          text: '',
+          text: searchQuery.value,
           teamId: '',
           positionId: '',
 
@@ -134,7 +149,7 @@ const teamDropDown = ref<DropDown[]>([]);
 
 
 const currentPage = ref<number>(0)
-const totalPages = computed(() => Math.ceil(rawData.value.rowCount / pageLoad.pageSize));
+const totalPages = computed(() => Math.ceil(rawData.value.data.length / pageLoad.pageSize));
 
 function nextPage() {
      if (currentPage.value < totalPages.value - 1) {
@@ -155,15 +170,23 @@ const loadEmployee = async () => {
      const pageSelect = reactive<Index>({
           pageIndex: pageLoad.pageIndex,
           pageSize: pageLoad.pageSize,
-          search: pageLoad.search
+          search: {
+            text: searchQuery.value,
+            teamId: '',
+            positionId: '',
+        }
      })
-
      await client.post<any, AxiosResponse<Response, any>>("/employee/index", pageSelect)
           .then((res) => {
                rawData.value = res.data;
                // console.log("loademploy", res);
           })
 }
+
+watch(searchQuery, () => {
+     loadEmployee();
+})
+
 
 const getpositionDropdown = async () => {
      await client.get<any, AxiosResponse<DropDown[], any>>("/position/getPositionDropdown")
@@ -208,23 +231,32 @@ const deleteEmployee = async (employeeId: string) => {
 })()
 </script>
 <style lang="scss" scoped>
-$color-btn: #2BB8AF;
-$color-text: #646D78;
-$color-border: #E3E7F0;
+
 
 .table {
      padding: 10px 12px 0 12px;
 }
 
 table {
+
      border-spacing: 1;
      border-collapse: collapse;
      background: white;
      border-radius: 4px;
      overflow: hidden;
      width: 100%;
-     margin: 0 auto;
+     margin: 95px auto;
+     
+}
 
+.sm {
+     width: 110px;
+     height: 24px;
+}
+
+.md {
+     width: 300px;
+     height: 32px;
 }
 
 th,
@@ -237,7 +269,7 @@ td {
 
 th {
      img {
-          color: $color-text;
+          color: $medium-grey;
           padding-left: 12px;
           cursor: pointer;
      }
@@ -247,45 +279,43 @@ th {
 
 thead tr {
      height: 38px;
-     background: #F7F8FC;
+     background: $grey-bg;
      font-size: 14px;
-     color: $color-text;
-     box-shadow: 1px solid $color-border;
+     color: $medium-grey;
+     box-shadow: 1px solid $light-grey2$light-grey2;
 }
 
 tbody tr {
      height: 48px;
-     border-bottom: 1px solid $color-border;
+     border-bottom: 1px solid $light-grey2$light-grey2;
 
 }
 
-td {
-     i {
-          padding-left: 8px;
-          padding-right: 8px;
-     }
-}
 
 
 .pagination {
-     position: sticky;
+     position: fixed;
      width: 100%;
      background: #FFFFFF;
      display: flex;
      flex-direction: row;
      justify-content: space-between;
+     align-items: center;
      padding: 8px 12px 12px 8px;
-     color: $color-text;
+     color: $medium-grey;
      position: fixed;
-     bottom: 15px;
+     bottom: 0;
+
+     .pagesize {
+          border-color: 1px solid $light-grey;
+          border-radius: 4px;
+          width: 52px;
+          height: 24px;
+          fill: $light-grey;
+     }
 }
 
-.pageshow {
-     color: black;
-     // width: 32px;
-     // height: 24px;
-     // border: 1px solid $color-border;
-}
+
 
 .container {
      padding-bottom: 50px;
@@ -302,36 +332,29 @@ td {
      justify-content: space-between;
      align-items: center;
      padding: 10px 13px 10px 12px;
-     box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
+     box-shadow: 2px 2px 2px 2px $light-grey2;
+
 }
 
-.create-btn {
-     color: white;
-     background: $color-btn;
-     border: none;
-     border-radius: 4px;
-     width: 100px;
-     height: 32px;
-     font-size: large;
-     cursor: pointer;
-}
 
 .search {
      padding: 12px;
-     margin-top: 40px;
-     position: relative;
+     margin-top: 36px;
+     position: fixed;
+     background: white;
+     width: 100vw;
 
      .search-btn {
           width: 240px;
           height: 32px;
           border-radius: 8px;
-          border: 1px solid $color-border;
+          border: 1px solid $light-grey2;
           background: white;
           padding-left: 34px;
           margin-left: 4px;
      }
 
-     img {
+     .icon {
           position: absolute;
           padding: 8px 10px 8px 8px;
 
@@ -340,7 +363,7 @@ td {
 }
 
 hr {
-     border: 1px solid $color-border;
+     border: 1px solid $light-grey2;
 }
 
 .check-box {
@@ -349,5 +372,24 @@ hr {
      padding-right: 17px;
      text-align: center;
 
+}
+
+.arrow {
+     cursor: pointer;
+     padding-top: 2px;
+     margin-right: 4px;
+     margin-left: 4px;
+}
+
+.pageshow {
+
+     display: inline;
+     padding: 2px 12px 4px 12px;
+     border: 1px solid $light-grey2;
+     border-radius: 4px;
+
+     label {
+          color: $dark-grey;
+     }
 }
 </style>

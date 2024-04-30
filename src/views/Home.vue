@@ -1,29 +1,8 @@
 <template>
-    <div class="home">main</div>
-    <button @click="pushByPath">
-        pushByPath
-    </button>
-    <button @click="pushByName">pushByName</button>
+    <PageIndex></PageIndex>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-
-const router = useRouter()
-
-const pushByPath = () => {
-    router.push({ path: '/setting/No5' })
-}
-
-const pushByName = () => {
-    router.push({ name: 'No5' })
-}
+import PageIndex from '../modules/main/PageIndex.vue';
 
 </script>
-<style>
-.home {
-   
-    justify-content: center;
-    padding-top: 50px;
 
-}
-</style>

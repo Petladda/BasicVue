@@ -17,14 +17,3 @@ import Sidebar from '../components/Layout/Sidebar.vue';
   
    
 </template>
-
-<style>
-.page{
-    display: flex;
-    
-    padding-top: 20px;
-}
-.view{
-    padding-left: 50px;
-}
-</style>

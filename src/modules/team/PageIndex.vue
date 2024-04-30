@@ -4,57 +4,53 @@
             <h2>Team ( {{ rawData.data.length }} )</h2>
         </div>
         <div>
-            <button class="btn-create" label="create" @click="openModalManage()"><span
-                    style=" font-size: larger; font-weight: 500;"> + </span> Create</button>
+            <Button text="Create" size="md"  @click="openModalManage()">
+                <Plus></Plus>
+            </Button>
         </div>
-       
 
+        <PageManage ref="modalManage" @createsuccess="loadPositon">
 
-            <PageManage ref="modalManage" @createsuccess="loadPositon">
+        </PageManage>
 
-            </PageManage>
-
-
-   
     </div>
     <hr>
     <div class="search">
-        <img alt="search" src="../../components/icons/search.svg">
-        <input class="search-btn" placeholder="Search...">
+        <Search class="icon"></Search>
+        <input class="search-btn" placeholder="Search..."  v-model="searchText" >
     </div>
-    <div>
+    <div class="table">
         <table>
             <thead>
                 <tr>
-                    <th>
+                    <!-- <th>
                         <input type="checkbox" name="select" class="check-box">
-                    </th>
+                    </th> -->
                     <th class="">
                         Team
-                        <a><img alt="sort" src="../../components/icons/sort.svg"></a>
+
                     </th>
-                    <th class="">Description <a><img alt="sort" src="../../components/icons/sort.svg"></a></th>
+                    <th class="description">Description</th>
                     <th class="text-manage">Manage </th>
 
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="team in rawData.data" :key="team.teamId">
-                    <td>
+                    <!-- <td>
                         <input type="checkbox" name="select" class="check-box">
-                    </td>
+                    </td> -->
                     <td class="text-team">
                         <span style="cursor: pointer; padding-left: 6px;">{{ team.name }}</span>
                     </td>
                     <td class="description">{{ team.description }} </td>
-                    <td class="manage">
-                        <a style="cursor: pointer; color: #646D78;" @click="openModalManage(team.teamId)">
-                            <img alt="edit" src="../../components/icons/editBtn.svg"></a>
-
-                        <a style="cursor: pointer; color: #646D78;" @click="deletePosition(team)">
-                            <img alt="delete" src="../../components/icons/DeleteBtn.svg"></a>
-
-
+                    <td class="text-manage">
+                        <IconButton size="md" @click="openModalManage(team.teamId)">
+                            <Edit></Edit>
+                        </IconButton>
+                        <IconButton size="md" @click="deletePosition(team)">
+                            <Bin></Bin>
+                        </IconButton>
 
                     </td>
 
@@ -67,31 +63,40 @@
 
     <div class="pagination" ref="pagination">
         <div>
-            แสดง :
-            <select @change="loadPositon" v-model="sizePage">
+            <span style="font-size: 12px;">Show: </span>
+            <select class="pagesize" @change="loadPositon" v-model="sizePage">
                 <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
             </select>
             <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
                 Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
         </div>
         <div class="pagination-wrapper">
-            <span @click="prevPage()" class="pagination-btn">
-                < </span>
-                    <span class="pageshow">{{ currentPage + 1 }} </span> /
-                    <span class="totalpage">{{ totalPages }}
-                    </span>
-                    <span @click="nextPage()" class="pagination-btn"> > </span>
+            <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
+            <div class="pageshow">
+                <label>{{ currentPage + 1 }} </label>
+            </div>
+            /
+            <span class="totalpage">{{ totalPages }}
+            </span>
+            <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
         </div>
     </div>
 
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import axios, { AxiosResponse } from "axios";
 import PageManage from './PageManage.vue'
 
 import { PageType, Response } from './interface';
-
+import IconButton from '../../components/Button/IconButton.vue';
+import Edit from '../../components/Icons/Edit.vue';
+import Bin from '../../components/Icons/Bin.vue';
+import Button from '../../components/Button/Button.vue';
+import Plus from '../../components/Icons/Plus.vue';
+import Arrowleft from '../../components/Icons/Arrowleft.vue';
+import ArrowRight from '../../components/Icons/ArrowRight.vue';
+import Search from '../../components/Icons/Search.vue';
 
 
 const client = axios.create({
@@ -105,9 +110,6 @@ const modalManage = ref<InstanceType<typeof PageManage>>(null!)
 const openModalManage = (id?: string | null) => {
     modalManage.value.openModalManage(id)
 }
-
-
-
 
 const pageList: PageType[] = [
     { id: 1, amount: 10 },
@@ -151,7 +153,9 @@ const nextPage = () => {
 const loadPositon = async () => {
     const pageSize = sizePage.value;
     const pageIndex = indexPage.value;
-    const search = searchText.value;
+    const search = {
+        text: searchText.value
+    }
     await client.post<any, AxiosResponse<Response, any>>("/team/index", { pageIndex, pageSize, search })
         .then((res) => {
             rawData.value = res.data;
@@ -161,6 +165,10 @@ const loadPositon = async () => {
 
         })
 }
+
+watch(searchText, () => {
+    loadPositon();
+})
 
 const deletePosition = (position: any) => {
     client.post("/team/delete", position)
@@ -173,14 +181,11 @@ const deletePosition = (position: any) => {
 
 
 (async () => {
-     loadPositon()
+    loadPositon()
 })()
 
 </script>
 <style lang="scss" scoped>
-$color-border: #E3E7F0;
-$color-text: #646D78;
-$color-btn: #2BB8AF;
 
 .head {
     position: sticky;
@@ -200,20 +205,9 @@ $color-btn: #2BB8AF;
 }
 
 hr {
-    border: 1px solid $color-border;
+    border: 1px solid $light-grey2;
 }
 
-.btn-create {
-    color: white;
-    background: $color-btn;
-    border: none;
-    border-radius: 4px;
-    width: 100px;
-    height: 32px;
-    font-size: large;
-    cursor: pointer;
-
-}
 
 .pagination-btn {
     cursor: pointer;
@@ -231,17 +225,33 @@ hr {
     color: #646D78;
     padding: 8px 12px 12px 8px;
     margin-top: 390px;
+
+    .pagesize {
+        border-color: 1px solid $light-grey;
+        border-radius: 4px;
+        width: 52px;
+        height: 24px;
+        fill: $light-grey;
+    }
+}
+
+.arrow {
+     cursor: pointer;
+     padding-top: 2px;
+     margin-right: 4px;
+     margin-left: 4px;
 }
 
 .pageshow {
-    // border: 1px solid darkgray;
-    // border-radius: 2px;
-    color: black;
+     
+     display: inline;
+     padding: 2px 12px 4px 12px;
+     border: 1px solid $light-grey2;
+     border-radius: 4px;
 
-}
-
-.totalpage {
-    font-size: small;
+     label{
+          color: $dark-grey;
+     }
 }
 
 table {
@@ -251,8 +261,10 @@ table {
     border-radius: 4px;
     overflow: hidden;
     width: 100%;
-    margin: 0 auto;
-
+    padding-right: 600px ;
+    margin-top: 60px;
+    border-collapse: collapse;
+    margin-left: 12px;
 }
 
 th,
@@ -261,6 +273,14 @@ td {
     text-align: start;
     font-size: 14px;
 
+    &.text-manage{
+        text-align: end;
+        padding-right: 22px;
+    }
+
+    &.description{
+        margin-bottom: 150px;
+    }
 }
 
 th {
@@ -278,13 +298,13 @@ thead tr {
     height: 38px;
     background: #F7F8FC;
     font-size: 14px;
-    color: $color-text;
-    box-shadow: 1px solid $color-border;
+    color: $medium-grey;
+    box-shadow: 1px solid $light-grey2;
 }
 
 tbody tr {
     height: 48px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid $light-grey2;
 
 }
 
@@ -308,21 +328,28 @@ td {
 
 .search {
     padding: 12px;
-    position: relative;
+    position: fixed;
+    background: white;
+    width: 100vw;
+    box-shadow: 0px 0px 1px 0px rgb(207, 207, 207);
 
     .search-btn {
         width: 240px;
         height: 32px;
         border-radius: 8px;
-        border: 1px solid $color-border;
+        border: 1px solid $light-grey2;
         background: white;
         padding-left: 34px;
         margin-left: 4px;
+
     }
 
-    
 
-    img {
+
+    .icon {
+        fill: $medium-grey;
+        width: 48px;
+        height: 30px;
         position: absolute;
         padding: 8px 10px 8px 8px;
 

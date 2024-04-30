@@ -6,7 +6,7 @@
                 <h4>Create Team</h4>
             </div>
             <div @click="closeModal">
-                <img alt="clear" src="../../components/icons/clear.svg">
+                <Close class="close-modal"></Close>
             </div>
         </div>
         <div class="form">
@@ -14,21 +14,21 @@
                 are required</label>
 
             <div>
-                <p  for="name">Team Name <span style="color: red;">*</span>
+                <p for="name">Team Name <span style="color: red;">*</span>
                 </p>
                 <input class="name" id="name" v-model="form.name" autocomplete="off" />
             </div>
             <div>
-                <p >Description</p>
+                <p>Description</p>
                 <textarea class="description" v-model="form.description"></textarea>
             </div>
 
 
         </div>
         <hr>
-        <div class="btn">
-            <button class="cancle-btn" @click="closeModal">Cancel</button>
-            <button class="save-btn" @click="onSave">Save</button>
+        <div class="modal-btn">
+            <ButtonOutline class="cancle-btn" text="Cancle" size="md" @click="closeModal"></ButtonOutline>
+            <Button text="Save" size="md" @click="onSave"></Button>
         </div>
 
 
@@ -63,6 +63,9 @@
 import { computed, reactive, ref } from 'vue';
 import { Update } from './interface';
 import axios, { AxiosResponse } from 'axios';
+import Close from '../../components/Icons/Close.vue';
+import Button from '../../components/Button/Button.vue';
+import ButtonOutline from '../../components/Button/ButtonOutline.vue';
 
 const emit = defineEmits<{
     (e: 'createsuccess',): void
@@ -97,19 +100,19 @@ const handleCreateTeam = async () => {
 
 const handleUpdateForm = async () => {
     await client.post("/team/update", form)
-    emit('createsuccess')   
+    emit('createsuccess')
 }
 
 const onSave = () => {
     if (isCreateMode.value) {
         handleCreateTeam()
-        
+
     } else {
         handleUpdateForm()
-        
+
     }
-    
-   
+
+
     visible.value = false;
 }
 
@@ -182,9 +185,9 @@ $color-border: #E3E7F0;
 .modal-container {
 
     position: absolute;
-    top: 40vh;
-    left: 40vw;
-    transform: translate(-50%, -50%);
+    top: 50vh;
+    left: 55vw;
+    transform: translate(-100%, -65%);
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -199,6 +202,17 @@ $color-border: #E3E7F0;
         align-items: center;
         margin-bottom: 10px;
         background: #F7F8FC;
+    }
+
+    h4 {
+        font-size: 18px;
+        font-weight: 500;
+        color: $dark-grey;
+    }
+
+    .close-modal {
+        cursor: pointer;
+        fill: $medium-grey;
     }
 
     .form {
@@ -217,9 +231,6 @@ $color-border: #E3E7F0;
         padding-bottom: 12px;
     }
 
-    img {
-        cursor: pointer;
-    }
 
     .name {
         padding-top: 4px;
@@ -245,36 +256,17 @@ hr {
     border: 1px solid #E3E7F0;
 }
 
-.btn {
+.modal-btn {
     display: flex;
+    flex-direction: row;
     justify-content: end;
-    padding-right: 16px;
-    padding-top: 11px;
+    align-items: center;
+    padding-top: 10px;
     padding-bottom: 11px;
+    margin-right: 16px;
 
-    .cancle-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #E3E7F0;
-        background: #FFFFFF;
-        cursor: pointer;
+    .cancle-btn{
         margin-right: 12px;
-    }
-
-    .save-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #E3E7F0;
-        background: #5119F0;
-        color: #FFFFFF;
-        cursor: pointer;
-
-    }
-
-    .save-btn :hover {
-        background: #454957;
     }
 }
 </style>

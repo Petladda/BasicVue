@@ -8,22 +8,19 @@
             <span class="text-header">View Employee </span>
 
         </div>
-        <div class="header-btn">
-            <div style="padding-right: 15px;">
-                <button class="cancle-btn" severity="secondary"
-                    @click="$router.push({ name: 'employee' })">Cancle</button>
-            </div>
-            <div>
-                <button class="save-btn" severity="info">Save</button>
-            </div>
-        </div>
 
     </div>
     <hr>
     <div class="card-view">
         <div class="card-info">
             <div class="">
-                <h3 style="padding: 26px 0 0 50px; ">Basic Info</h3>
+                <div class="header-info">
+                    <div class="edit">
+                        <PersonalInfo class="icon"></PersonalInfo>
+                    </div>
+
+                    <span class="text-hederinfo">Basic Info</span>
+                </div>
                 <div class="info">
                     <div>
                         <label>Firstname</label><span style="color: red;"> *</span>
@@ -55,7 +52,7 @@
                 <hr>
                 <div class="phone">
 
-                    <i class="pi pi-phone" style="color: gray; font-size: 0.8rem;"></i>
+                    <Call class="call"></Call>
                     <label> Phone</label>
                     <div v-for="phone in rawData.phones">
                         <p class="number">{{ getPhoneNumber(phone.phoneId) }}</p>
@@ -73,6 +70,8 @@ import axios, { AxiosResponse } from 'axios';
 import { Employee, DropDown } from './interface';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
+import PersonalInfo from '../../components/Icons/PersonalInfo.vue';
+import Call from '../../components/Icons/Call.vue';
 
 const route = useRoute()
 const client = axios.create({
@@ -149,7 +148,7 @@ $text-white: #FFFFFF;
 
 
 label {
-    color: #454957;
+    color: $medium-grey;
     font-size: small;
 
 }
@@ -166,7 +165,7 @@ label {
     flex-direction: row;
     justify-content: space-between;
     padding-right: 12px;
-    
+
     .cancle-btn {
         width: 100px;
         height: 32px;
@@ -184,70 +183,110 @@ label {
         background: #5119F0;
         color: $text-white;
         cursor: pointer;
-        
+
     }
 }
 
 hr {
     border: 1px solid $color-border;
     padding-left: 20px;
-    // box-shadow: 0.5px 0.8px 0.8px 0.8px rgb(207, 207, 207);
 }
 
 .header-bar {
     position: fixed;
     width: 100%;
+    height: 48px;
     background: #FFFFFF;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
     top: 48px;
     padding-bottom: 8px;
-    padding-top: 8px;
+    padding-top: 10px;
     padding-left: 12px;
     border-bottom: 1px solid azure;
     font-weight: 700;
     font-size: 14px;
-    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
+    box-shadow: 1px 1px 6px 0px #4549571F;
+
 }
 
 .card-info {
-    margin-top: 140px;
     margin-bottom: 40px;
     border-radius: 8px;
     background: white;
-    width: 609px;
-    height: 663px;
+    width: 606px;
+    height: auto;
     padding: 15px 21px 15px 21px;
-    box-shadow: 1px 2px 2px 2px rgb(209, 209, 209);
+    box-shadow: 1px 1px 6px 0px #4549571F;
+
 }
 
 .card-view {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     background: #F7F8FC;
 }
 
 .info {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 10px;
-    padding: 20px 0 10px 0;
+    gap: 12px;
+    padding: 4px 0 12px 0;
 
     p {
         font-size: 14px;
     }
 }
 
-.number {
-    // padding-left: 10px;
-    padding-top: 10px;
-}
+
 
 .phone {
-    padding-top: 12px;
+    padding-top: 9px;
+
+    .call {
+        margin-top: 14px;
+        width: 14px;
+        height: 12px;
+        fill: $medium-grey;
+    }
+
+    .number {
+        // padding-left: 10px;
+        padding-top: 12px;
+    }
+}
+
+.header-info {
+    display: flex;
+    // align-items: center;
+    margin-bottom: 15px;
+
+    .text-hederinfo {
+        font-size: large;
+        font-weight: bold;
+        padding: 9px 0px 2px 9px;
+
+
+    }
+
+    .edit {
+
+        background: $primary-light;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        position: relative;
+        padding: 8px;
+
+        .icon {
+            fill: #5119F0;
+            width: 20px;
+            height: 20px;
+            align-items: center;
+            position: absolute;
+
+        }
+    }
+
 }
 </style>

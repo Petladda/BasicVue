@@ -1,14 +1,3 @@
-<script setup lang="ts">
-import { ref, } from 'vue'
-
-const firstname = ref('')
-const lastname = ref('')
-const displayValue = ref('');
-
-const showInputValue = () => {
-    displayValue.value = `${firstname.value} ${lastname.value}`;
-};
-</script>
 
 <template>
     <form @click="showInputValue">
@@ -20,3 +9,15 @@ const showInputValue = () => {
         <p>{{ displayValue.toUpperCase() }}</p>
     </form>
 </template>
+
+<script setup lang="ts">
+import { ref, } from 'vue'
+
+const firstname = ref('')
+const lastname = ref('')
+const displayValue = ref('');
+
+const showInputValue = () => {
+    displayValue.value = `${firstname.value} ${lastname.value}`;
+};
+</script>

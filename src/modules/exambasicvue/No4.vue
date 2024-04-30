@@ -1,3 +1,21 @@
+
+<template>
+   
+    <p>{{ count }} </p> 
+    <p>Team</p>
+    <select v-model="selectedTeam" >
+        <option v-for="team in teamList" :key="team.id" :value="team.id">
+            {{ team.name }}
+        </option>
+    </select>
+    <p>Position</p>
+    <select v-model="selectedPosition" >
+        <option  v-for="position in positionList" :key="position.id" :value="position.id"> 
+            {{ position.name }}
+        </option>
+    </select>
+
+</template>
 <script setup lang="ts">
     import { ref } from 'vue'
 
@@ -24,20 +42,3 @@
   const selectedTeam = ref(teamList[0].id)
   const selectedPosition = ref(positionList[0].id)
 </script>
-<template>
-   
-    <p>{{ count }} </p> 
-    <p>Team</p>
-    <select v-model="selectedTeam" >
-        <option v-for="team in teamList" :key="team.id" :value="team.id">
-            {{ team.name }}
-        </option>
-    </select>
-    <p>Position</p>
-    <select v-model="selectedPosition" >
-        <option  v-for="position in positionList" :key="position.id" :value="position.id"> 
-            {{ position.name }}
-        </option>
-    </select>
-
-</template>

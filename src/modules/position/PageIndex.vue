@@ -5,45 +5,39 @@
                 <h2>Position( {{ rawData.data.length }} )</h2>
             </div>
             <div>
-                
-                <button class="btn-create" @click="openModalManage()"><span> + </span> Create</button>
+                <Button text="Create" size="md" :disabled="true" @click="openModalManage()">
+                    <Plus></Plus>
+                </Button>
             </div>
-            
+
 
         </div>
         <ModalManage ref="modalManage" @createsuccess="loadPositon()">
 
         </ModalManage>
-       
+
         <div class="search">
-            <img alt="search" src="../../components/icons/search.svg">
-            <input class="search-btn" placeholder="Search..." >
+            <Search class="icon"></Search>
+            <input class="search-btn" placeholder="Search..." v-model="searchText">
         </div>
         <div>
             <table>
                 <thead>
                     <tr>
-                        <th>
+                        <!-- <th>
                             <input type="checkbox" name="select" class="check-box">
-                        </th>
-                        <th>
-
-                            <span class="text-position">
-                                Position
-                            </span>
-
-                            <a><img alt="sort" src="../../components/icons/sort.svg"></a>
-                        </th>
-                        <th>Description <a><img alt="sort" src="../../components/icons/sort.svg"></a></th>
+                        </th> -->
+                        <th> Position </th>
+                        <th>Description</th>
                         <th>Manage</th>
                     </tr>
 
                 </thead>
                 <tbody>
                     <tr v-for="position in rawData.data" :key="position.positionId">
-                        <td>
+                        <!-- <td>
                             <input type="checkbox" name="select" class="check-box">
-                        </td>
+                        </td> -->
                         <td class="text-position">
 
 
@@ -51,11 +45,13 @@
                         </td>
                         <td class="description">{{ position.description }} </td>
                         <td class="manage">
-                            <a style="cursor: pointer; color: #646D78;" @click="openModalManage(position.positionId)">
-                                <img alt="edit" src="../../components/icons/editBtn.svg"></a>
+                            <IconButton size="md" @click="openModalManage(position.positionId)">
+                                <Edit></Edit>
+                            </IconButton>
 
-                            <a style="cursor: pointer; color: #646D78;" @click="deletePosition(position)">
-                                <img alt="delete" src="../../components/icons/DeleteBtn.svg"></a>
+                            <IconButton size="md" @click="deletePosition(position)">
+                                <Bin></Bin>
+                            </IconButton>
 
                         </td>
 
@@ -68,31 +64,41 @@
 
         <div class="pagination" ref="pagination">
             <div>
-                แสดง :
-                <select @change="loadPositon" v-model="sizePage">
+                <span style="font-size: 12px;">Show: </span>
+                <select class="pagesize" @change="loadPositon" v-model="sizePage">
                     <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
                 </select>
                 <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
                     Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
             </div>
             <div class="pagination-wrapper">
-                <span @click="prevPage()" class="pagination-btn">
-                    < </span>
-                        <span class="pageshow">{{ currentPage + 1 }} </span> /
-                        <span class="totalpage">{{ totalPages }}
-                        </span>
-                        <span @click="nextPage()" class="pagination-btn"> > </span>
+                <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
+                <div class="pageshow">
+                    <label>{{ currentPage + 1 }} </label>
+                </div>
+                /
+                <span class="totalpage">{{ totalPages }}
+                </span>
+                <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
             </div>
         </div>
 
     </main>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import axios, { AxiosResponse } from "axios";
 import ModalManage from './ModalManage.vue'
 
 import { PageType, Response } from './interface';
+import Button from '../../components/Button/Button.vue';
+import Plus from '../../components/Icons/Plus.vue';
+import Search from '../../components/Icons/Search.vue';
+import Edit from '../../components/Icons/Edit.vue';
+import Bin from '../../components/Icons/Bin.vue';
+import IconButton from '../../components/Button/IconButton.vue';
+import Arrowleft from '../../components/Icons/Arrowleft.vue';
+import ArrowRight from '../../components/Icons/ArrowRight.vue';
 
 
 
@@ -153,7 +159,9 @@ const nextPage = () => {
 const loadPositon = async () => {
     const pageSize = sizePage.value;
     const pageIndex = indexPage.value;
-    const search = searchText.value;
+    const search = {
+        text: searchText.value
+    }
     await client.post<any, AxiosResponse<Response, any>>("/position/index", { pageIndex, pageSize, search })
         .then((res) => {
             rawData.value = res.data;
@@ -163,6 +171,10 @@ const loadPositon = async () => {
 
         })
 }
+
+watch(searchText, () => {
+    loadPositon();
+})
 
 const deletePosition = (position: any) => {
     client.post("/position/delete", position)
@@ -241,27 +253,52 @@ $color-border: #E3E7F0;
     padding-left: 12px;
     border: none;
     padding-top: 8px;
-    color: $color-text;
+    color: $medium-grey;
     margin-top: 390px;
+
+    .pagesize {
+        border-color: 1px solid $light-grey;
+        border-radius: 4px;
+        width: 52px;
+        height: 24px;
+        fill: $light-grey;
+    }
 }
 
-// .pageshow {
-//     // border: 1px solid darkgray;
-//     // border-radius: 2px;
+.arrow {
+    cursor: pointer;
+    padding-top: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
 
-// }
+.pageshow {
+
+    display: inline;
+    padding: 2px 12px 4px 12px;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+
+    label {
+        color: $dark-grey;
+    }
+}
 
 .totalpage {
     font-size: small;
 }
 
 table {
+
     border-spacing: 1;
     border-collapse: collapse;
     background: white;
     border-radius: 4px;
     overflow: hidden;
     width: 100%;
+    margin-top: 60px;
+    border-collapse: collapse;
+
 }
 
 th,
@@ -269,7 +306,6 @@ td {
     padding-left: 10px;
     text-align: start;
     font-size: 14px;
-
 }
 
 
@@ -319,7 +355,11 @@ hr {
 
 .search {
     padding: 12px;
-    position: relative;
+    position: fixed;
+    background: white;
+    width: 100vw;
+    box-shadow: 0px 0px 1px 0px rgb(207, 207, 207);
+
     .search-btn {
         width: 240px;
         height: 32px;
@@ -328,11 +368,15 @@ hr {
         background: white;
         padding-left: 34px;
         margin-left: 4px;
+
     }
 
-   
 
-    img {
+
+    .icon {
+        fill: $medium-grey;
+        width: 48px;
+        height: 30px;
         position: absolute;
         padding: 8px 10px 8px 8px;
 

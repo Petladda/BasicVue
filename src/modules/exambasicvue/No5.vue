@@ -1,8 +1,97 @@
+<template>
+    <main class="employee">
+
+        <div>
+            <button class="cart-btn" @click="show = !show">Show Cards</button>
+        </div>
+        <CardEmployee v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition">
+        </CardEmployee>
+
+        <h1>Employee ({{ employeefilter.length }})</h1>
+
+        <form class="formsearch">
+            <div class="team">
+                <p>Team</p>
+                <select v-model="selectedTeam" style=" cursor: pointer;">
+
+                    <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
+                        {{ team.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="position">
+                <p>Position</p>
+                <select v-model="selectedPosition" style=" cursor: pointer;">
+                    <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
+                        {{ position.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="search">
+                <p>Search</p>
+
+                <input v-model="searchText" @input="filteredEmployees">
+                <button @click="resetValue">reset</button>
+            </div>
+
+        </form>
+        <hr>
+        <div class="display">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Team</th>
+                            <th>Position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="employee in updatePage" :key="employee.id">
+                            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.gender }}</td>
+                            <td>{{ getTeam(employee.team_id) }}</td>
+                            <td>{{ getPosition(employee.position_id) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <div>
+                        <span style="font-size: 12px;">Show: </span>
+                        <select class="pagesize" v-model="pageSize">
+                            <option v-for="page in pageList " :key="page.id" :value="page.amount">
+                                {{ page.amount }}
+                            </option>
+                        </select>
+                        <span style="padding-left: 4px; font-size: 12px;">หน้า {{ currentPage + 1 }} จาก {{ totalPages
+                            }}</span>
+                    </div>
+                    <div class="pagination-wrapper">
+                        <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
+                        <div class="pageshow">
+                            <label>{{ currentPage + 1 }} </label>
+                        </div>
+                        /
+                        <span class="totalpage">{{ totalPages }}</span>
+                        <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </main>
+
+</template>
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-
-
-import CardEmployee from '../../components/Card/CardEmployee.vue';
+import Arrowleft from '../../components/Icons/Arrowleft.vue';
+import ArrowRight from '../../components/Icons/ArrowRight.vue';
+import CardEmployee from '../employee/CardEmployee.vue';
 
 
 interface Type<T, U = string> {
@@ -336,97 +425,11 @@ const show = ref(false)
 
 
 </script>
-<template>
-    <main class="employee">
 
-        <div>
-            <button class="cart-btn" @click="show = !show">Show Cards</button>
-        </div>
-        <CardEmployee v-if="show" :employee="employeeSelect" :getTeam="getTeam" :getPosition="getPosition">
-        </CardEmployee>
-
-        <h1>Employee ({{ employeefilter.length }})</h1>
-
-        <form class="formsearch">
-            <div class="team">
-                <p>Team</p>
-                <select v-model="selectedTeam" style=" cursor: pointer;">
-
-                    <option v-for="team in teamListWithAll" :key="team.id" :value="team.id">
-                        {{ team.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="position">
-                <p>Position</p>
-                <select v-model="selectedPosition" style=" cursor: pointer;">
-                    <option v-for="position in positionListWithAll" :key="position.id" :value="position.id">
-                        {{ position.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="search">
-                <p>Search</p>
-
-                <input v-model="searchText" @input="filteredEmployees">
-                <button @click="resetValue">reset</button>
-            </div>
-
-        </form>
-        <hr>
-        <div class="display">
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Gender</th>
-                            <th>Team</th>
-                            <th>Position</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="employee in updatePage" :key="employee.id">
-                            <td>{{ employee.first_name }} {{ employee.last_name }}</td>
-                            <td>{{ employee.email }}</td>
-                            <td>{{ employee.gender }}</td>
-                            <td>{{ getTeam(employee.team_id) }}</td>
-                            <td>{{ getPosition(employee.position_id) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="pagination">
-                    <div>
-                        แสดง :
-                        <select v-model="pageSize">
-                            <option v-for="page in pageList " :key="page.id" :value="page.amount">
-                                {{ page.amount }}
-                            </option>
-                        </select>
-                        <span style="padding-left: 4px; font-size: small;">หน้า {{ currentPage + 1 }} จาก {{ totalPages
-                            }}</span>
-                    </div>
-                    <div class="pagination-wrapper">
-                        <span @click="prevPage()" class="pagination-btn">
-                            < </span>
-                                <span class="pageshow">{{ currentPage + 1 }}</span> /
-                                <span class="totalpage">{{ totalPages }}</span>
-                                <span @click="nextPage()" class="pagination-btn"> > </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-    </main>
-
-</template>
 <style lang="scss" scoped>
 $color-btn: #2BB8AF;
 $color-text: #646D78;
-$color-border: #E3E7F0;
+
 
 .formsearch {
     display: flex;
@@ -442,7 +445,7 @@ $color-border: #E3E7F0;
         margin-top: 2px;
         width: 200px;
         height: 30px;
-        border: 1px solid $color-border;
+        border: 1px solid $light-grey2$light-grey2;
         border-radius: 4px;
         box-shadow: 4px;
     }
@@ -455,7 +458,7 @@ $color-border: #E3E7F0;
         margin-top: 2px;
         width: 200px;
         height: 30px;
-        border: 1px solid $color-border;
+        border: 1px solid $light-grey2$light-grey2;
         border-radius: 4px;
         box-shadow: 4px;
     }
@@ -469,16 +472,16 @@ $color-border: #E3E7F0;
         height: 30px;
         color: azure;
         cursor: pointer;
-        border: 1px solid $color-border;
+        border: 1px solid $light-grey2;
         border-radius: 4px;
 
     }
-   
+
     input {
         margin-top: 2px;
         width: 200px;
         height: 30px;
-        border: 1px solid $color-border;
+        border: 1px solid $light-grey2;
         border-radius: 4px;
         box-shadow: 4px;
     }
@@ -487,7 +490,7 @@ $color-border: #E3E7F0;
 .display {
     padding-left: 10px;
     padding-top: 10px;
-    padding-bottom: 20px;
+
 }
 
 .table-container {
@@ -503,7 +506,7 @@ table {
     overflow: hidden;
     width: 100%;
     margin-bottom: 120px;
-    
+
 }
 
 th,
@@ -529,12 +532,12 @@ thead tr {
     background: #F7F8FC;
     font-size: 14px;
     color: $color-text;
-    box-shadow: 1px solid $color-border;
+    box-shadow: 1px solid $light-grey2;
 }
 
 tbody tr {
     height: 48px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid $light-grey2;
 
 }
 
@@ -546,11 +549,27 @@ td {
 }
 
 hr {
-    border: 1px solid $color-border;
+    border: 1px solid $light-grey2;
 }
 
-.pagination-btn {
+.arrow {
     cursor: pointer;
+    padding-top: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+    fill: $light-grey;
+}
+
+.pageshow {
+
+    display: inline;
+    padding: 2px 12px 4px 12px;
+    border: 1px solid $light-grey2;
+    border-radius: 4px;
+
+    label {
+        color: $dark-grey;
+    }
 }
 
 .pagination {
@@ -566,14 +585,18 @@ hr {
     padding-left: 12px;
     border: none;
     padding-top: 8px;
+    color: $medium-grey;
+
+    .pagesize {
+        border-color: 1px solid $light-grey;
+        border-radius: 4px;
+        width: 52px;
+        height: 24px;
+    }
 
 }
 
-.pageshow {
-    border: 1px solid darkgray;
-    border-radius: 2px;
 
-}
 
 .totalpage {
     font-size: small;
