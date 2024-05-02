@@ -10,16 +10,16 @@
             </div>
         </div>
         <div class="form">
-            <label class="p-text-secondary  block mb-5">Fields marked with an <span style="color: red;">*</span>
+            <label class="">Fields marked with an <span style="color: red;">*</span>
                 are required</label>
 
             <div>
-                <p class="p-text-secondary" for="name">Position Name <span style="color: red;">*</span>
+                <p class="" for="name">Position Name <span style="color: red;">*</span>
                 </p>
                 <input class="name" id="name" v-model="form.name" autocomplete="off" />
             </div>
             <div>
-                <p class="p-text-secondary">Description</p>
+                <p class="">Description</p>
                 <textarea class="description" id="description" v-model="form.description"></textarea>
             </div>
 
@@ -182,12 +182,12 @@ $color-border: #E3E7F0;
 
 .modal-container {
     position: absolute;
-    top: 50vh;
-    left: 55vw;
+    top: 300px;
+    left: 40vw;
     transform: translate(-50%, -50%);
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 10px 0px #272E393D;
     z-index: 9999;
     width: 480px;
     height: 358px;
@@ -216,6 +216,7 @@ $color-border: #E3E7F0;
 
     .form {
         padding: 12px 16px 64px 16px;
+        color: $medium-grey;
     }
 
     p {

@@ -2,43 +2,47 @@
     <main>
         <div class="head">
             <div>
-                <h2>Position( {{ rawData.data.length }} )</h2>
+                <h2>Position <span class="position-lenght">({{ rawData.data.length }})</span></h2>
             </div>
             <div>
-                <Button text="Create" size="md" :disabled="true" @click="openModalManage()">
+                <Button text="Create" :disabled="true" size="md" @click="openModalManage()">
                     <Plus></Plus>
                 </Button>
             </div>
+            <ModalManage ref="modalManage" @createsuccess="loadPositon()">
 
+            </ModalManage>
 
         </div>
-        <ModalManage ref="modalManage" @createsuccess="loadPositon()">
 
-        </ModalManage>
-
+        <hr>
         <div class="search">
             <Search class="icon"></Search>
-            <input class="search-btn" placeholder="Search..." v-model="searchText">
+            <input class="search-btn" placeholder="Position Name" v-model="searchText">
         </div>
-        <div>
+        <div class="table">
             <table>
                 <thead>
                     <tr>
                         <!-- <th>
                             <input type="checkbox" name="select" class="check-box">
                         </th> -->
-                        <th> Position </th>
+                        <th class="text-position">
+                            <p>Position</p>
+                        </th>
                         <th>Description</th>
-                        <th>Manage</th>
+                        <th class="manage">Manage</th>
                     </tr>
 
                 </thead>
+
                 <tbody>
+
                     <tr v-for="position in rawData.data" :key="position.positionId">
                         <!-- <td>
                             <input type="checkbox" name="select" class="check-box">
                         </td> -->
-                        <td class="text-position">
+                        <td class="">
 
 
                             <span style="cursor: pointer; padding-left: 6px;">{{ position.name }}</span>
@@ -69,7 +73,7 @@
                     <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
                 </select>
                 <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
-                    Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
+                    Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} of {{ rawData.rowCount }}</span>
             </div>
             <div class="pagination-wrapper">
                 <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
@@ -193,38 +197,31 @@ const deletePosition = (position: any) => {
 </script>
 <style lang="scss" scoped>
 $color-text: #646D78;
-$color-btn: #2BB8AF;
 $color-border: #E3E7F0;
 
 .head {
-    position: sticky;
-    width: 100%;
+    position: fixed;
+    width: calc(100% - 215px);
     background: #FFFFFF;
-    top: 48px;
+    top: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 14px 11px 0;
-    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
+    padding: 12px 14px 11px 12px;
+    box-shadow: 1px 2px 2px 1px $light-grey2;
 
     h2 {
-        padding-left: 12px
+        padding-left: 12px;
+        color:$dark-grey;
+        font-size: 20px;
     }
 
-    .btn-create {
-        color: white;
-        background: $color-btn;
-        border: none;
-        border-radius: 4px;
-        width: 100px;
-        height: 32px;
-        font-size: large;
-        cursor: pointer;
-        text-align: center;
-
-
+    .position-lenght {
+        color: $medium-grey;
+        
     }
+
 }
 
 .check-box {
@@ -272,6 +269,8 @@ $color-border: #E3E7F0;
     margin-left: 4px;
 }
 
+
+
 .pageshow {
 
     display: inline;
@@ -288,6 +287,11 @@ $color-border: #E3E7F0;
     font-size: small;
 }
 
+.table {
+    margin-top: 120px;
+    padding: 0px 12px 0 12px;
+}
+
 table {
 
     border-spacing: 1;
@@ -296,8 +300,7 @@ table {
     border-radius: 4px;
     overflow: hidden;
     width: 100%;
-    margin-top: 60px;
-    border-collapse: collapse;
+    margin-top: 57px;
 
 }
 
@@ -306,11 +309,18 @@ td {
     padding-left: 10px;
     text-align: start;
     font-size: 14px;
+
+    &.manage {
+        text-align: end;
+        padding-right: 35px;
+    }
 }
 
 
 th {
-    // padding-right: 28px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 3px 2px -2px $light-grey2;
 
     img {
         padding-left: 380px;
@@ -318,6 +328,11 @@ th {
 
     }
 
+    .text-position {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
 }
 
@@ -349,16 +364,17 @@ tbody tr {
 }
 
 
+
 hr {
     border: 1px solid #E3E7F0;
 }
 
 .search {
-    padding: 12px;
+    padding: 13px;
     position: fixed;
     background: white;
     width: 100vw;
-    box-shadow: 0px 0px 1px 0px rgb(207, 207, 207);
+    top: 106px;
 
     .search-btn {
         width: 240px;
@@ -370,8 +386,6 @@ hr {
         margin-left: 4px;
 
     }
-
-
 
     .icon {
         fill: $medium-grey;

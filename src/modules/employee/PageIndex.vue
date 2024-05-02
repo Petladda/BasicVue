@@ -3,7 +3,7 @@
           <div class="container">
                <div class="header">
                     <div>
-                         <h3>Employee ({{ rawData.data.length }})</h3>
+                         <h3>Employee <span class="employee-lenght"> ({{ rawData.data.length }}) </span> </h3>
                     </div>
                     <div>
                          <Button text="Create" size='md' @click="$router.push({ name: 'create' })">
@@ -14,10 +14,34 @@
                     </div>
                </div>
                <hr>
-               <div class="search">
-                    <Search class="icon"></Search>
-                    <input class="search-btn" placeholder="Search..." v-model="searchQuery">
+               <div >
+                    <div class="search">
+                         <Search class="icon"></Search>
+                         <input class="search-btn" placeholder="Search" v-model="searchQuery">
+                    </div>
+                    <!-- <div class="team">
+                         <label>Team</label><span style="color: red;"> *</span>
+                         <select class="select-option" v-model="teamQuery">
+                              <option v-for="team in teamDropDown" :key="team.value" :value="team.value">
+                                   {{ team.text }}
+                              </option>
+                         </select>
+                    </div>
+                    <div class="position">
+                         <div>
+                              <label>Position</label><span style="color: red;"> *</span>
+                              <select class="select-option" v-model="positionQuery">
+                                   <option v-for="position in positionDropdown " :key="position.value"
+                                        :value="position.value">
+                                        {{ position.text }}
+                                   </option>
+                              </select>
+
+                         </div>
+                    </div> -->
+
                </div>
+
                <div class="table">
                     <table>
                          <thead>
@@ -35,7 +59,7 @@
                                    <th class="">DateOfBirth </th>
                                    <th class="">Position </th>
                                    <th class="">Team </th>
-                                   <th class="">Manage </th>
+                                   <th class="manage">Manage </th>
                               </tr>
                          </thead>
                          <tbody>
@@ -44,7 +68,9 @@
                                         <input type="checkbox" name="select" class="check-box">
                                    </td> -->
                                    <td>
-                                        <Link :text="employee.firstname"  @click="$router.push({ name: 'view', params: { id: employee.employeeId } })"></Link>
+                                        <Link :text="employee.firstname"
+                                             @click="$router.push({ name: 'view', params: { id: employee.employeeId } })">
+                                        </Link>
                                         <!-- <span 
                                              style="cursor: pointer; padding-left: 6px;">{{ employee.firstname }}</span> -->
                                    </td>
@@ -53,13 +79,13 @@
                                    <td class="">{{ employee.dateOfBirth }}</td>
                                    <td class="">{{ getPositionName(employee.positionId) }}</td>
                                    <td class="">{{ getTeamName(employee.teamId) }}</td>
-                                   <td>
-                                        <IconButton size="sm"
+                                   <td class="manage">
+                                        <IconButton size="md"
                                              @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
                                              <Edit></Edit>
                                         </IconButton>
 
-                                        <IconButton size="sm" @click="deleteEmployee(employee.employeeId)">
+                                        <IconButton size="md" @click="deleteEmployee(employee.employeeId)">
                                              <Bin></Bin>
                                         </IconButton>
 
@@ -115,6 +141,8 @@ import ArrowRight from '../../components/Icons/ArrowRight.vue';
 import Link from '../../components/Link/Link.vue'
 
 const searchQuery = ref<string>('')
+const teamQuery = ref<string>('')
+const positionQuery = ref<string>('')
 
 const client = axios.create({
      baseURL: "http://localhost:3000"
@@ -131,8 +159,8 @@ const pageLoad = reactive<Index>({
      pageSize: pageList[0].amount,
      search: {
           text: searchQuery.value,
-          teamId: '',
-          positionId: '',
+          teamId: teamQuery.value,
+          positionId: positionQuery.value,
 
      }
 })
@@ -171,19 +199,19 @@ const loadEmployee = async () => {
           pageIndex: pageLoad.pageIndex,
           pageSize: pageLoad.pageSize,
           search: {
-            text: searchQuery.value,
-            teamId: '',
-            positionId: '',
-        }
+               text: searchQuery.value,
+               teamId: teamQuery.value,
+               positionId: positionQuery.value,
+          }
      })
      await client.post<any, AxiosResponse<Response, any>>("/employee/index", pageSelect)
           .then((res) => {
                rawData.value = res.data;
-               // console.log("loademploy", res);
+               
           })
 }
 
-watch(searchQuery, () => {
+watch([searchQuery, teamQuery,positionQuery], () => {
      loadEmployee();
 })
 
@@ -191,7 +219,6 @@ watch(searchQuery, () => {
 const getpositionDropdown = async () => {
      await client.get<any, AxiosResponse<DropDown[], any>>("/position/getPositionDropdown")
           .then((res) => {
-               // console.log("dropdownPosition",res);
                positionDropdown.value = res.data
                loadEmployee()
           })
@@ -200,7 +227,6 @@ const getpositionDropdown = async () => {
 const getTeamDropDown = async () => {
      await client.get<any, AxiosResponse<DropDown[], any>>("/team/getTeamDropdown")
           .then((res) => {
-               // console.log("teamdropdown",res);
                teamDropDown.value = res.data
                loadEmployee()
           })
@@ -231,8 +257,6 @@ const deleteEmployee = async (employeeId: string) => {
 })()
 </script>
 <style lang="scss" scoped>
-
-
 .table {
      padding: 10px 12px 0 12px;
 }
@@ -246,7 +270,7 @@ table {
      overflow: hidden;
      width: 100%;
      margin: 95px auto;
-     
+
 }
 
 .sm {
@@ -265,9 +289,14 @@ td {
      text-align: start;
      font-size: 14px;
 
+
 }
 
 th {
+     font-size: 12px;
+     font-weight: 700;
+     box-shadow: 0 3px 2px -2px $light-grey2;
+
      img {
           color: $medium-grey;
           padding-left: 12px;
@@ -282,12 +311,12 @@ thead tr {
      background: $grey-bg;
      font-size: 14px;
      color: $medium-grey;
-     box-shadow: 1px solid $light-grey2$light-grey2;
+     box-shadow: 1px solid $light-grey2;
 }
 
 tbody tr {
      height: 48px;
-     border-bottom: 1px solid $light-grey2$light-grey2;
+     border-bottom: 1px solid $light-grey2;
 
 }
 
@@ -332,7 +361,15 @@ tbody tr {
      justify-content: space-between;
      align-items: center;
      padding: 10px 13px 10px 12px;
-     box-shadow: 2px 2px 2px 2px $light-grey2;
+     box-shadow: 1px 2px 2px 1px $light-grey2;
+
+     .employee-lenght {
+          color: $medium-grey;
+     }
+
+     h3{
+          color:$dark-grey;
+     }
 
 }
 
@@ -355,11 +392,13 @@ tbody tr {
      }
 
      .icon {
+          fill: $medium-grey;
+          width: 48px;
+          height: 30px;
           position: absolute;
           padding: 8px 10px 8px 8px;
 
      }
-
 }
 
 hr {

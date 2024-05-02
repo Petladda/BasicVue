@@ -14,7 +14,7 @@
                 are required</label>
 
             <div>
-                <p for="name">Team Name <span style="color: red;">*</span>
+                <p for="name" class="">Team Name <span style="color: red;">*</span>
                 </p>
                 <input class="name" id="name" v-model="form.name" autocomplete="off" />
             </div>
@@ -185,12 +185,12 @@ $color-border: #E3E7F0;
 .modal-container {
 
     position: absolute;
-    top: 50vh;
+    top: 355px;
     left: 55vw;
     transform: translate(-100%, -65%);
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; 
+    box-shadow: 3px 3px 10px 0px #272E393D;
     z-index: 9999;
     width: 480px;
     height: 358px;
@@ -217,6 +217,7 @@ $color-border: #E3E7F0;
 
     .form {
         padding: 12px 16px 64px 16px;
+        color: $medium-grey;
     }
 
     p {

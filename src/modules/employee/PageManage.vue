@@ -340,7 +340,7 @@ hr {
     align-items: center;
     height: 100vh;
     background: #F7F8FC;
-    margin-top: 50px;
+    
 }
 
 .info {

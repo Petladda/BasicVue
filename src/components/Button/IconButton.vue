@@ -22,12 +22,13 @@ withDefaults(
     fill: $medium-grey;
     margin-left: 6px;
     cursor: pointer;
+    padding-top: 3px;
     border: none;
     background: none;
    
 
-    :hover {
-        fill: $primary;
+    &:hover {
+        color: $primary;
         background: $primary-light;
         border-radius: 48px;
         
@@ -52,9 +53,17 @@ withDefaults(
 .disabled{
     fill: $light-grey;
     margin-left: 6px;
-    cursor: pointer;
+    cursor: not-allowed;
     border: none;
     background: none;
     
+    &:hover {
+        color: $light-grey;
+        background: none;
+        border-radius: 48px;
+        
+    }
 }
+
+
 </style>

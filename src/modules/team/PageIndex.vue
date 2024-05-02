@@ -1,10 +1,10 @@
 <template>
     <div class="head">
         <div>
-            <h2>Team ( {{ rawData.data.length }} )</h2>
+            <h2>Team <span class="team-lenght">({{ rawData.data.length }})</span></h2>
         </div>
         <div>
-            <Button text="Create" size="md"  @click="openModalManage()">
+            <Button text="Create" size="md" @click="openModalManage()">
                 <Plus></Plus>
             </Button>
         </div>
@@ -14,10 +14,10 @@
         </PageManage>
 
     </div>
-    <hr>
+
     <div class="search">
         <Search class="icon"></Search>
-        <input class="search-btn" placeholder="Search..."  v-model="searchText" >
+        <input class="search-btn" placeholder="Team Name" v-model="searchText">
     </div>
     <div class="table">
         <table>
@@ -48,7 +48,7 @@
                         <IconButton size="md" @click="openModalManage(team.teamId)">
                             <Edit></Edit>
                         </IconButton>
-                        <IconButton size="md" @click="deletePosition(team)">
+                        <IconButton size="md" :disabled="true" @click="deletePosition(team)">
                             <Bin></Bin>
                         </IconButton>
 
@@ -68,7 +68,7 @@
                 <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
             </select>
             <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
-                Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} จาก {{ rawData.rowCount }}</span>
+                Math.min((currentPage + 1) * sizePage, rawData.rowCount) }} of {{ rawData.rowCount }}</span>
         </div>
         <div class="pagination-wrapper">
             <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
@@ -186,23 +186,29 @@ const deletePosition = (position: any) => {
 
 </script>
 <style lang="scss" scoped>
-
 .head {
-    position: sticky;
-    width: 100%;
+    position: fixed;
+    width: calc(100% - 215px);
     background: #FFFFFF;
-    top: 48px;
+    top: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 14px 11px 0;
-    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
+    padding: 12px 14px 11px 12px;
+    box-shadow: 1px 2px 2px 1px $light-grey2;
+
+    .team-lenght {
+        color: $medium-grey;
+    }
 
     h2 {
-        padding-left: 12px
+        padding-left: 12px;
+        color: $dark-grey;
+        font-size: 20px;
     }
 }
+
 
 hr {
     border: 1px solid $light-grey2;
@@ -236,35 +242,41 @@ hr {
 }
 
 .arrow {
-     cursor: pointer;
-     padding-top: 2px;
-     margin-right: 4px;
-     margin-left: 4px;
+    cursor: pointer;
+    padding-top: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
 }
 
 .pageshow {
-     
-     display: inline;
-     padding: 2px 12px 4px 12px;
-     border: 1px solid $light-grey2;
-     border-radius: 4px;
 
-     label{
-          color: $dark-grey;
-     }
+    display: inline;
+    padding: 2px 12px 4px 12px;
+    border: 1px solid $light-grey2;
+    border-radius: 4px;
+
+    label {
+        color: $dark-grey;
+    }
+}
+
+.table {
+    margin-top: 120px;
+    padding: 0px 12px 0 12px;
 }
 
 table {
+
     border-spacing: 1;
     border-collapse: collapse;
     background: white;
     border-radius: 4px;
     overflow: hidden;
     width: 100%;
-    padding-right: 600px ;
-    margin-top: 60px;
+    padding-right: 600px;
+    margin-top: 57px;
     border-collapse: collapse;
-    margin-left: 12px;
+
 }
 
 th,
@@ -273,17 +285,18 @@ td {
     text-align: start;
     font-size: 14px;
 
-    &.text-manage{
+    &.text-manage {
         text-align: end;
-        padding-right: 22px;
+        padding-right: 35px;
     }
 
-    &.description{
+    &.description {
         margin-bottom: 150px;
     }
 }
 
 th {
+    box-shadow: 0 3px 2px -2px $light-grey2;
 
     img {
         padding-left: 400px;
@@ -327,11 +340,11 @@ td {
 }
 
 .search {
-    padding: 12px;
+    padding: 13px;
     position: fixed;
     background: white;
     width: 100vw;
-    box-shadow: 0px 0px 1px 0px rgb(207, 207, 207);
+    top: 106px;
 
     .search-btn {
         width: 240px;

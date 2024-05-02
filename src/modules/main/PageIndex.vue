@@ -8,7 +8,7 @@
             <div>
                 <Button text="Go To Employee " size="sm"  @click="$router.push({ name: 'employee' })">
                     <template v-slot:icon-right>
-                        <ArrowRight></ArrowRight>
+                        <ArrowRight style="padding-top: 1px; margin-left: 2px;"></ArrowRight>
                     </template>
                 </Button>
             </div>

@@ -2,7 +2,7 @@
     <button type="button"  
     :class="[ 'btn', { 'btn-sm': size === 'sm', 'btn-md': size === 'md'  },{'disabled': disabled === true }]" 
     :disabled="disabled">
-       <slot></slot>  {{ text }}  <slot name="icon-right"></slot>
+       <slot></slot>  {{ text }}  <slot name="icon-right"> </slot>
     </button>
 
 </template>
@@ -14,7 +14,7 @@ withDefaults(
         size?: 'sm' | 'md'
         disabled?: boolean
     }>(), {
-        size: 'sm',
+        size: 'sm', 
         disabled: false
     }
 )
@@ -31,16 +31,15 @@ withDefaults(
     background: $primary;
     border: none;
     border-radius: 4px;
-    font-size: large;
     cursor: pointer;
-    align-items: center;
     text-align: center;
-    padding-left: 1px;
-    padding-right: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
     
     &:hover {
         background: $primary-dark2;
     }
+
 }
 
 .btn-sm{
@@ -57,6 +56,10 @@ withDefaults(
     height: 32px;
     font-size: 14px;
     font-weight: 700;  
+
+    &svg{
+        padding-right: 20px;
+    }
     
 }
 
@@ -64,9 +67,8 @@ withDefaults(
     color: white;
     background: $primary-disable;
     border: none;
-    border-radius: 4px;
-    font-size: large;
-    cursor: pointer;
+    border-radius: 4px; 
+    cursor: not-allowed;
     text-align: center;
     padding-left: 1px;
     padding-right: 1px;
@@ -77,4 +79,6 @@ withDefaults(
        
     }
 }
+
+
 </style>
