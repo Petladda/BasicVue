@@ -580,7 +580,7 @@ hr {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    bottom: 0;
+    bottom: 24px;
     padding-bottom: 8px;
     padding-left: 12px;
     border: none;

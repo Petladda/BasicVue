@@ -6,28 +6,31 @@
                          <h3>Employee <span class="employee-lenght"> ({{ rawData.data.length }}) </span> </h3>
                     </div>
                     <div>
-                         <Button text="Create" size='md' @click="$router.push({ name: 'create' })">
-                              <Plus></Plus>
+                         <Button text="Create" size='md'  @click="$router.push({ name: 'create' })">
+                              <template v-slot:icon-left>
+                                   <Plus></Plus>
+                              </template>
+
 
                          </Button>
 
                     </div>
                </div>
                <hr>
-               <div >
+               <div class="filter">
                     <div class="search">
-                         <Search class="icon"></Search>
-                         <input class="search-btn" placeholder="Search" v-model="searchQuery">
-                    </div>
-                    <!-- <div class="team">
-                         <label>Team</label><span style="color: red;"> *</span>
-                         <select class="select-option" v-model="teamQuery">
-                              <option v-for="team in teamDropDown" :key="team.value" :value="team.value">
-                                   {{ team.text }}
-                              </option>
-                         </select>
-                    </div>
-                    <div class="position">
+                         <div>
+                              <Search class="icon"></Search>
+                              <input class="search-btn" placeholder="Search" v-model="searchQuery">
+                         </div>
+                         <!-- <div>
+                              <label>Team</label><span style="color: red;"> *</span>
+                              <select class="select-option" v-model="teamQuery">
+                                   <option v-for="team in teamDropDown" :key="team.value" :value="team.value">
+                                        {{ team.text }}
+                                   </option>
+                              </select>
+                         </div>
                          <div>
                               <label>Position</label><span style="color: red;"> *</span>
                               <select class="select-option" v-model="positionQuery">
@@ -36,9 +39,16 @@
                                         {{ position.text }}
                                    </option>
                               </select>
+                         </div> -->
+
+                    </div>
+
+                    <div class="position">
+                         <div>
+
 
                          </div>
-                    </div> -->
+                    </div>
 
                </div>
 
@@ -80,14 +90,17 @@
                                    <td class="">{{ getPositionName(employee.positionId) }}</td>
                                    <td class="">{{ getTeamName(employee.teamId) }}</td>
                                    <td class="manage">
-                                        <IconButton size="md"
-                                             @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
-                                             <Edit></Edit>
-                                        </IconButton>
+                                        <div class="icon">
+                                             <IconButton size="md"
+                                                  @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
+                                                  <Edit></Edit>
+                                             </IconButton>
 
-                                        <IconButton size="md" @click="deleteEmployee(employee.employeeId)">
-                                             <Bin></Bin>
-                                        </IconButton>
+                                             <IconButton size="md" @click="deleteEmployee(employee.employeeId)">
+                                                  <Bin></Bin>
+                                             </IconButton>
+                                        </div>
+
 
 
                                    </td>
@@ -123,7 +136,7 @@
           </div>
 
      </main>
-
+     <Footer></Footer>
 
 </template>
 <script setup lang="ts">
@@ -139,6 +152,7 @@ import IconButton from '../../components/Button/IconButton.vue';
 import Arrowleft from '../../components/Icons/Arrowleft.vue';
 import ArrowRight from '../../components/Icons/ArrowRight.vue';
 import Link from '../../components/Link/Link.vue'
+import Footer from '../../components/Layout/Footer.vue'
 
 const searchQuery = ref<string>('')
 const teamQuery = ref<string>('')
@@ -207,13 +221,13 @@ const loadEmployee = async () => {
      await client.post<any, AxiosResponse<Response, any>>("/employee/index", pageSelect)
           .then((res) => {
                rawData.value = res.data;
-               
+
           })
 }
 
-watch([searchQuery, teamQuery,positionQuery], () => {
+watch([searchQuery, teamQuery, positionQuery], () => {
      loadEmployee();
-})
+}, { immediate: true })
 
 
 const getpositionDropdown = async () => {
@@ -259,6 +273,17 @@ const deleteEmployee = async (employeeId: string) => {
 <style lang="scss" scoped>
 .table {
      padding: 10px 12px 0 12px;
+
+     @include mobile {
+          
+          width: 100vw;
+          display: inline-block;
+          flex-wrap: nowrap;
+          overflow: auto;
+          height: 85vh;
+          // -webkit-overflow-scrolling: touch;
+
+     }
 }
 
 table {
@@ -271,16 +296,10 @@ table {
      width: 100%;
      margin: 95px auto;
 
-}
+     @include mobile{
+          width: 250vw;
+     }
 
-.sm {
-     width: 110px;
-     height: 24px;
-}
-
-.md {
-     width: 300px;
-     height: 32px;
 }
 
 th,
@@ -289,7 +308,7 @@ td {
      text-align: start;
      font-size: 14px;
 
-
+     
 }
 
 th {
@@ -320,7 +339,10 @@ tbody tr {
 
 }
 
-
+.icon {
+     display: flex;
+     flex-direction: row;
+}
 
 .pagination {
      position: fixed;
@@ -329,11 +351,10 @@ tbody tr {
      display: flex;
      flex-direction: row;
      justify-content: space-between;
-     align-items: center;
      padding: 8px 12px 12px 8px;
      color: $medium-grey;
      position: fixed;
-     bottom: 0;
+     bottom: 24px;
 
      .pagesize {
           border-color: 1px solid $light-grey;
@@ -367,28 +388,48 @@ tbody tr {
           color: $medium-grey;
      }
 
-     h3{
-          color:$dark-grey;
+     h3 {
+          color: $dark-grey;
      }
+
 
 }
 
+.filter {
+     display: flex;
+     flex-direction: row;
+
+     .team {
+          padding: 12px;
+          margin-top: 36px;
+          position: fixed;
+          background: white;
+          width: 100vw;
+     }
+}
 
 .search {
      padding: 12px;
      margin-top: 36px;
      position: fixed;
      background: white;
-     width: 100vw;
+     width: 100%;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
 
      .search-btn {
           width: 240px;
           height: 32px;
-          border-radius: 8px;
+          border-radius: 6px;
           border: 1px solid $light-grey2;
           background: white;
           padding-left: 34px;
           margin-left: 4px;
+
+          @include mobile {
+               width: calc(100vw - 30px);
+          }
      }
 
      .icon {
@@ -397,7 +438,23 @@ tbody tr {
           height: 30px;
           position: absolute;
           padding: 8px 10px 8px 8px;
+     }
 
+     .select-option {
+          width: 240px;
+          height: 32px;
+          border-radius: 8px;
+          border: 1px solid $light-grey2;
+          background: white;
+          padding-left: 10px;
+          padding-right: 10px;
+          margin-left: 4px;
+     }
+
+     label {
+          padding-left: 12px;
+          color: $medium-grey;
+          font-size: 14px;
      }
 }
 

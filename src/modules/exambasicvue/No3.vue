@@ -1,12 +1,12 @@
 
 <template>
     <form @click="showInputValue">
-        <h2>NAME :</h2>
+        <h2>NAME : {{ displayValue.toUpperCase() }}</h2>
         <p>Firstname</p>
         <input type="text" v-model="firstname">
         <p>Lastname</p>
         <input type="text" v-model="lastname">
-        <p>{{ displayValue.toUpperCase() }}</p>
+        <p></p>
     </form>
 </template>
 

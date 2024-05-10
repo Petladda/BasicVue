@@ -1,10 +1,15 @@
 <template>
 
     <div class="sidebar">
+
         <div class="menu-bar">
+            <div>
+                <i class="pi pi-bars"></i>
+            </div>
+
             <div class="menu" v-for="item in items" :key="item.label">
                 <a @click="$router.push({ name: item.route })">
-                    <span >{{ item.label }}</span>
+                    <span>{{ item.label }}</span>
                 </a>
             </div>
 
@@ -13,7 +18,9 @@
     </div>
     <div class="view">
         <router-view />
+        <Footer style="padding-right: 160px;"></Footer>
     </div>
+
     <!-- <div class="page">
             <div class="">
                 <div class=" flex justify-content-center">
@@ -42,7 +49,7 @@
 
 </template>
 <script setup lang="ts">
-
+import Footer from '../Layout/Footer.vue'
 import { RouterView, } from 'vue-router';
 
 import { ref } from 'vue'
@@ -111,18 +118,22 @@ const items = ref([
 }
 
 .menu-bar {
-    width: 216px;
+    width: 100px;
     height: 100vh;
     background: $grey-bg;
     padding: 12px 36px 12px 12px;
     align-items: center;
-    
 
+    
+    @include sm {
+        width: 216px;
+
+    }
     :hover {
         color: $primary;
         background: $primary-light;
     }
-    
+
 }
 
 .menu {
@@ -134,6 +145,8 @@ const items = ref([
     border-radius: 4px;
     padding-top: 8px;
     padding-left: 8px;
+
+
     
 }
 

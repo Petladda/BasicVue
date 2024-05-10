@@ -1,16 +1,14 @@
 <template>
 
     <div class="header-bar">
-        <div>
 
-            <i @click="$router.push({ name: 'employee' })" class="pi pi-arrow-left"
-                style="cursor: pointer; padding-left: 2px;"></i>
-            <span class="text-header">View Employee </span>
-
-        </div>
+        <IconButton size="md" @click="$router.push({ name: 'employee' })">
+            <ArrowBack></ArrowBack>
+        </IconButton>
+        <span class="text-header">View Employee </span>
 
     </div>
-    <hr>
+    
     <div class="card-view">
         <div class="card-info">
             <div class="">
@@ -72,6 +70,8 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import PersonalInfo from '../../components/Icons/PersonalInfo.vue';
 import Call from '../../components/Icons/Call.vue';
+import IconButton from '../../components/Button/IconButton.vue';
+import ArrowBack from '../../components/Icons/ArrowBack.vue'
 
 const route = useRoute()
 const client = axios.create({
@@ -155,8 +155,8 @@ label {
 
 .text-header {
     padding-left: 15px;
-    font-size: large;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600; 
     padding-right: 80px;
 }
 
@@ -194,11 +194,13 @@ hr {
 
 .header-bar {
     position: fixed;
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 48px;
     background: #FFFFFF;
     top: 48px;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
     padding-top: 10px;
     padding-left: 12px;
     border-bottom: 1px solid azure;
@@ -212,8 +214,8 @@ hr {
     margin-bottom: 40px;
     border-radius: 8px;
     background: white;
-    width: 606px;
-    height: auto;
+    width: 607px;
+    margin-top: 150px;;
     padding: 15px 21px 15px 21px;
     box-shadow: 1px 1px 6px 0px #4549571F;
 
@@ -222,9 +224,15 @@ hr {
 .card-view {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     height: 100vh;
     background: #F7F8FC;
+
+  
+    @include mobile{
+        padding: 0 12px 0 12px;
+    }
+
 }
 
 .info {
@@ -235,6 +243,12 @@ hr {
 
     p {
         font-size: 14px;
+    }
+
+    @include mobile{
+        display: flex;
+        flex-direction: column;
+
     }
 }
 
@@ -251,7 +265,6 @@ hr {
     }
 
     .number {
-        // padding-left: 10px;
         padding-top: 12px;
     }
 }

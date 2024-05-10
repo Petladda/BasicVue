@@ -13,6 +13,11 @@
                             <span >Employee</span>
                         </a>
                     </li>
+                    <li class="nav-li">
+                        <a @click="$router.push({ name: 'example' })">
+                            <span >Example</span>
+                        </a>
+                    </li>
 
                 </ul>
             </div>
@@ -41,26 +46,6 @@
 <script setup lang="ts">
 import Setting from '../Icons/Setting.vue';
 
-
-
-
-// const items = ref([
-//     {
-//         label: 'Home',
-//         // icon: 'pi pi-home',
-//         route: 'home',
-//     },
-//     {
-//         label: 'Employee',
-//         // icon: 'pi pi-reddit',
-//         route: 'employee',
-//     },
-//     {
-//         label: 'Setting',
-//         // icon: 'pi pi-spin pi-cog',
-//         route: 'setting',
-//     }
-// ]);
 
 </script>
 

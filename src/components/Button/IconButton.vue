@@ -1,8 +1,5 @@
 <template>
-    <button type="button" 
-    :class="['icon', { 'icon-sm': size === 'sm', 'icon-md': size === 'md' },{'disabled': disabled === true }]"
-    :disabled="disabled"
-    >
+    <button type="button" :class="['icon', `icon-${size}`, { 'disabled': disabled }]" :disabled>
         <slot></slot>
     </button>
 </template>
@@ -19,19 +16,22 @@ withDefaults(
 </script>
 <style lang="scss" scoped>
 .icon {
+
+
     fill: $medium-grey;
-    margin-left: 6px;
     cursor: pointer;
-    padding-top: 3px;
     border: none;
     background: none;
-   
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
+
         color: $primary;
         background: $primary-light;
         border-radius: 48px;
-        
+
     }
 }
 
@@ -50,20 +50,21 @@ withDefaults(
 
 }
 
-.disabled{
+.disabled {
+
+
     fill: $light-grey;
     margin-left: 6px;
     cursor: not-allowed;
     border: none;
     background: none;
-    
+
+
     &:hover {
         color: $light-grey;
         background: none;
         border-radius: 48px;
-        
+
     }
 }
-
-
 </style>

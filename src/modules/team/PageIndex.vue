@@ -5,7 +5,9 @@
         </div>
         <div>
             <Button text="Create" size="md" @click="openModalManage()">
-                <Plus></Plus>
+                <template v-slot:icon-left>
+                    <Plus></Plus>
+                </template>
             </Button>
         </div>
 
@@ -45,12 +47,16 @@
                     </td>
                     <td class="description">{{ team.description }} </td>
                     <td class="text-manage">
-                        <IconButton size="md" @click="openModalManage(team.teamId)">
-                            <Edit></Edit>
-                        </IconButton>
-                        <IconButton size="md" :disabled="true" @click="deletePosition(team)">
-                            <Bin></Bin>
-                        </IconButton>
+                        <div class="icon-manage">
+                            <IconButton size="md" @click="openModalManage(team.teamId)">
+                                <Edit></Edit>
+                            </IconButton>
+                            <IconButton size="md" @click="deletePosition(team)">
+                                <Bin></Bin>
+                            </IconButton>
+                        </div>
+
+
 
                     </td>
 
@@ -220,10 +226,10 @@ hr {
 }
 
 .pagination {
-    position: sticky;
-    width: auto;
+    position: fixed;
+    width: calc(100% - 215px);
     background: white;
-    bottom: 0;
+    bottom: 24px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -263,6 +269,7 @@ hr {
 .table {
     margin-top: 120px;
     padding: 0px 12px 0 12px;
+    margin-bottom: 20px
 }
 
 table {
@@ -293,6 +300,12 @@ td {
     &.description {
         margin-bottom: 150px;
     }
+}
+
+.icon-manage{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
 }
 
 th {

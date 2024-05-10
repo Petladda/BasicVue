@@ -1,11 +1,12 @@
 <template>
     <div class="header-bar">
-        <div class="">
-            <i @click="$router.push({ name: 'employee' })" class="pi pi-arrow-left"
-                style="cursor: pointer; padding-left: 2px;"></i>
+        <div class="icon-back">
+            <IconButton size="md" @click="$router.push({ name: 'employee' })">
+                <ArrowBack></ArrowBack>
+            </IconButton>
             <span class="text-header">Create Employee </span>
-
         </div>
+
         <div class="header-btn">
             <div style="padding-right: 15px; ">
                 <Outline text="Cancle" size="md" @click="$router.push({ name: 'employee' })"></Outline>
@@ -19,7 +20,7 @@
         </div>
 
     </div>
-    <hr>
+
     <div class="card-view">
         <div class="card-info">
             <div class="header-info">
@@ -85,7 +86,7 @@
                         <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="number"
                             v-model="phone.phoneNumber"></input>
                         <IconButton @click="onDeletePhoneNumber(index)" size="md">
-                            <Circle_minus ></Circle_minus>
+                            <Circle_minus></Circle_minus>
                         </IconButton>
 
 
@@ -113,7 +114,7 @@ import Call from '../../components/Icons/Call.vue';
 import Plus from '../../components/Icons/Plus.vue';
 import Circle_minus from '../../components/Icons/CircleMinus.vue';
 import IconButton from '../../components/Button/IconButton.vue';
-
+import ArrowBack from '../../components/Icons/ArrowBack.vue';
 const router = useRouter()
 const route = useRoute()
 const client = axios.create({
@@ -273,6 +274,8 @@ const onSave = () => {
 $color-border: #E3E7F0;
 $text-white: #FFFFFF;
 
+
+
 label {
     color: #454957;
     font-size: small;
@@ -282,9 +285,11 @@ label {
 
 .text-header {
     padding-left: 15px;
-    font-size: large;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600;
     padding-right: 80px;
+
+    
 }
 
 .text-hederinfo {
@@ -318,18 +323,30 @@ hr {
     align-items: center;
     justify-content: space-between;
     top: 48px;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
     padding-left: 12px;
     border: none;
     padding-top: 10px;
-    box-shadow: 1px 1px 1px 1px rgb(207, 207, 207);
+    box-shadow: 1px 1px 6px 0px #4549571F;
+
+    .icon-back {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @include xs{
+        
+    }
+
 }
 
 .card-info {
     margin-bottom: 40px;
     border-radius: 8px;
     background: $text-white;
-    width: 606px;
+    width: 607px;
+
+    margin-top: 150px;
     padding: 19px 20px 15px 20px;
     box-shadow: 1px 2px 2px 2px rgb(207, 207, 207);
 }
@@ -337,10 +354,13 @@ hr {
 .card-view {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: start;
+    min-height: 100vh;
     background: #F7F8FC;
-    
+
+    @include mobile {
+        padding: 0 12px 0 12px;
+    }
 }
 
 .info {
@@ -349,6 +369,11 @@ hr {
     gap: 15px;
     padding: 0 0 10px 0;
     padding-bottom: 12px;
+
+    @include mobile {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .inside-info {

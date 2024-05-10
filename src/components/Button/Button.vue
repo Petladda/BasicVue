@@ -1,8 +1,7 @@
 <template>
     <button type="button"  
-    :class="[ 'btn', { 'btn-sm': size === 'sm', 'btn-md': size === 'md'  },{'disabled': disabled === true }]" 
-    :disabled="disabled">
-       <slot></slot>  {{ text }}  <slot name="icon-right"> </slot>
+    :class="['btn',`btn-${size}`,{ [`disabled-${size}`] : disabled }]" :disabled>
+       <slot name="icon-left"></slot>  {{ text }}  <slot name="icon-right"> </slot> 
     </button>
 
 </template>
@@ -32,27 +31,31 @@ withDefaults(
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    text-align: center;
-    padding-left: 2px;
-    padding-right: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 2px;
     
     &:hover {
         background: $primary-dark2;
     }
 
+   
 }
 
+
+
 .btn-sm{
-    width: 120px;
+    min-width: 110px;
     height: 24px;
     font-size: 12px;
     font-weight: 700;
 
-    
 }
 
 .btn-md{
-    width: 110px;
+    min-width: 110px;
     height: 32px;
     font-size: 14px;
     font-weight: 700;  
@@ -61,17 +64,20 @@ withDefaults(
         padding-right: 20px;
     }
     
+    .icon{
+        padding-right: 6px;
+        padding-top: 6px;
+    }
 }
 
-.disabled{
+.disabled-md{
     color: white;
     background: $primary-disable;
     border: none;
     border-radius: 4px; 
     cursor: not-allowed;
     text-align: center;
-    padding-left: 1px;
-    padding-right: 1px;
+    font-size: 14px;
 
     &:hover{
         color: white;;
@@ -79,6 +85,23 @@ withDefaults(
        
     }
 }
+
+.disabled-sm{
+    color: white;
+    background: $primary-disable;
+    border: none;
+    border-radius: 4px; 
+    cursor: not-allowed;
+    text-align: center;
+    font-size: 12px;
+
+    &:hover{
+        color: white;;
+        background: $primary-disable;
+       
+    }
+}
+
 
 
 </style>

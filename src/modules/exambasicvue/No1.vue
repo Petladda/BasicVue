@@ -10,6 +10,8 @@
 
 </template>
 <script setup lang="ts">
+import Button from '../../components/Button/Button.vue';
+
    
 
     let count = 0

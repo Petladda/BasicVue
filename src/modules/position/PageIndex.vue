@@ -5,8 +5,10 @@
                 <h2>Position <span class="position-lenght">({{ rawData.data.length }})</span></h2>
             </div>
             <div>
-                <Button text="Create" :disabled="true" size="md" @click="openModalManage()">
-                    <Plus></Plus>
+                <Button text="Create" size="md"@click="openModalManage()">
+                    <template v-slot:icon-left>
+                        <Plus></Plus>
+                    </template>
                 </Button>
             </div>
             <ModalManage ref="modalManage" @createsuccess="loadPositon()">
@@ -49,13 +51,18 @@
                         </td>
                         <td class="description">{{ position.description }} </td>
                         <td class="manage">
-                            <IconButton size="md" @click="openModalManage(position.positionId)">
-                                <Edit></Edit>
-                            </IconButton>
+                            <div class="icon-manage">
 
-                            <IconButton size="md" @click="deletePosition(position)">
-                                <Bin></Bin>
-                            </IconButton>
+                                <IconButton size="md" @click="openModalManage(position.positionId)">
+                                    <Edit></Edit>
+                                </IconButton>
+                                <IconButton size="md" @click="deletePosition(position)">
+                                    <Bin></Bin>
+                                </IconButton>
+                            </div>
+
+
+
 
                         </td>
 
@@ -86,8 +93,8 @@
                 <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
             </div>
         </div>
-
     </main>
+
 </template>
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
@@ -199,6 +206,11 @@ const deletePosition = (position: any) => {
 $color-text: #646D78;
 $color-border: #E3E7F0;
 
+main {
+    height: 100vh;
+
+}
+
 .head {
     position: fixed;
     width: calc(100% - 215px);
@@ -213,13 +225,13 @@ $color-border: #E3E7F0;
 
     h2 {
         padding-left: 12px;
-        color:$dark-grey;
+        color: $dark-grey;
         font-size: 20px;
     }
 
     .position-lenght {
         color: $medium-grey;
-        
+
     }
 
 }
@@ -238,18 +250,14 @@ $color-border: #E3E7F0;
 }
 
 .pagination {
-    position: sticky;
-    width: auto;
+    position: fixed;
+    width: calc(100% - 215px);
     background: #FFFFFF;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    bottom: 0;
-    padding-bottom: 8px;
-    padding-left: 12px;
-    border: none;
-    padding-top: 8px;
+    bottom: 24px;
+    padding: 8px 12px 12px 8px;
     color: $medium-grey;
     margin-top: 390px;
 
@@ -313,9 +321,16 @@ td {
     &.manage {
         text-align: end;
         padding-right: 35px;
+
+
     }
 }
 
+.icon-manage{
+    display: flex;
+    flex-direction: row;
+    justify-content: end
+}
 
 th {
     font-size: 12px;
