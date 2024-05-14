@@ -557,7 +557,7 @@ hr {
     padding-top: 2px;
     margin-right: 4px;
     margin-left: 4px;
-    fill: $light-grey;
+    color: $light-grey;
 }
 
 .pageshow {

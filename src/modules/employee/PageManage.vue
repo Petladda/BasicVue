@@ -412,7 +412,7 @@ input {
         margin-top: 14px;
         width: 14px;
         height: 12px;
-        fill: $medium-grey;
+        color: $medium-grey;
     }
 }
 
@@ -459,7 +459,7 @@ input {
         padding: 8px;
 
         .icon {
-            fill: $primary;
+            color: $primary;
             width: 20px;
             height: 20px;
             align-items: center;

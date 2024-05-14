@@ -210,7 +210,7 @@ $color-border: #E3E7F0;
             cursor: pointer;
             width: 15px;
             height: 15px;
-            fill: $medium-grey;
+            color: $medium-grey;
         }
     }
 

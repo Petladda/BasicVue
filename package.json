@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clicknext/ui": "file:clicknext-ui-0.1.0-63.0.tgz",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "primeicons": "^7.0.0",

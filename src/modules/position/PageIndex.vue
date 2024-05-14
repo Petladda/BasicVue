@@ -53,10 +53,10 @@
                         <td class="manage">
                             <div class="icon-manage">
 
-                                <IconButton size="md" @click="openModalManage(position.positionId)">
+                                <IconButton size="sm"  @click="openModalManage(position.positionId)">
                                     <Edit></Edit>
                                 </IconButton>
-                                <IconButton size="md" @click="deletePosition(position)">
+                                <IconButton size="sm" @click="deletePosition(position)">
                                     <Bin></Bin>
                                 </IconButton>
                             </div>
@@ -266,7 +266,7 @@ main {
         border-radius: 4px;
         width: 52px;
         height: 24px;
-        fill: $light-grey;
+        color: $light-grey;
     }
 }
 
@@ -403,7 +403,7 @@ hr {
     }
 
     .icon {
-        fill: $medium-grey;
+        color: $medium-grey;
         width: 48px;
         height: 30px;
         position: absolute;

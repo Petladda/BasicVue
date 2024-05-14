@@ -35,7 +35,7 @@ withDefaults(
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    padding: 2px;
+    padding: 12px;
     
     &:hover {
         background: $primary-dark2;

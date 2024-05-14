@@ -46,7 +46,7 @@ function handleCheckBox() {
 </script>
 <style lang="scss" scoped>
 
-.checkbox {
+.checkbox{
 
     .icon {
         display: none;
@@ -128,7 +128,7 @@ function handleCheckBox() {
 
     }
 
-}
 
+}
 
 </style>

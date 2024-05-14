@@ -212,7 +212,7 @@ $color-border: #E3E7F0;
 
     .close-modal {
         cursor: pointer;
-        fill: $medium-grey;
+        color: $medium-grey;
     }
 
     .form {

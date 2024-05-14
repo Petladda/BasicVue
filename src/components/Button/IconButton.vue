@@ -1,6 +1,6 @@
 <template>
-    <button type="button" :class="['icon', `icon-${size}`, { 'disabled': disabled }]" :disabled>
-        <slot></slot>
+    <button type="button" :class="['icon-btn', `icon-btn-${size}`, { 'disabled': disabled }]" :disabled>
+        <slot class="icon"></slot>
     </button>
 </template>
 <script setup lang="ts">
@@ -15,56 +15,53 @@ withDefaults(
 )
 </script>
 <style lang="scss" scoped>
-.icon {
 
-
-    fill: $medium-grey;
+.icon-btn {
+    color: $medium-grey;
     cursor: pointer;
     border: none;
     background: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    
 
     &:hover {
 
         color: $primary;
         background: $primary-light;
-        border-radius: 48px;
+        border-radius: 50%;
 
     }
-}
 
-.icon-sm {
-    width: 16px;
-    height: 16px;
-    font-size: 12px;
-    font-weight: 700;
-}
+    &.icon-btn-sm {
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
 
-.icon-md {
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    font-weight: 700;
+    }
 
-}
+    &.icon-btn-md {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
 
-.disabled {
+    }
 
-
-    fill: $light-grey;
-    margin-left: 6px;
-    cursor: not-allowed;
-    border: none;
-    background: none;
-
-
-    &:hover {
+    &.disabled {
         color: $light-grey;
+        margin-left: 6px;
+        cursor: not-allowed;
+        border: none;
         background: none;
-        border-radius: 48px;
 
+
+        &:hover {
+            color: $light-grey;
+            background: none;
+            border-radius: 50%;
+
+        }
     }
 }
 </style>

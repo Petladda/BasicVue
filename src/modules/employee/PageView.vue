@@ -261,7 +261,7 @@ hr {
         margin-top: 14px;
         width: 14px;
         height: 12px;
-        fill: $medium-grey;
+        color: $medium-grey;
     }
 
     .number {
@@ -292,7 +292,7 @@ hr {
         padding: 8px;
 
         .icon {
-            fill: #5119F0;
+            color: #5119F0;
             width: 20px;
             height: 20px;
             align-items: center;

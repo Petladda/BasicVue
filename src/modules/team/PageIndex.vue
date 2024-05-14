@@ -48,10 +48,10 @@
                     <td class="description">{{ team.description }} </td>
                     <td class="text-manage">
                         <div class="icon-manage">
-                            <IconButton size="md" @click="openModalManage(team.teamId)">
+                            <IconButton size="sm" @click="openModalManage(team.teamId)">
                                 <Edit></Edit>
                             </IconButton>
-                            <IconButton size="md" @click="deletePosition(team)">
+                            <IconButton size="sm" @click="deletePosition(team)">
                                 <Bin></Bin>
                             </IconButton>
                         </div>
@@ -243,7 +243,7 @@ hr {
         border-radius: 4px;
         width: 52px;
         height: 24px;
-        fill: $light-grey;
+        color: $light-grey;
     }
 }
 
@@ -373,7 +373,7 @@ td {
 
 
     .icon {
-        fill: $medium-grey;
+        color: $medium-grey;
         width: 48px;
         height: 30px;
         position: absolute;

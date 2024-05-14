@@ -30,105 +30,106 @@ import ArrowRight from '../../components/Icons/ArrowRight.vue';
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    padding: 150px 0 0 0;
+    padding: 100px 0 0 0;
 
-    @include mobile{
+    @include mobile {
         display: flex;
         flex-direction: column-reverse;
         align-items: center;
         text-align: center;
         padding: 100px 0 0 0;
+        margin-bottom: 150px;
     }
 
-}
+    .text-detail {
+        @include mobile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.text-detail{
-    @include mobile{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
+        .text-welcom {
+            color: $primary-dark2;
 
-.text-welcom {
-    color: $primary-dark2;
+            @include mobile {
+                font-size: 90px;
+                font-weight: 600;
 
-    @include mobile{
-        font-size: 90px;
-        font-weight: 600;
-        
-    }
+            }
 
-    @include xl {
-        color: $primary-dark2;
-        font-size: 90px;
-        font-weight: 600;
-    }
+            @include lg {
+                color: $primary-dark2;
+                font-size: 86px;
+                font-weight: 600;
+            }
 
-    @include xxl {
-        color: $primary-dark2;
-        font-size: 96px;
-        font-weight: 600;
-    }
+            @include xl {
+                color: $primary-dark2;
+                font-size: 90px;
+                font-weight: 600;
+            }
 
-}
+            @include xxl {
+                color: $primary-dark2;
+                font-size: 96px;
+                font-weight: 600;
+            }
 
-.text-second {
-    padding-bottom: 20px;
-    color: $primary-light2;
-    @include mobile{
-        font-size: 55px;
-        font-weight: 500;
-        
-    }
-    
+        }
 
-    
+        .text-second {
+            padding-bottom: 20px;
+            color: $primary-light2;
 
-    @include xl { 
-        font-size: 50px;
-        font-weight: 500;
-    }
+            @include mobile {
+                font-size: 55px;
+                font-weight: 500;
 
-    @include xxl {
-        font-size: 56px;
-        font-weight: 500;
-    }
-}
+            }
 
-img {
-    @include xs {
-        width: 230px;
+            @include lg {
+                font-size: 46px;
+                font-weight: 500;
+            }
 
-    }
+            @include xl {
+                font-size: 50px;
+                font-weight: 500;
+            }
 
-    // @include sm {
-    //     width: 300px;
-
-    // }
-   
-    // @include md {
-    //     width: 400px;
-
-    // }
-
-    // @include lg {
-    //     width: 450px;
-    @include mobile{
-        width: 500px;
-        
-    }
-
-    
-
-    @include xl {
-        width: 550px;
+            @include xxl {
+                font-size: 56px;
+                font-weight: 500;
+            }
+        }
 
     }
 
-    @include xxl {
-        width: 550px;
+    img {
+        @include xs {
+            width: 230px;
 
+        }
+
+        @include mobile {
+            width: 500px;
+
+        }
+
+        @include lg {
+            width: 500px;
+
+        }
+
+        @include xl {
+            width: 550px;
+
+        }
+
+        @include xxl {
+            width: 550px;
+
+        }
     }
 }
 </style>

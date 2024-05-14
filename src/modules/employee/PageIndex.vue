@@ -6,7 +6,7 @@
                          <h3>Employee <span class="employee-lenght"> ({{ rawData.data.length }}) </span> </h3>
                     </div>
                     <div>
-                         <Button text="Create" size='md'  @click="$router.push({ name: 'create' })">
+                         <Button text="Create" size='md' @click="$router.push({ name: 'create' })">
                               <template v-slot:icon-left>
                                    <Plus></Plus>
                               </template>
@@ -91,12 +91,12 @@
                                    <td class="">{{ getTeamName(employee.teamId) }}</td>
                                    <td class="manage">
                                         <div class="icon">
-                                             <IconButton size="md"
+                                             <IconButton size="sm"
                                                   @click="$router.push({ name: 'edit', params: { id: employee.employeeId } })">
                                                   <Edit></Edit>
                                              </IconButton>
 
-                                             <IconButton size="md" @click="deleteEmployee(employee.employeeId)">
+                                             <IconButton size="sm" @click="deleteEmployee(employee.employeeId)">
                                                   <Bin></Bin>
                                              </IconButton>
                                         </div>
@@ -271,78 +271,170 @@ const deleteEmployee = async (employeeId: string) => {
 })()
 </script>
 <style lang="scss" scoped>
-.table {
-     padding: 10px 12px 0 12px;
 
-     @include mobile {
-          
-          width: 100vw;
-          display: inline-block;
-          flex-wrap: nowrap;
-          overflow: auto;
-          height: 85vh;
-          // -webkit-overflow-scrolling: touch;
+.container {
+     padding-bottom: 50px;
+     padding-top: 60px;
 
-     }
-}
+     .header {
+          position: fixed;
+          width: 100%;
+          background: #FFFFFF;
+          top: 45px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 13px 10px 12px;
+          box-shadow: 1px 2px 2px 1px $light-grey2;
 
-table {
+          .employee-lenght {
+               color: $medium-grey;
+          }
 
-     border-spacing: 1;
-     border-collapse: collapse;
-     background: white;
-     border-radius: 4px;
-     overflow: hidden;
-     width: 100%;
-     margin: 95px auto;
-
-     @include mobile{
-          width: 250vw;
+          h3 {
+               color: $dark-grey;
+          }
      }
 
-}
+     .filter {
+          display: flex;
+          flex-direction: row;
 
-th,
-td {
-     padding-left: 12px;
-     text-align: start;
-     font-size: 14px;
+          .team {
+               padding: 12px;
+               margin-top: 36px;
+               position: fixed;
+               background: white;
+               width: 100vw;
+          }
 
-     
-}
+          .search {
+               padding: 12px;
+               margin-top: 36px;
+               position: fixed;
+               background: white;
+               width: 100%;
+               display: flex;
+               flex-direction: row;
+               align-items: center;
 
-th {
-     font-size: 12px;
-     font-weight: 700;
-     box-shadow: 0 3px 2px -2px $light-grey2;
+               .search-btn {
+                    width: 240px;
+                    height: 32px;
+                    border-radius: 6px;
+                    border: 1px solid $light-grey2;
+                    background: white;
+                    padding-left: 34px;
+                    margin-left: 4px;
 
-     img {
-          color: $medium-grey;
-          padding-left: 12px;
-          cursor: pointer;
+                    @include mobile {
+                         width: calc(100vw - 30px);
+                    }
+               }
+
+               .icon {
+                    color: $medium-grey;
+                    width: 48px;
+                    height: 30px;
+                    position: absolute;
+                    padding: 8px 10px 8px 8px;
+               }
+
+               .select-option {
+                    width: 240px;
+                    height: 32px;
+                    border-radius: 8px;
+                    border: 1px solid $light-grey2;
+                    background: white;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    margin-left: 4px;
+               }
+
+               label {
+                    padding-left: 12px;
+                    color: $medium-grey;
+                    font-size: 14px;
+               }
+          }
      }
+
+     .table {
+          padding: 10px 12px 0 12px;
+
+          @include mobile {
+
+               width: 100vw;
+               display: inline-block;
+               flex-wrap: nowrap;
+               overflow: auto;
+               height: 80vh;
+               // -webkit-overflow-scrolling: touch;
+
+          }
+
+          table {
+
+               border-spacing: 1;
+               border-collapse: collapse;
+               background: white;
+               border-radius: 4px;
+               overflow: hidden;
+               width: 100%;
+               margin: 95px auto;
+
+               @include mobile {
+                    width: 250vw;
+               }
+
+               th,
+               td {
+                    padding-left: 12px;
+                    text-align: start;
+                    font-size: 14px;
+
+                    &.manage {
+                         .icon {
+                              display: flex;
+                              flex-direction: row;
+                         }
+                    }
+               }
+
+               th {
+                    font-size: 12px;
+                    font-weight: 700;
+                    box-shadow: 0 3px 2px -2px $light-grey2;
+
+                    img {
+                         color: $medium-grey;
+                         padding-left: 12px;
+                         cursor: pointer;
+                    }
+               }
+
+               thead tr {
+                    height: 38px;
+                    background: $grey-bg;
+                    font-size: 14px;
+                    color: $medium-grey;
+                    box-shadow: 1px solid $light-grey2;
+               }
+
+               tbody tr {
+                    height: 48px;
+                    border-bottom: 1px solid $light-grey2;
+
+               }
+          }
+
+
+
+     }
+
 }
 
-
-
-thead tr {
-     height: 38px;
-     background: $grey-bg;
-     font-size: 14px;
-     color: $medium-grey;
-     box-shadow: 1px solid $light-grey2;
-}
-
-tbody tr {
-     height: 48px;
-     border-bottom: 1px solid $light-grey2;
-
-}
-
-.icon {
-     display: flex;
-     flex-direction: row;
-}
 
 .pagination {
      position: fixed;
@@ -361,131 +453,41 @@ tbody tr {
           border-radius: 4px;
           width: 52px;
           height: 24px;
-          fill: $light-grey;
-     }
-}
-
-
-
-.container {
-     padding-bottom: 50px;
-     padding-top: 60px;
-}
-
-.header {
-     position: fixed;
-     width: 100%;
-     background: #FFFFFF;
-     top: 45px;
-     display: flex;
-     flex-direction: row;
-     justify-content: space-between;
-     align-items: center;
-     padding: 10px 13px 10px 12px;
-     box-shadow: 1px 2px 2px 1px $light-grey2;
-
-     .employee-lenght {
-          color: $medium-grey;
+          color: $light-grey;
      }
 
-     h3 {
-          color: $dark-grey;
-     }
-
-
-}
-
-.filter {
-     display: flex;
-     flex-direction: row;
-
-     .team {
-          padding: 12px;
-          margin-top: 36px;
-          position: fixed;
-          background: white;
-          width: 100vw;
-     }
-}
-
-.search {
-     padding: 12px;
-     margin-top: 36px;
-     position: fixed;
-     background: white;
-     width: 100%;
-     display: flex;
-     flex-direction: row;
-     align-items: center;
-
-     .search-btn {
-          width: 240px;
-          height: 32px;
-          border-radius: 6px;
-          border: 1px solid $light-grey2;
-          background: white;
-          padding-left: 34px;
+     .arrow {
+          cursor: pointer;
+          padding-top: 2px;
+          margin-right: 4px;
           margin-left: 4px;
+     }
 
-          @include mobile {
-               width: calc(100vw - 30px);
+     .pageshow {
+
+          display: inline;
+          padding: 2px 12px 4px 12px;
+          border: 1px solid $light-grey2;
+          border-radius: 4px;
+
+          label {
+               color: $dark-grey;
           }
      }
-
-     .icon {
-          fill: $medium-grey;
-          width: 48px;
-          height: 30px;
-          position: absolute;
-          padding: 8px 10px 8px 8px;
-     }
-
-     .select-option {
-          width: 240px;
-          height: 32px;
-          border-radius: 8px;
-          border: 1px solid $light-grey2;
-          background: white;
-          padding-left: 10px;
-          padding-right: 10px;
-          margin-left: 4px;
-     }
-
-     label {
-          padding-left: 12px;
-          color: $medium-grey;
-          font-size: 14px;
-     }
 }
 
-hr {
-     border: 1px solid $light-grey2;
-}
 
-.check-box {
-     width: 18px;
-     height: 18px;
-     padding-right: 17px;
-     text-align: center;
 
-}
+// hr {
+//      border: 1px solid $light-grey2;
+// }
 
-.arrow {
-     cursor: pointer;
-     padding-top: 2px;
-     margin-right: 4px;
-     margin-left: 4px;
-}
+// .check-box {
+//      width: 18px;
+//      height: 18px;
+//      padding-right: 17px;
+//      text-align: center;
 
-.pageshow {
+// }
 
-     display: inline;
-     padding: 2px 12px 4px 12px;
-     border: 1px solid $light-grey2;
-     border-radius: 4px;
-
-     label {
-          color: $dark-grey;
-     }
-}
 </style>
