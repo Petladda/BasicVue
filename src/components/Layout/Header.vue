@@ -105,14 +105,14 @@ ul {
 
 .icon {
     :hover {
-        fill: $neutral-light1;
+        color: $neutral-light1;
     }
     
 }
 
 .setting-icon {
     cursor: pointer;
-    fill: $primary-light;
+    color: $primary-light;
     margin-right: 16px;
     width: 20px;
     height: 20px;

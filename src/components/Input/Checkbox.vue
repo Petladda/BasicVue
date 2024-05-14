@@ -1,13 +1,13 @@
 <template>
-    <div class="container" tabindex="0"  @click="handleCheckBox" >
-        <div class="checkbox-style" :class="[{'active-style': activeStatus || disabled},{disabled}]" >
-            <div tabindex="0" class="checkbox-input">
-                <Tick class="icon"></Tick>  
-            </div>
+    <div class="checkbox"  @click="handleCheckBox">
+        <div class="checkbox-style" :class="[{ 'active-style': activeStatus || disabled }, { disabled }]" tabindex="0" >
+            
+            <Tick class="icon" ></Tick>
+            
         </div>
     </div>
-    
-   
+
+
 </template>
 <script setup lang="ts">
 
@@ -16,124 +16,119 @@ import Tick from '../Icons/Tick.vue';
 
 const props = withDefaults(
     defineProps<{
-       checkValue: boolean
-       disabled?: boolean
+        checkValue: boolean
+        disabled?: boolean
     }>(), {
-        disabled: false,
-    }
+    disabled: false,
+}
 )
 
 const emit = defineEmits<{
-  (e: 'update:checkValue', value: boolean): void;
+    (e: 'update:checkValue', value: boolean): void;
 }>()
 
 const activeStatus = computed({
-    get(){
-        return props.checkValue 
+    get() {
+        return props.checkValue
     },
-    set(newValue){
-        emit('update:checkValue', newValue)  
-    }, 
+    set(newValue) {
+        emit('update:checkValue', newValue)
+    },
 })
 
 function handleCheckBox() {
     if (props.disabled) {
-        return activeStatus.value = !activeStatus.value
-    } 
+        return activeStatus.value;
+    }
     console.log(activeStatus.value = !activeStatus.value);
-    
+
 }
 </script>
 <style lang="scss" scoped>
 
-.container{
-        
-    &:focus{
-        background: $primary-light;
-        width: 22px;
-        height: 22px;
-        display: flex;
-        border-radius: 8px;
-        justify-content: center;
-        align-items: center; 
+.checkbox {
 
-       
-    }
-
-    &:focus-within {
-            background: $primary-light;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            border-radius: 8px;
-            justify-content: center;
-            align-items: center; 
+    .icon {
+        display: none;
+        margin-left: 0.8px;
     }
     
-
-    .checkbox-style{
+    .checkbox-style {
         position: relative;
         border: 2px solid $light-grey2;
         border-radius: 4px;
         cursor: pointer;
         width: 16px;
         height: 16px;
-
-
-        .icon{
-            display: none;
-        }
         
 
-        &:hover{
-            border:  2px solid $primary;   
+        &:hover {
+            border: 2px solid $primary;
         }
 
-        &:focus-within{
-            border:  2px solid $primary; 
+        &:focus-within {
+            border: 2px solid $primary;
+            outline: 3.5px solid $primary-light;
         }
 
-        &.active-style{
+
+        &.active-style {
             background: $primary;
-            border:  2px solid $primary; 
+            border: 2px solid $primary;
             width: 16px;
             height: 16px;
+            // outline: 3.5px solid $primary-light;
 
-            .icon{
+            &:focus-within{
+                outline: 3.5px solid $primary-light;
+            }
+
+            .icon {
                 position: absolute;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                left: 1px;
-                top: 1px;
                 width: 12px;
-                height: 11px;
-                fill: white;
-            
-            }
-            &:hover{
-                border:  2px solid $primary;   
+                height: 12px;
+                color: white;
+                margin-top: 1px;
+
             }
 
-            &.disabled{
+            &.disabled {
+                position: relative;
                 cursor: not-allowed;
                 background: $light-grey2;
+                border: 2px solid $neutral-light1;
 
                 .icon{
-                    fill: white;
-                    position: absolute;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    left: 1px;
-                    top: 1px;
-                    width: 12px;
-                    height: 11px;
+                    display: none; 
                 }
-            } 
+
+                &:focus {
+                    outline: none;
+                    border: none;
+                    padding-top: 1px;
+                    
+                    .icon{
+                        margin-left: 2.5px;
+                        position: absolute;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 12px;
+                        height: 12px;
+                        color: white;
+                        margin-top: 1px;
+                    }
+                }
+            }
         }
-    
+
+
     }
 
 }
+
+
 </style>

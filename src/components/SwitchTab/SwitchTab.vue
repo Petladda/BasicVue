@@ -1,7 +1,7 @@
 <template>
     <div class="switch-tab">
         <div class="tab" v-for="(tab, index) in tabs" :key="index" @click="changeTab(index)"
-            :class="{ 'active': activeTab === index }">
+            :class="{ 'active': tabActive === index  }">
             {{ tab }}
         </div>
     </div>
@@ -9,15 +9,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
     tabs: string[];
+    activeTab?: number;
 }>(), {
+
 })
 
-const activeTab = ref<number>(0);
+const tabActive = ref<number>(props.activeTab ?? 0);
 
 function changeTab(index: number) {
-    activeTab.value = index;
+    tabActive.value = index
+    console.log("tabactive",tabActive.value);
+    
 }
 </script>
 <style lang="scss" scoped>
@@ -32,6 +36,7 @@ function changeTab(index: number) {
         cursor: pointer;
         border: 1px solid $grey-bg;
         color: $medium-grey;
+        background: $grey-bg;
         font-size: 14px;
         font-weight: 400;
         border-radius: 4px;
