@@ -28,9 +28,12 @@ export interface Response {
     }[];
 }
 
-export interface Update{
+export interface Update {
     teamId: string;
     name: string;
     description: string | null;
-  }
+}
   
+export type EventTeam = {
+    createsuccess: void
+}

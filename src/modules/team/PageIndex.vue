@@ -9,10 +9,11 @@
                     <Plus></Plus>
                 </template>
             </Button>
+
         </div>
 
-        <PageManage ref="modalManage" @createsuccess="loadPositon">
-
+        <PageManage ref="modalManage"  >
+            
         </PageManage>
 
     </div>
@@ -30,7 +31,6 @@
                     </th> -->
                     <th class="">
                         Team
-
                     </th>
                     <th class="description">Description</th>
                     <th class="text-manage">Manage </th>
@@ -51,7 +51,7 @@
                             <IconButton size="sm" @click="openModalManage(team.teamId)">
                                 <Edit></Edit>
                             </IconButton>
-                            <IconButton size="sm" @click="deletePosition(team)">
+                            <IconButton size="sm" @click="deleteTeam(team)">
                                 <Bin></Bin>
                             </IconButton>
                         </div>
@@ -68,9 +68,10 @@
 
 
     <div class="pagination" ref="pagination">
+        <!-- <cui-pagination v-model="page" /> -->
         <div>
             <span style="font-size: 12px;">Show: </span>
-            <select class="pagesize" @change="loadPositon" v-model="sizePage">
+            <select class="pagesize" @change="loadTeam" v-model="sizePage">
                 <option v-for="page in pageList" :key="page.id" :value="page.amount">{{ page.amount }}</option>
             </select>
             <span style="padding-left: 4px; font-size: small;">{{ currentPage * sizePage + 1 }} - {{
@@ -90,11 +91,10 @@
 
 </template>
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import axios, { AxiosResponse } from "axios";
+import { ref, computed, provide } from 'vue';
 import PageManage from './PageManage.vue'
 
-import { PageType, Response } from './interface';
+import { EventTeam } from './interface';
 import IconButton from '../../components/Button/IconButton.vue';
 import Edit from '../../components/Icons/Edit.vue';
 import Bin from '../../components/Icons/Bin.vue';
@@ -104,12 +104,22 @@ import Arrowleft from '../../components/Icons/Arrowleft.vue';
 import ArrowRight from '../../components/Icons/ArrowRight.vue';
 import Search from '../../components/Icons/Search.vue';
 
+import mitt from 'mitt'
+import {TeamEventSymbol} from './key'
+import { useIndexTeamDataProvider } from './dataProvider/indexDataProvider'
 
-const client = axios.create({
-    baseURL: "http://localhost:3000"
-});
 
-// const isSelected = ref(false);
+const dataProvier = useIndexTeamDataProvider()
+
+const { rawData, loadTeam,deleteTeam,searchText,sizePage,pageList } = dataProvier
+
+
+const emitter = mitt<EventTeam>()
+provide(TeamEventSymbol, emitter)
+
+emitter.on('createsuccess', () => {
+  loadTeam()
+})
 
 const modalManage = ref<InstanceType<typeof PageManage>>(null!)
 
@@ -117,32 +127,15 @@ const openModalManage = (id?: string | null) => {
     modalManage.value.openModalManage(id)
 }
 
-const pageList: PageType[] = [
-    { id: 1, amount: 10 },
-    { id: 2, amount: 20 },
-    { id: 3, amount: 50 },
-]
 
-
-const indexPage = ref<number>(0)
-const sizePage = ref<number>(pageList[0].amount)
-const searchText = ref<string>("")
 const currentPage = ref<number>(0)
-
-const rawData = ref<Response>({
-    pageIndex: 0,
-    pageSize: 20,
-    rowCount: 0,
-    data: []
-})
-
 
 const totalPages = computed(() => Math.ceil(rawData.value.rowCount / sizePage.value));
 
 const prevPage = () => {
     if (currentPage.value > 0) {
         currentPage.value--;
-        loadPositon();
+        loadTeam();
     }
 };
 
@@ -151,43 +144,14 @@ const nextPage = () => {
 
     if (currentPage.value < totalPages.value - 1) {
         currentPage.value++;
-        loadPositon();
+        loadTeam();
     }
 };
 
 
-const loadPositon = async () => {
-    const pageSize = sizePage.value;
-    const pageIndex = indexPage.value;
-    const search = {
-        text: searchText.value
-    }
-    await client.post<any, AxiosResponse<Response, any>>("/team/index", { pageIndex, pageSize, search })
-        .then((res) => {
-            rawData.value = res.data;
-
-        }).catch((error) => {
-            console.log(error);
-
-        })
-}
-
-watch(searchText, () => {
-    loadPositon();
-})
-
-const deletePosition = (position: any) => {
-    client.post("/team/delete", position)
-        .then((res) => {
-            console.log("deletedone", res);
-            loadPositon()
-        })
-}
-
-
 
 (async () => {
-    loadPositon()
+    loadTeam()
 })()
 
 </script>
@@ -302,7 +266,7 @@ td {
     }
 }
 
-.icon-manage{
+.icon-manage {
     display: flex;
     flex-direction: row;
     justify-content: end;

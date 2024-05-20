@@ -11,6 +11,12 @@
                         <ArrowRight style=" margin-left: 2px;"></ArrowRight>
                     </template>
                 </Button>
+                <br>
+                <cui-button text="Go To Employee 2" variant="primary" size="sm" @click="$router.push({ name: 'employee2' })" >
+                    <template v-slot:append>
+                        <cui-icon-linear-arrow-right />
+                    </template>
+                </cui-button>
             </div>
         </div>
         <div class="image-main">

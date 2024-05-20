@@ -7,8 +7,8 @@
                     </div>
                     <div>
                          <Button text="Create" size='md' @click="$router.push({ name: 'create' })">
-                              <template v-slot:icon-left>
-                                   <Plus></Plus>
+                              <template v-slot:icon-left="{ text }">
+                                   <Plus></Plus> {{ text }}
                               </template>
 
 
@@ -123,14 +123,24 @@
                               Math.min((currentPage + 1) * pageLoad.pageSize, rawData.rowCount) }} of {{ rawData.rowCount
                          }}</span>
                </div>
-               <div class="">
-                    <Arrowleft @click="prevPage()" class="arrow"></Arrowleft>
+               <div class="select-page">
+
+                    <IconButton size="sm" @click="prevPage()" class="arrow">
+                         <Arrowleft></Arrowleft>
+                    </IconButton>
+                  
                     <div class="pageshow">
                          <label>{{ currentPage + 1 }} </label>
                     </div>
-                    /
-                    <span style="font-size: small;">{{ totalPages }}</span>
-                    <ArrowRight @click="nextPage()" class="arrow"></ArrowRight>
+                    <div>
+                         <span style="font-size: small; padding-left: 4px;"> / {{ totalPages }}</span>
+                    </div>
+                    
+
+                    <IconButton size="sm" @click="nextPage()" class="arrow">
+                         <ArrowRight></ArrowRight>
+                    </IconButton>
+                    
 
                </div>
           </div>
@@ -271,7 +281,6 @@ const deleteEmployee = async (employeeId: string) => {
 })()
 </script>
 <style lang="scss" scoped>
-
 .container {
      padding-bottom: 50px;
      padding-top: 60px;
@@ -415,7 +424,7 @@ const deleteEmployee = async (employeeId: string) => {
                }
 
                thead tr {
-                    height: 38px;
+                    height: 30px;
                     background: $grey-bg;
                     font-size: 14px;
                     color: $medium-grey;
@@ -423,7 +432,7 @@ const deleteEmployee = async (employeeId: string) => {
                }
 
                tbody tr {
-                    height: 48px;
+                    height: 40px;
                     border-bottom: 1px solid $light-grey2;
 
                }
@@ -465,7 +474,6 @@ const deleteEmployee = async (employeeId: string) => {
 
      .pageshow {
 
-          display: inline;
           padding: 2px 12px 4px 12px;
           border: 1px solid $light-grey2;
           border-radius: 4px;
@@ -473,6 +481,10 @@ const deleteEmployee = async (employeeId: string) => {
           label {
                color: $dark-grey;
           }
+     }
+
+     .select-page{
+          display: flex;
      }
 }
 
@@ -488,6 +500,4 @@ const deleteEmployee = async (employeeId: string) => {
 //      padding-right: 17px;
 //      text-align: center;
 
-// }
-
-</style>
+// }</style>

@@ -72,7 +72,7 @@ const emit = defineEmits<{
 }>()
 
 const visible = ref(false)
-// const isCreateMode = ref(true)
+
 const client = axios.create({
     baseURL: "http://localhost:3000"
 });
@@ -96,7 +96,6 @@ const handleCreatePosition = async () => {
 }
 
 
-
 const handleUpdateForm = async () => {
     await client.post("/position/update", form)
     emit('createsuccess')
@@ -105,12 +104,9 @@ const handleUpdateForm = async () => {
 const onSave = () => {
     if (isCreateMode.value) {
         handleCreatePosition()
-        // emit('createsuccess')
-
+        
     } else {
         handleUpdateForm()
-        // emit('createsuccess')
-
     }
 
     visible.value = false;
@@ -125,7 +121,6 @@ const loadDetail = async (id: string) => {
     // urlSearchParam.set('aaa', var2)
     // urlSearchParam.set('kkkk', var3)
     // urlSearchParam.set('ppppp', var4)
-
 
     // const urlSearchParam = new URLSearchParams({
     //     id: var1
@@ -263,10 +258,10 @@ hr {
     padding-top: 10px;
     padding-bottom: 11px;
     text-align: center;
-    margin-right: 8px;
+    margin-right: 14px;
 
     .cancle-btn{
-        margin-right: 12px;
+        margin-right: 8px;
     }
 
 }

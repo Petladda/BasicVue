@@ -1,22 +1,19 @@
 <template>
+    <div class="pageview">
+        <div class="header-bar">
+            <cui-icon-button format="ghost" size="md" @click="$router.push({ name: 'employee2' })">
+                <cui-icon-linear-back />
+            </cui-icon-button>
+            <span class="text-header">View Employee </span>
 
-    <div class="header-bar">
+        </div>
+        <div class="card-view">
+            <div class="card-info">
 
-        <IconButton size="md" @click="$router.push({ name: 'employee' })">
-            <ArrowBack></ArrowBack>
-        </IconButton>
-        <span class="text-header">View Employee </span>
-
-    </div>
-    
-    <div class="card-view">
-        <div class="card-info">
-            <div class="">
                 <div class="header-info">
                     <div class="edit">
-                        <PersonalInfo class="icon"></PersonalInfo>
+                        <cui-icon-linear-personal-info class="icon" />
                     </div>
-
                     <span class="text-hederinfo">Basic Info</span>
                 </div>
                 <div class="info">
@@ -49,29 +46,24 @@
 
                 <hr>
                 <div class="phone">
-
-                    <Call class="call"></Call>
+                    <cui-icon-fill-call class="call" />
                     <label> Phone</label>
                     <div v-for="phone in rawData.phones">
                         <p class="number">{{ getPhoneNumber(phone.phoneId) }}</p>
                     </div>
 
                 </div>
-            </div>
 
+
+            </div>
         </div>
     </div>
-
 </template>
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
 import { Employee, DropDown } from './interface';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
-import PersonalInfo from '../../components/Icons/PersonalInfo.vue';
-import Call from '../../components/Icons/Call.vue';
-import IconButton from '../../components/Button/IconButton.vue';
-import ArrowBack from '../../components/Icons/ArrowBack.vue'
 
 const route = useRoute()
 const client = axios.create({
@@ -142,165 +134,128 @@ const getPhoneNumber = (phoneId: string) => {
 
 </script>
 <style lang="scss" scoped>
-$color-border: #E3E7F0;
-$text-white: #FFFFFF;
+.pageview {
 
-
-
-label {
-    color: $medium-grey;
-    font-size: small;
-
-}
-
-.text-header {
-    padding-left: 15px;
-    font-size: 20px;
-    font-weight: 600; 
-    padding-right: 80px;
-}
-
-.header-btn {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-right: 12px;
-
-    .cancle-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid $color-border;
-        background: $text-white;
-        cursor: pointer;
-    }
-
-    .save-btn {
-        width: 100px;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid $color-border;
-        background: #5119F0;
-        color: $text-white;
-        cursor: pointer;
-
-    }
-}
-
-hr {
-    border: 1px solid $color-border;
-    padding-left: 20px;
-}
-
-.header-bar {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 48px;
-    background: #FFFFFF;
-    top: 48px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-left: 12px;
-    border-bottom: 1px solid azure;
-    font-weight: 700;
-    font-size: 14px;
-    box-shadow: 1px 1px 6px 0px #4549571F;
-
-}
-
-.card-info {
-    margin-bottom: 40px;
-    border-radius: 8px;
-    background: white;
-    width: 607px;
-    margin-top: 150px;;
-    padding: 15px 21px 15px 21px;
-    box-shadow: 1px 1px 6px 0px #4549571F;
-
-}
-
-.card-view {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    height: 100vh;
-    background: #F7F8FC;
-
-  
-    @include mobile{
-        padding: 0 12px 0 12px;
-    }
-
-}
-
-.info {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 12px;
-    padding: 4px 0 12px 0;
-
-    p {
-        padding-top: 8px;
-        font-size: 14px;
-    }
-
-    @include mobile{
-        display: flex;
-        flex-direction: column;
-
-    }
-}
-
-
-
-.phone {
-    padding-top: 9px;
-
-    .call {
-        margin-top: 14px;
-        width: 14px;
-        height: 12px;
+    label {
         color: $medium-grey;
-    }
-
-    .number {
-        padding-top: 12px;
-    }
-}
-
-.header-info {
-    display: flex;
-    // align-items: center;
-    margin-bottom: 15px;
-
-    .text-hederinfo {
-        font-size: large;
-        font-weight: bold;
-        padding: 9px 0px 2px 9px;
-
+        font-size: small;
 
     }
 
-    .edit {
+    .header-bar {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 48px;
+        background: #FFFFFF;
+        top: 48px;
+        padding: 10px 0 10px 10px;
+        border-bottom: 1px solid azure;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 1px 1px 6px 0px #4549571F;
 
-        background: $primary-light;
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        position: relative;
-        padding: 8px;
+        .text-header {
+            padding-left: 6px;
+            font-size: 20px;
+            font-weight: 600;
 
-        .icon {
-            color: #5119F0;
-            width: 20px;
-            height: 20px;
-            align-items: center;
-            position: absolute;
+            @include mobile {
+                padding-top: 5px;
+                font-size: 18px;
+            }
+        }
 
+    }
+
+    .card-view {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        min-height: 100vh;
+        background: #F7F8FC;
+
+        @include mobile {
+            padding: 0 12px 0 12px;
+        }
+
+        .card-info {
+            margin-bottom: 40px;
+            border-radius: 8px;
+            background: white;
+            width: 607px;
+            margin-top: 150px;
+            padding: 19px 20px 15px 20px;
+            box-shadow: 1px 2px 2px 2px rgb(207, 207, 207);
+
+            .header-info {
+                display: flex;
+                margin-bottom: 15px;
+
+                .edit {
+                    background: $primary-light;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 8px;
+                    position: relative;
+                    padding: 8px;
+
+                    .icon {
+                        color: $primary;
+                        width: 20px;
+                        height: 20px;
+                        align-items: center;
+                        position: absolute;
+                    }
+                }
+
+                .text-hederinfo {
+                    font-size: large;
+                    font-weight: bold;
+                    padding: 9px 0px 2px 9px;
+                }
+            }
+
+            .info {
+                display: grid;
+                grid-template-columns: auto auto;
+                gap: 12px;
+                padding: 4px 0 12px 0;
+
+                p {
+                    padding-top: 8px;
+                    font-size: 14px;
+                }
+
+                @include mobile {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+            }
+
+            hr {
+                border: 1px solid $light-grey2;
+                padding-left: 20px;
+            }
+
+            .phone {
+                padding-top: 9px;
+
+                .call {
+                    margin-top: 14px;
+                    width: 14px;
+                    height: 12px;
+                    color: $medium-grey;
+                }
+
+                .number {
+                    padding-top: 12px;
+                    font-size: 14px;
+                }
+            }
         }
     }
-
 }
 </style>

@@ -14,6 +14,11 @@
                         </a>
                     </li>
                     <li class="nav-li">
+                        <a @click="$router.push({ name: 'employee2' })">
+                            <span >Employee2</span>
+                        </a>
+                    </li>
+                    <li class="nav-li">
                         <a @click="$router.push({ name: 'example' })">
                             <span >Example</span>
                         </a>

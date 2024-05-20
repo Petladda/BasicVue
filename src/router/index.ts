@@ -38,6 +38,27 @@ const routes: RouteRecordRaw[] = [
         component: () => import("../modules/employee/PageManage.vue"),
       },
       {
+        path: "employee2",
+        name: "employee2",
+        component: () => import("../views/Employee2.vue"),
+      },
+      {
+        path: "employee2/view/:id",
+        name: "view2",
+        component: () => import("../modules/employee2/PageView.vue"),
+      },
+      {
+        path: "employee2/create",
+        name: "create2",
+        component: () => import("../modules/employee2/PageManage.vue"),
+      },
+      {
+        path: "employee2/edit/:id",
+        name: "edit2",
+        component: () => import("../modules/employee2/PageManage.vue"),
+      },
+      
+      {
         path: "setting",
         name: "setting",
         component: () => import("../views/Setting.vue"),
@@ -79,6 +100,11 @@ const routes: RouteRecordRaw[] = [
             path: "No7",
             name: "No7",
             component: () => import("../modules/exambasicvue/No7.vue"),
+          },
+          {
+            path: "Mitt",
+            name: "Mitt",
+            component: () => import("../modules/mitt/Parent.vue"),
           },
           {
             path: "Team",

@@ -111,7 +111,7 @@ function handleCheckBox() {
                     padding-top: 1px;
                     
                     .icon{
-                        margin-left: 2.5px;
+                        margin-left: 2px;
                         position: absolute;
                         display: flex;
                         justify-content: center;

@@ -283,14 +283,7 @@ label {
 }
 
 
-.text-header {
-    padding-left: 15px;
-    font-size: 20px;
-    font-weight: 600;
-    padding-right: 80px;
 
-    
-}
 
 .text-hederinfo {
     font-size: large;
@@ -322,6 +315,7 @@ hr {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    text-align: center;
     top: 48px;
     padding-bottom: 10px;
     padding-left: 12px;
@@ -334,8 +328,20 @@ hr {
         flex-direction: row;
     }
 
-    @include xs{
+    @include mobile {
         
+    }
+
+    .text-header {
+        padding-left: 10px;
+        padding-top: 4px;
+        font-size: 20px;
+        font-weight: 600;
+
+        @include mobile {
+            font-size: 18px;
+        
+        }
     }
 
 }

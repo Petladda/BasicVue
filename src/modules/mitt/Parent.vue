@@ -1,32 +1,44 @@
 <template>
-    parent
-    <div class="box2" style="background-color:aqua ;">
-        <RouterView/>
-    </div>
-    <div class="box2" style="background-color: brown;">
-        <RouterView/>
-
+    <div>
+        count: {{ count }}
+        <Level1 count="count"></Level1>
+        <Button text="A" @click="emitter.emit('A')">A</Button>
+        <Button text="B" @click="emitter.emit('B')">B</Button>
+        <Button text="C" @click="logB">C</Button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from 'vue';
 import Level1 from './Level1.vue'
-import Level2 from './Level2.vue'
-import Level3 from './Level3.vue'
-import Level4 from './Level4.vue'
+import Button from '../../components/Button/Button.vue';
+import { ref, provide } from 'vue';
+import mitt from 'mitt'
+import { EventList} from './interface'
+import { symbolMitt} from './key'
+
 const count = ref(0)
 
+
+const emitter = mitt<EventList>()
+provide(symbolMitt, emitter)
+emitter.on('A', () => {
+    console.log('A')
+
+    count.value++
+})
+
+function logB() {
+    console.log('B');
+
+}
+emitter.on('B', logB)
 </script>
 
 <style>
-.box1,
-.box2 {
+.box {
     /* width: 200px;
     height: 200px; */
-    /* background: r; */
     border: 1px solid black;
     padding: 24px;
 }
-
 </style>

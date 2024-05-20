@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         Level3
-        <slot></slot>
+        <Level4 />
 
     </div>
 </template>

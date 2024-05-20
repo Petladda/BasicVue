@@ -3,9 +3,9 @@
     <div class="sidebar">
 
         <div class="menu-bar">
-            <div>
+            <!-- <div>
                 <i class="pi pi-bars"></i>
-            </div>
+            </div> -->
 
             <div class="menu" v-for="item in items" :key="item.label">
                 <a @click="$router.push({ name: item.route })">
@@ -100,6 +100,11 @@ const items = ref([
         label: 'Position',
         icon: 'pi pi-envelope',
         route: 'Position',
+    },
+    {
+        label: 'Mitt',
+        icon: 'pi pi-envelope',
+        route: 'Mitt',
     },
 
 

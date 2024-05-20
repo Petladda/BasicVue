@@ -11,7 +11,7 @@
                     </template>
                 </Button>
             </div>
-            <ModalManage ref="modalManage" @createsuccess="loadPositon()">
+            <ModalManage ref="modalManage" v-on:createsuccess="loadPositon()">
 
             </ModalManage>
 
@@ -124,8 +124,6 @@ const modalManage = ref<InstanceType<typeof ModalManage>>(null!)
 const openModalManage = (id?: string | null) => {
     modalManage.value.openModalManage(id)
 }
-
-
 
 
 const pageList: PageType[] = [

@@ -12,6 +12,8 @@
     "@clicknext/ui": "file:clicknext-ui-0.1.0-63.0.tgz",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
+    "mitt": "^3.0.1",
+    "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^3.51.0",
     "sass": "^1.75.0",
